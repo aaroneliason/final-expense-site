@@ -1,0 +1,57 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Faq from '../components/Faq.astro';
+
+const faqs = [
+  {
+    q: 'What does "graded benefit" mean?',
+    a: '<p>For the first part of the policy, usually two years, the full amount isn\'t paid for death from natural causes. Instead, the insurer usually refunds the premiums paid plus interest. After that period the full benefit applies. Accidental death is usually covered in full from the start. Each policy states its own terms.</p>',
+  },
+  {
+    q: 'If I have a health condition, am I stuck with guaranteed issue?',
+    a: '<p>Not necessarily. Many insurers accept conditions such as controlled diabetes or high blood pressure at regular rates. The questions differ between insurers, so one may offer full coverage where another can\'t.</p>',
+  },
+  {
+    q: 'Why not just buy guaranteed issue to be safe?',
+    a: '<p>Because if you qualify for a simplified issue plan, guaranteed issue costs more and has a waiting period you don\'t need. It\'s the right choice only when the health questions rule out other plans.</p>',
+  },
+];
+---
+<Guide
+  title="Guaranteed Issue vs Simplified Issue Final Expense Insurance"
+  h1="Guaranteed issue vs simplified issue: which plan fits you?"
+  description="The three kinds of final expense plans explained in plain English: simplified issue, graded benefit and guaranteed issue, and how to tell which you can get."
+  path="/guaranteed-issue-vs-simplified-issue/"
+  crumb="Guaranteed vs simplified issue"
+  eyebrow="Plan types"
+  lede="Your answers to a few health questions decide which plan you can get. Here's what each one means for your family."
+>
+  <h2>Simplified issue: full coverage from day one</h2>
+  <p>
+    You answer a short list of yes-or-no health questions. There's no medical exam, but approval depends on your answers. If you qualify, most simplified issue plans pay the full benefit from
+    the first day. This is usually the best value, so it's worth checking first.
+  </p>
+
+  <h2>Graded or modified benefit: a waiting period</h2>
+  <p>
+    Some health histories qualify for a plan with a waiting period. If death from natural causes happens during the first two years or so, the
+    insurer usually refunds what you paid plus interest instead of the full amount. Accidental death is usually covered in full from the start.
+  </p>
+
+  <h2>Guaranteed issue: no health questions</h2>
+  <p>
+    Anyone in the age range is accepted, usually about 50 to 80 or 85. Because there are no health questions, there's always a waiting period,
+    and the price is higher. It's an honest fallback when nothing else fits.
+  </p>
+
+  <div class="callout">
+    <h3>How Aaron decides what to recommend</h3>
+    <p>
+      He starts with the plans that pay in full from day one, and moves to a waiting-period plan only if the health questions require it. If
+      that happens, he'll tell you plainly what the waiting period means for your family.
+    </p>
+  </div>
+
+  <h2>Questions</h2>
+  <Faq items={faqs} />
+</Guide>

@@ -1,0 +1,42 @@
+---
+import { sampleRates, type RateRow } from '../data/rates';
+interface Props {
+  rows?: RateRow[];
+  caption?: string;
+}
+const { rows = sampleRates, caption = 'Sample monthly premiums — $10,000 of coverage, non-tobacco' } = Astro.props;
+const fmt = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 });
+const anyPlaceholder = rows.some((r) => r.placeholder);
+---
+<div class="table-wrap">
+  <table class="stack">
+    <caption>{caption}</caption>
+    <thead>
+      <tr>
+        <th scope="col">Age</th>
+        <th scope="col">Sex</th>
+        <th scope="col" class="num">Per month</th>
+        <th scope="col">Insurer and plan</th>
+        <th scope="col">Benefit</th>
+        <th scope="col">Quoted</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((r) => (
+        <tr>
+          <td data-label="Age">{r.age}</td>
+          <td data-label="Sex">{r.sex}</td>
+          <td class="num" data-label="Per month">{r.monthly == null ? <span class="tag tag--todo">TODO</span> : fmt(r.monthly)}</td>{/* check-publish-ignore */}
+          <td data-label="Insurer and plan">{r.placeholder ? <span class="tag tag--todo">TODO insurer + plan</span> : `${r.insurer}: ${r.plan}`}</td>{/* check-publish-ignore */}
+          <td data-label="Benefit">{r.benefit}</td>
+          <td data-label="Quoted">{r.placeholder ? '—' : new Date(r.quotedOn + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <p class="table-note">
+    {anyPlaceholder
+      ? 'Sample rates are being quoted and verified. Each row will name the insurer, the plan and the date it was quoted.'
+      : 'Real quotes for a healthy, non-tobacco applicant. Your price depends on age, sex, health, tobacco use, coverage and state, and isn’t guaranteed until the insurer approves your application.'}
+  </p>
+</div>

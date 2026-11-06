@@ -1,0 +1,63 @@
+---
+import { agent, brand, licenses, links, phone } from '../config/site';
+interface Props {
+  lang?: 'en' | 'es';
+}
+const { lang = 'en' } = Astro.props;
+const year = new Date().getFullYear();
+const stateList = licenses.map((l) => l.name).join(', ');
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>{brand.name}</h2>
+        <p>{brand.tagline}.</p>
+        <p>
+          <a href={`tel:${phone.tel}`} data-track="call" data-location="footer">{phone.display}</a><br />
+          {phone.hours}
+        </p>
+      </div>
+      <div>
+        <h3>Guides</h3>
+        <ul>
+          <li><a href="/final-expense-insurance-florida/">Final expense insurance in Florida</a></li>
+          <li><a href="/final-expense-insurance-cost/">What final expense costs</a></li>
+          <li><a href="/guaranteed-issue-vs-simplified-issue/">Guaranteed vs simplified issue</a></li>
+          <li><a href="/burial-insurance-for-seniors/">Burial insurance after 70, 75 and 80</a></li>
+          <li><a href="/government-burial-insurance/">Is there government burial insurance?</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>About</h3>
+        <ul>
+          <li><a href="/about/">About Aaron and how he's paid</a></li>
+          <li><a href="/licenses/">Licenses</a></li>
+          <li><a href="/editorial-standards/">Editorial standards</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="/privacy/">Privacy policy</a></li>
+          <li><a href="/terms/">Terms and SMS terms</a></li>
+          <li><a href="/accessibility/">Accessibility</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p>
+        {agent.name}, licensed life insurance agent. Florida license {agent.flLicense} · NPN {agent.npn}. Licensed in: {stateList}.
+        Verify a license with the <a href={links.dfsLookup} rel="noopener">Florida Department of Financial Services</a> or
+        <a href={links.nipr} rel="noopener">NIPR</a>.
+      </p>
+      <p>
+        {brand.name} is an independent insurance agency, not an insurance company. Insurance is issued by the insurance company named on your
+        policy. Coverage, rates and eligibility vary by carrier and state and are not guaranteed until the insurer approves your application.
+      </p>
+      <p><strong>Not affiliated with or endorsed by any government agency, including Medicare, Social Security or the VA.</strong></p>
+      <p>© {year} {brand.name}. Content reviewed by {agent.name}.</p>
+    </div>
+  </div>
+</footer>

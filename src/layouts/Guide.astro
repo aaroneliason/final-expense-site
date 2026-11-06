@@ -1,0 +1,65 @@
+---
+/** Article layout for explainer guides: breadcrumbs, dated byline, prose, author box, call-to-action, form. */
+import Base from './Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import AuthorBox from '../components/AuthorBox.astro';
+import CtaBand from '../components/CtaBand.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import { lastReviewed } from '../config/site';
+import { agencyLd, articleLd, breadcrumbLd, personLd, websiteLd } from '../lib/schema';
+
+interface Props {
+  title: string; // <title>
+  h1: string;
+  description: string;
+  path: string;
+  crumb: string;
+  eyebrow?: string;
+  lede?: string;
+  published?: string;
+  reviewed?: string;
+}
+const { title, h1, description, path, crumb, eyebrow = 'Guide', lede, published = '2026-11-06', reviewed = lastReviewed } = Astro.props;
+const site = Astro.site!;
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: crumb, path },
+];
+const jsonLd = [
+  websiteLd(site),
+  agencyLd(site),
+  personLd(site),
+  breadcrumbLd(site, crumbs),
+  articleLd(site, { path, headline: h1, description, datePublished: published, dateModified: reviewed }),
+];
+const reviewedText = new Date(reviewed + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+---
+<Base {title} {description} {path} {jsonLd}>
+  <article>
+    <header class="hero" style="padding-bottom:2.5rem">
+      <div class="wrap">
+        <Breadcrumbs items={crumbs} />
+        <div class="prose">
+          <span class="eyebrow">{eyebrow}</span>
+          <h1>{h1}</h1>
+          {lede && <p class="lede">{lede}</p>}
+          <p class="reviewed">By <a href="/about/">Aaron Eliason</a>, licensed agent · Reviewed {reviewedText}</p>
+        </div>
+      </div>
+    </header>
+    <div class="section" style="padding-top:1rem">
+      <div class="wrap grid-2">
+        <div class="prose">
+          <slot />
+          <AuthorBox {reviewed} />
+        </div>
+        <div style="position:sticky;top:6rem">
+          <QuoteForm id="quote" heading="Get your own price" />
+        </div>
+      </div>
+    </div>
+  </article>
+  <section class="section section--sand">
+    <div class="wrap"><CtaBand /></div>
+  </section>
+</Base>

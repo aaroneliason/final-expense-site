@@ -1,0 +1,22 @@
+---
+import PhoneButton from './PhoneButton.astro';
+import { phone } from '../config/site';
+interface Props {
+  heading?: string;
+  text?: string;
+}
+const {
+  heading = 'Questions? Talk them through with Aaron.',
+  text = `Most calls take 15–20 minutes. No obligation, and no pressure to decide on the spot. ${phone.hours}.`,
+} = Astro.props;
+---
+<div class="cta-band">
+  <div>
+    <h2>{heading}</h2>
+    <p>{text}</p>
+  </div>
+  <div class="btn-row" style="margin:0">
+    <PhoneButton label="Call" location="cta-band" />
+    <a class="btn btn-outline" href="#quote">Get a quote online</a>
+  </div>
+</div>

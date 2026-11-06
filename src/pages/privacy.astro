@@ -1,0 +1,52 @@
+---
+import Page from '../layouts/Page.astro';
+import { agent, brand, phone } from '../config/site';
+---
+<Page
+  title="Privacy Policy"
+  h1="Privacy policy"
+  description="What information this site collects, how Aaron Eliason uses it, who it is shared with (never sold), and how to opt out or ask for deletion."
+  path="/privacy/"
+  crumb="Privacy"
+  updated="2026-11-06"
+>
+  <p class="lede">Short version: your information goes to {agent.name} only. It is never sold, rented or shared with other agents.</p>
+  <p>(TODO: have NBG compliance or a lawyer review this policy before launch.)</p>
+
+  <h2>What we collect</h2>
+  <ul>
+    <li><strong>What you type in the quote form:</strong> who the coverage is for, age range, state, coverage amount, tobacco use, a yes/no about major health conditions, your name, phone, best time to call, language and (optionally) email.</li>
+    <li><strong>Proof of your consent:</strong> the exact consent wording you agreed to, its version, the date and time, the page you were on and your IP address and browser type.</li>
+    <li><strong>Basic site analytics:</strong> pages visited and how you arrived, measured without selling or advertising profiles. (TODO: list the analytics tools once chosen, e.g. Cloudflare Web Analytics and Google Analytics.)</li>
+    <li><strong>On the phone:</strong> the details needed to quote and apply, such as date of birth and health answers. (TODO: if calls are recorded or transcribed, say so here and announce it at the start of every call — Florida requires the consent of everyone on a recorded call.)</li>
+  </ul>
+
+  <h2>How it's used</h2>
+  <ul>
+    <li>To call, text or email you about the life insurance you asked about, prepare quotes and help you apply.</li>
+    <li>To keep records that insurance and telephone laws require.</li>
+  </ul>
+
+  <h2>Who it's shared with</h2>
+  <ul>
+    <li><strong>The insurer you apply with</strong>, only when you choose to apply.</li>
+    <li><strong>Service providers</strong> that run the site and phone system for us (for example web hosting and our phone service), only to provide that service.</li>
+    <li><strong>When the law requires it.</strong></li>
+  </ul>
+  <p><strong>We never sell or rent your information, and we never share it with other agents or lead buyers.</strong></p>
+
+  <h2>Your choices</h2>
+  <ul>
+    <li>Reply <strong>STOP</strong> to any text, or tell us on a call, and we'll stop contacting you.</li>
+    <li>Ask us to delete your information by calling {phone.display} or emailing {brand.email}. We keep only what the law requires us to keep.</li>
+  </ul>
+
+  <h2>Security and retention</h2>
+  <p>Form submissions are stored encrypted in transit and at rest with our hosting provider, and access is limited to {agent.name}. (TODO: state the retention period once decided.)</p>
+
+  <h2>Children</h2>
+  <p>This site is for adults. We don't knowingly collect information from children under 18.</p>
+
+  <h2>Contact</h2>
+  <p>{agent.name}, {brand.name} · {phone.display} · {brand.email}</p>
+</Page>

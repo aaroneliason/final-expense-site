@@ -1,0 +1,14 @@
+---
+import PhoneButton from './PhoneButton.astro';
+import { agent, phone } from '../config/site';
+interface Props {
+  lang?: 'en' | 'es';
+}
+const { lang = 'en' } = Astro.props;
+---
+<div class="callbar" role="region" aria-label={lang === 'es' ? 'Llamar' : 'Call'}>
+  <PhoneButton label={lang === 'es' ? 'Llame a Aaron' : 'Call Aaron'} location="callbar" />
+  <small>
+    {lang === 'es' ? phone.hoursEs : phone.hours} · {lang === 'es' ? 'Agente con licencia' : 'Licensed agent'} · FL {agent.flLicense}
+  </small>
+</div>

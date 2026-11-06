@@ -1,0 +1,16 @@
+---
+export type FaqItem = { q: string; a: string }; // a = trusted HTML written by us
+interface Props {
+  items: FaqItem[];
+  openFirst?: boolean;
+}
+const { items, openFirst = false } = Astro.props;
+---
+<div class="faq">
+  {items.map((it, n) => (
+    <details open={openFirst && n === 0}>
+      <summary>{it.q}</summary>
+      <div class="answer" set:html={it.a} />
+    </details>
+  ))}
+</div>

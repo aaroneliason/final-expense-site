@@ -1,0 +1,13 @@
+---
+import Page from '../layouts/Page.astro';
+import PhoneButton from '../components/PhoneButton.astro';
+---
+<Page title="Page not found" h1="We couldn't find that page" description="Page not found." path="/404/" crumb="Not found" noindex>
+  <p>The page may have moved. Try one of these, or call and ask:</p>
+  <ul>
+    <li><a href="/final-expense-insurance-florida/">Final expense insurance in Florida</a></li>
+    <li><a href="/final-expense-insurance-cost/">What final expense costs</a></li>
+    <li><a href="/">Home</a></li>
+  </ul>
+  <div class="btn-row"><PhoneButton label="Call" location="404" /></div>
+</Page>

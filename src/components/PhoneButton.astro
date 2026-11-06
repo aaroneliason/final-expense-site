@@ -1,0 +1,21 @@
+---
+import Icon from './Icon.astro';
+import { phone } from '../config/site';
+interface Props {
+  label?: string;
+  variant?: 'call' | 'outline';
+  block?: boolean;
+  class?: string;
+  location?: string; // for analytics: where on the page the call button sits
+}
+const { label = 'Call', variant = 'call', block = false, class: cls = '', location = 'body' } = Astro.props;
+---
+<a
+  class:list={['btn', variant === 'call' ? 'btn-call' : 'btn-outline', block && 'btn-block', cls]}
+  href={`tel:${phone.tel}`}
+  data-track="call"
+  data-location={location}
+>
+  <Icon name="phone" />
+  <span>{label} <span class="nowrap">{phone.display}</span></span>
+</a>

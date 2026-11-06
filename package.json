@@ -1,0 +1,23 @@
+{
+  "name": "final-expense-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check:publish": "node scripts/check-publish.mjs",
+    "build:production": "SITE_MODE=production node scripts/check-publish.mjs && SITE_MODE=production astro build"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/source-sans-3": "^5.3.1",
+    "@fontsource-variable/source-serif-4": "^5.3.1",
+    "astro": "^7.4.7"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261104.1",
+    "wrangler": "^4.158.0"
+  }
+}

@@ -1,0 +1,16 @@
+---
+import { agent, lastReviewed } from '../config/site';
+interface Props {
+  reviewed?: string;
+}
+const { reviewed = lastReviewed } = Astro.props;
+const date = new Date(reviewed + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+const initials = agent.name.split(' ').map((p) => p[0]).join('');
+---
+<aside class="author-box" aria-label="About the author">
+  {agent.photo ? <img src={agent.photo} alt={agent.name} width="60" height="60" class="avatar" /> : <span class="avatar" aria-hidden="true">{initials}</span>}
+  <div>
+    <p><strong>Written and reviewed by <a href="/about/">{agent.name}</a></strong>, licensed life insurance agent (Florida license {agent.flLicense}, NPN {agent.npn}).</p>
+    <p class="reviewed">Last reviewed {date}. <a href="/editorial-standards/">How we write and check these guides</a>.</p>
+  </div>
+</aside>

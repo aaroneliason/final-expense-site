@@ -1,0 +1,80 @@
+---
+import '@fontsource-variable/source-sans-3';
+import '@fontsource-variable/source-serif-4';
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import CallBar from '../components/CallBar.astro';
+import { SITE_MODE, brand } from '../config/site';
+import { graph } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  lang?: 'en' | 'es';
+  noindex?: boolean;
+  jsonLd?: object[];
+  alternates?: { lang: string; path: string }[];
+}
+
+const { title, description, path, lang = 'en', noindex = false, jsonLd = [], alternates = [] } = Astro.props;
+const site = Astro.site ?? new URL('https://preview.invalid');
+const canonical = new URL(path, site).href;
+const isPreview = SITE_MODE !== 'production';
+const robots = isPreview || noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large';
+const fullTitle = title.includes(brand.name) ? title : `${title} | ${brand.name}`;
+// Analytics IDs are public values, set at build time. Nothing loads in preview builds.
+const ga4 = import.meta.env.PUBLIC_GA4_ID as string | undefined;
+const cfBeacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN as string | undefined;
+---
+<!doctype html>
+<html lang={lang === 'es' ? 'es-US' : 'en-US'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={new URL(a.path, site).href} />)}
+    <meta name="theme-color" content="#14273b" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={brand.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_US' : 'en_US'} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {jsonLd.length > 0 && <script type="application/ld+json" set:html={JSON.stringify(graph(...jsonLd))} />}
+    {ga4 && !isPreview && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4}`}></script>
+        <script is:inline define:vars={{ ga4 }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', ga4);
+        </script>
+      </>
+    )}
+    {cfBeacon && !isPreview && (
+      <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: cfBeacon })}></script>
+    )}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{lang === 'es' ? 'Saltar al contenido' : 'Skip to main content'}</a>
+    {isPreview && (
+      <div class="preview-banner" role="note">
+        Preview build — not public, hidden from search engines. Items marked TODO must be filled and verified before launch.{/* check-publish-ignore */}
+      </div>
+    )}
+    <SiteHeader lang={lang} path={path} />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter lang={lang} />
+    <CallBar lang={lang} />
+  </body>
+</html>

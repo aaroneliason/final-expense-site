@@ -1,0 +1,37 @@
+---
+import Page from '../layouts/Page.astro';
+import { agent, brand, phone } from '../config/site';
+---
+<Page
+  title="Terms of Use and SMS Terms"
+  h1="Terms of use and SMS terms"
+  description="Terms for using this site, plus the text messaging terms: what messages you'll get, how often, and how to stop them."
+  path="/terms/"
+  crumb="Terms"
+  updated="2026-11-06"
+>
+  <p>(TODO: have NBG compliance or a lawyer review these terms before launch.)</p>
+  <h2>About this site</h2>
+  <p>
+    This site is run by {agent.name}, a licensed insurance agent doing business as {brand.name}. It gives general information about life
+    insurance. It isn't legal, tax or financial advice. Insurance is offered only in states where {agent.name} is licensed, and every policy is
+    subject to the insurer's approval and the terms of the policy itself.
+  </p>
+  <h2>Prices and examples</h2>
+  <p>Sample prices are real quotes for specific applicants on the dates shown. Your price may differ and isn't guaranteed until the insurer approves your application.</p>
+
+  <h2 id="sms">Text message (SMS) terms</h2>
+  <ul>
+    <li><strong>What you'll get:</strong> messages from {agent.name} about the life insurance you asked about: scheduling, quotes and application follow-up.</li>
+    <li><strong>How often:</strong> it varies, usually a few messages around your quote.</li>
+    <li><strong>Cost:</strong> message and data rates may apply.</li>
+    <li><strong>Stop any time:</strong> reply <strong>STOP</strong>. For help, reply <strong>HELP</strong> or call {phone.display}.</li>
+    <li><strong>Consent isn't required to buy:</strong> you can always call instead.</li>
+    <li>Mobile carriers aren't liable for delayed or undelivered messages.</li>
+  </ul>
+
+  <h2>Liability</h2>
+  <p>We work hard to keep information accurate and dated, but we can't guarantee it's complete or current for every situation. Always read your policy.</p>
+  <h2>Governing law</h2>
+  <p>These terms are governed by the laws of Florida.</p>
+</Page>

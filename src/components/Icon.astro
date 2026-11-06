@@ -1,0 +1,30 @@
+---
+// Inline SVG icons (no icon font, no extra requests). Decorative unless `label` is given.
+interface Props {
+  name: 'phone' | 'check' | 'shield' | 'scale' | 'chat' | 'globe' | 'badge' | 'clock' | 'lock' | 'mark' | 'arrow';
+  label?: string;
+}
+const { name, label } = Astro.props;
+const paths: Record<Props['name'], string> = {
+  phone:
+    '<path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8Z" fill="currentColor"/>',
+  check: '<path d="m5 12.5 4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>',
+  shield:
+    '<path d="M12 2.8 4.5 5.6v5.8c0 4.7 3.2 9 7.5 10.1 4.3-1.1 7.5-5.4 7.5-10.1V5.6L12 2.8Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="m8.6 12.2 2.4 2.4 4.6-4.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>',
+  scale:
+    '<path d="M12 3v18M5 7h14M5 7l-3 6a3.5 3.5 0 0 0 6 0L5 7Zm14 0-3 6a3.5 3.5 0 0 0 6 0l-3-6ZM8 21h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+  chat:
+    '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4H6.5A2.5 2.5 0 0 1 4 13.5v-8Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
+  globe:
+    '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z" fill="none" stroke="currentColor" stroke-width="1.8"/>',
+  badge:
+    '<rect x="3.5" y="4" width="17" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="10.5" r="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5.8 16.5c.6-1.8 1.8-2.7 3.2-2.7s2.6.9 3.2 2.7M14.5 9.5h3.5M14.5 13h3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+  clock:
+    '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3.5 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+  lock:
+    '<rect x="5" y="10.5" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="1.8"/>',
+  mark: '<g transform="scale(0.5)"><circle cx="24" cy="24" r="23" fill="#1f3b57"/><g transform="translate(-1.6 1.8)"><path d="M13.5 36.5C19 31 26.5 22.5 34.5 11.5" stroke="#cdd9b4" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M0 0C3.2-3.4 7.2-3.4 10 0C7.2 3.4 3.2 3.4 0 0Z" transform="translate(16.2 33.6) rotate(-112)" fill="#eef2e4"/><path d="M0 0C3.2-3.4 7.2-3.4 10 0C7.2 3.4 3.2 3.4 0 0Z" transform="translate(19.6 30.0) rotate(-2)" fill="#eef2e4"/><path d="M0 0C3.2-3.4 7.2-3.4 10 0C7.2 3.4 3.2 3.4 0 0Z" transform="translate(23.2 26.0) rotate(-110)" fill="#eef2e4"/><path d="M0 0C3.2-3.4 7.2-3.4 10 0C7.2 3.4 3.2 3.4 0 0Z" transform="translate(26.6 21.9) rotate(-4)" fill="#eef2e4"/><path d="M0 0C3.2-3.4 7.2-3.4 10 0C7.2 3.4 3.2 3.4 0 0Z" transform="translate(30.0 17.6) rotate(-108)" fill="#eef2e4"/><path d="M0 0C3.2-3.4 7.2-3.4 10 0C7.2 3.4 3.2 3.4 0 0Z" transform="translate(33.0 13.6) rotate(-8)" fill="#eef2e4"/><path d="M0 0C2.6-2.6 5.8-2.6 8 0C5.8 2.6 2.6 2.6 0 0Z" transform="translate(34.5 11.5) rotate(-52)" fill="#eef2e4"/><ellipse cx="22.6" cy="33.2" rx="2.4" ry="3" transform="rotate(-25 22.6 33.2)" fill="#a9b552"/><ellipse cx="27.2" cy="30.6" rx="2.2" ry="2.8" transform="rotate(-25 27.2 30.6)" fill="#8d9b3e"/><path d="M20.6 30.4 22 31" stroke="#cdd9b4" stroke-width="1.1" stroke-linecap="round"/></g></g>',
+  arrow: '<path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+};
+---
+<svg viewBox="0 0 24 24" aria-hidden={label ? undefined : 'true'} role={label ? 'img' : undefined} aria-label={label} focusable="false" set:html={paths[name]} />

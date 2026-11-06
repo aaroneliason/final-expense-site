@@ -1,0 +1,35 @@
+---
+import Page from '../layouts/Page.astro';
+import { agent } from '../config/site';
+---
+<Page
+  title="Editorial Standards: How We Write and Check These Guides"
+  h1="Editorial standards"
+  description="How the guides on this site are written, fact-checked, dated and corrected, and how advertising rules and insurer approvals shape what we publish."
+  path="/editorial-standards/"
+  crumb="Editorial standards"
+  updated="2026-11-06"
+>
+  <p class="lede">These guides exist to help you make a good decision, even if that decision is not to buy.</p>
+  <h2>Who writes and reviews</h2>
+  <p>
+    Every guide is written or reviewed by {agent.name}, a licensed life insurance agent (Florida license {agent.flLicense}, NPN {agent.npn}).
+    Each page shows the date it was last reviewed.
+  </p>
+  <h2>How we check facts</h2>
+  <ul>
+    <li>Government benefits are checked against the official source (Social Security, the VA) and linked.</li>
+    <li>Sample prices are real quotes. Each one names the insurer, the plan and the date it was quoted.</li>
+    <li>Insurer financial-strength ratings show the rating agency and the date checked.</li>
+    <li>We avoid words that mislead: we never call private insurance a "government program," "free," or "guaranteed approval" without explaining the waiting period.</li>
+  </ul>
+  <h2>Advertising rules and approvals</h2>
+  <p>
+    Insurance advertising is regulated by each state. Pages that describe specific insurers' products are reviewed and approved by those insurers
+    before publishing, and re-approved after changes.
+  </p>
+  <h2>Corrections</h2>
+  <p>
+    If you spot an error, please <a href="/contact/">tell us</a>. We fix mistakes promptly and update the review date.
+  </p>
+</Page>

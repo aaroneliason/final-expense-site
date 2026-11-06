@@ -1,0 +1,56 @@
+---
+import Page from '../layouts/Page.astro';
+import PhoneButton from '../components/PhoneButton.astro';
+import { agent, brand, carriers, licenses, links } from '../config/site';
+const approved = carriers.filter((c) => c.adApproval === 'approved');
+---
+<Page
+  title="About Aaron Eliason, Licensed Life Insurance Agent"
+  h1="About Aaron Eliason"
+  description="Who writes these guides and answers the phone: Aaron Eliason, an independent licensed life insurance agent. His licenses, how he works and exactly how he's paid."
+  path="/about/"
+  crumb="About Aaron"
+  updated="2026-11-06"
+>
+  <div id="aaron">
+    <p class="lede">
+      I'm Aaron Eliason, an independent life insurance agent based in {agent.city}. I help families find final expense coverage they can afford,
+      and I explain it in plain English or Spanish.
+    </p>
+    <p>(TODO: Aaron, add 2–3 sentences in your own words: why you do this work, a real example of a family you helped, and what you want callers to know. First-hand experience matters here.)</p>
+  </div>
+
+  <h2>My licenses</h2>
+  <ul>
+    <li>Florida resident life insurance agent, license <strong>{agent.flLicense}</strong>, licensed since {agent.licensedSince}</li>
+    <li>National Producer Number (NPN) <strong>{agent.npn}</strong></li>
+    <li>Licensed in: {licenses.map((l) => l.name).join(', ')}. <a href="/licenses/">See every license</a>.</li>
+  </ul>
+  <p>
+    You can check any agent's license yourself with the <a href={links.dfsLookup} rel="noopener">Florida Department of Financial Services</a> or
+    <a href={links.nipr} rel="noopener">NIPR</a>. Please do, before you share personal details with anyone.
+  </p>
+
+  <h2>How I work</h2>
+  <ul>
+    <li>I'm an <strong>independent agent</strong>, not an employee of one insurance company. I'm appointed with several insurers{approved.length ? ` (${approved.map((c) => c.shortName).join(', ')})` : ''}, so I can compare their plans for you.</li>
+    <li>Most of my work happens <strong>by phone</strong>. Many insurers accept applications by phone and give a decision during the call.</li>
+    <li>I'll never pressure you to decide on the first call, and I'll tell you if a plan has a waiting period.</li>
+    <li>If I can't help, for example because you live in a state where I'm not licensed, I'll say so.</li>
+  </ul>
+
+  <h2>How I'm paid</h2>
+  <p>
+    The insurance company pays me a commission when a policy is issued. You don't pay me anything. Insurers set their own prices, so buying
+    through me doesn't change your premium. Commissions differ between insurers and plan types; I recommend the plan that fits your health and
+    budget, and I'll explain why.
+  </p>
+
+  <h2>About {brand.name}</h2>
+  <p>
+    {brand.name} is the name I do business under. It's an independent insurance agency, not an insurance company. Your policy is issued by the
+    insurer named on it. (TODO: confirm the trade name is registered with Florida DFS before launch.)
+  </p>
+
+  <div class="btn-row"><PhoneButton label="Call me" location="about" /></div>
+</Page>

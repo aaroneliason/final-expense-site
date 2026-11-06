@@ -1,0 +1,21 @@
+# Cloudflare Pages project config. Deploy: npm run build && npx wrangler pages deploy
+name = "final-expense-site"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-11-01"
+
+[[d1_databases]]
+binding = "LEADS_DB"
+database_name = "fe-leads"
+database_id = "00000000-0000-0000-0000-000000000000" # TODO: replace after `wrangler d1 create fe-leads`
+
+[vars]
+# Comma-separated state codes Aaron is licensed in (mirrors src/config/site.ts).
+ALLOWED_STATES = "FL,LA,MD,MN,MO,MS,SC,VA,WA,WI"
+
+# Secrets (never commit): set with `npx wrangler pages secret put NAME`
+#   TURNSTILE_SECRET       Cloudflare Turnstile secret key
+#   NOTIFY_WEBHOOK_URL     optional: POST each lead here (e.g. Aaron OS prospects endpoint)
+#   NOTIFY_WEBHOOK_TOKEN   optional: bearer token for that webhook
+#   RESEND_API_KEY         optional: email alert via Resend
+#   NOTIFY_EMAIL_TO        e.g. the insurance inbox
+#   NOTIFY_EMAIL_FROM      e.g. leads@<domain> (verified in Resend)

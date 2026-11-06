@@ -1,0 +1,32 @@
+---
+import Icon from './Icon.astro';
+import PhoneButton from './PhoneButton.astro';
+import { brand, phone } from '../config/site';
+interface Props {
+  lang?: 'en' | 'es';
+  path: string;
+}
+const { lang = 'en', path } = Astro.props;
+const nav =
+  lang === 'es'
+    ? [{ href: '/es/', label: 'Inicio' }]
+    : [
+        { href: '/final-expense-insurance-florida/', label: 'Florida' },
+        { href: '/final-expense-insurance-cost/', label: 'Costs' },
+        { href: '/guaranteed-issue-vs-simplified-issue/', label: 'Which plan?' },
+        { href: '/about/', label: 'About Aaron' },
+      ];
+---
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href={lang === 'es' ? '/es/' : '/'} aria-label={`${brand.name} home`}>
+      <Icon name="mark" />
+      <span class="wordmark-text"><span>{brand.shortName}</span><small>{lang === 'es' ? 'Agencia de seguros' : 'Insurance Agency'}</small></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      {nav.map((n) => <a href={n.href} aria-current={path === n.href ? 'page' : undefined}>{n.label}</a>)}
+    </nav>
+    <PhoneButton class="header-call" label={lang === 'es' ? 'Llame a Aaron' : 'Call Aaron'} location="header" />
+    <a class="header-call-mobile" href={`tel:${phone.tel}`} data-track="call" data-location="header-mobile">{phone.display}</a>
+  </div>
+</header>

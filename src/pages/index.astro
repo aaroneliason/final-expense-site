@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import CtaBand from '../components/CtaBand.astro';
+import PhoneButton from '../components/PhoneButton.astro';
+import Icon from '../components/Icon.astro';
+import { agent, brand, licenses, links } from '../config/site';
+import { agencyLd, personLd, websiteLd } from '../lib/schema';
+
+const path = '/';
+const title = `Final Expense & Burial Insurance from a Licensed Agent | ${brand.name}`;
+const description =
+  'Honest guides and real sample prices for final expense and burial insurance, with one licensed agent who compares several insurers for you by phone. English or Spanish.';
+const site = Astro.site!;
+const jsonLd = [websiteLd(site), agencyLd(site), personLd(site)];
+const guides = [
+  { href: '/final-expense-insurance-florida/', title: 'Final expense insurance in Florida', text: 'Prices, plan types and Florida rules, in one place.' },
+  { href: '/final-expense-insurance-cost/', title: 'What it costs', text: 'How age, health, tobacco and coverage change your price.' },
+  { href: '/guaranteed-issue-vs-simplified-issue/', title: 'Which plan type fits', text: 'Simplified issue, graded and guaranteed issue, explained.' },
+  { href: '/burial-insurance-for-seniors/', title: 'Buying after 70, 75 or 80', text: 'What changes with age, and what still works.' },
+  { href: '/government-burial-insurance/', title: 'Is there government burial insurance?', text: 'The myth, and the real benefits you can count on.' },
+];
+---
+<Base {title} {description} {path} {jsonLd}>
+  <section class="hero">
+    <div class="wrap grid-2">
+      <div>
+        <span class="eyebrow">Final expense · Burial insurance</span>
+        <h1>Leave your family a paid-for goodbye, not a bill</h1>
+        <p class="lede">
+          Straight answers about final expense whole life insurance, real sample prices, and one licensed agent who compares several insurers for you by
+          phone, in English or Spanish.
+        </p>
+        <ul class="checks">
+          <li><Icon name="check" /> Talk to Aaron Eliason, a licensed agent, not a call center</li>
+          <li><Icon name="check" /> Several insurers compared in one call</li>
+          <li><Icon name="check" /> Your number is never sold or shared</li>
+        </ul>
+        <div class="btn-row">
+          <PhoneButton label="Call Aaron" location="hero" />
+          <a class="btn btn-outline" href="#quote">Get a quote online</a>
+        </div>
+        <div class="agent-chip">
+          <span class="avatar" aria-hidden="true">AE</span>
+          <p>
+            <strong>{agent.name}</strong>, licensed in {licenses.length} states<br />
+            Florida license {agent.flLicense} · NPN {agent.npn} · <a href={links.dfsLookup} rel="noopener">Verify</a>
+          </p>
+        </div>
+      </div>
+      <QuoteForm id="quote" />
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="wrap"><TrustStrip /></div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Guides</span>
+        <h2>Everything you need to decide, in plain English</h2>
+        <p>Each guide is written and reviewed by Aaron, a licensed agent, and dated so you know it's current.</p>
+      </div>
+      <div class="cards">
+        {guides.map((g) => (
+          <a class="card" href={g.href} style="text-decoration:none;color:inherit">
+            <h3>{g.title}</h3>
+            <p>{g.text}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Where Aaron can help</span>
+        <h2>Licensed in {licenses.length} states</h2>
+        <p>Aaron helps families by phone in every state below. <a href="/licenses/">See every license number</a>.</p>
+      </div>
+      <ul class="pill-list">{licenses.map((l) => <li>{l.name}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap"><CtaBand /></div>
+  </section>
+</Base>

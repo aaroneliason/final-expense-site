@@ -1,0 +1,283 @@
+---
+/**
+ * Multi-step quote form (one question per screen). Works without JavaScript as a single
+ * form that posts to /api/lead. Consent sits next to submit, unchecked, and names ONE seller.
+ * Health detail is NOT collected here — it belongs on the call.
+ */
+import Icon from './Icon.astro';
+import { agent, brand, licenses, phone } from '../config/site';
+import { CONSENT_VERSION, consentText } from '../lib/consent';
+
+interface Props {
+  id?: string;
+  heading?: string;
+  defaultState?: string;
+}
+const { id = 'quote', heading = 'See your options', defaultState = 'FL' } = Astro.props;
+const consent = consentText(agent.name, brand.name);
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'; // Cloudflare test key in preview
+---
+<form class="qf" id={id} method="post" action="/api/lead" novalidate data-quote-form>
+  <div class="qf-head">
+    <h2 class="h3">{heading}</h2>
+    <span class="qf-count" aria-live="polite" data-count>6 quick questions</span>
+  </div>
+  <div class="qf-bar" aria-hidden="true"><span data-bar></span></div>
+
+  <div class="qf-step is-active" data-step="1">
+    <fieldset>
+      <legend>Who is the coverage for?</legend>
+      <div class="qf-options qf-options--2">
+        <label class="qf-option"><input type="radio" name="for" value="myself" required /> Myself</label>
+        <label class="qf-option"><input type="radio" name="for" value="spouse" /> My spouse or partner</label>
+        <label class="qf-option"><input type="radio" name="for" value="parent" /> A parent</label>
+        <label class="qf-option"><input type="radio" name="for" value="other" /> Someone else</label>
+      </div>
+      <p class="qf-help" style="margin-top:.8rem">The person being covered takes part in the application and signs it.</p>
+    </fieldset>
+  </div>
+
+  <div class="qf-step" data-step="2">
+    <fieldset>
+      <legend>How old is the person to be covered?</legend>
+      <div class="qf-options qf-options--2">
+        <label class="qf-option"><input type="radio" name="age" value="under-50" required /> Under 50</label>
+        <label class="qf-option"><input type="radio" name="age" value="50-59" /> 50–59</label>
+        <label class="qf-option"><input type="radio" name="age" value="60-69" /> 60–69</label>
+        <label class="qf-option"><input type="radio" name="age" value="70-79" /> 70–79</label>
+        <label class="qf-option"><input type="radio" name="age" value="80-85" /> 80–85</label>
+        <label class="qf-option"><input type="radio" name="age" value="over-85" /> Over 85</label>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="qf-step" data-step="3">
+    <label class="field" for={`${id}-state`}>Which state do they live in?</label>
+    <select id={`${id}-state`} name="state" required>
+      {licenses.map((l) => <option value={l.code} selected={l.code === defaultState}>{l.name}</option>)}
+      <option value="other">Another state</option>
+    </select>
+    <p class="qf-help" data-other-state hidden>
+      Aaron can only help in states where he holds a license. Leave your number and he'll tell you honestly if he can't help.
+    </p>
+  </div>
+
+  <div class="qf-step" data-step="4">
+    <fieldset>
+      <legend>About how much coverage?</legend>
+      <p class="qf-help">Most families choose enough to cover a funeral and final bills.</p>
+      <div class="qf-options qf-options--2">
+        <label class="qf-option"><input type="radio" name="coverage" value="5000" required /> $5,000</label>
+        <label class="qf-option"><input type="radio" name="coverage" value="10000" /> $10,000</label>
+        <label class="qf-option"><input type="radio" name="coverage" value="15000" /> $15,000</label>
+        <label class="qf-option"><input type="radio" name="coverage" value="20000" /> $20,000</label>
+        <label class="qf-option"><input type="radio" name="coverage" value="25000" /> $25,000</label>
+        <label class="qf-option"><input type="radio" name="coverage" value="unsure" /> Not sure yet</label>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="qf-step" data-step="5">
+    <fieldset>
+      <legend>Any tobacco or nicotine in the last 12 months?</legend>
+      <div class="qf-options qf-options--2">
+        <label class="qf-option"><input type="radio" name="tobacco" value="no" required /> No</label>
+        <label class="qf-option"><input type="radio" name="tobacco" value="yes" /> Yes</label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Any major health conditions?</legend>
+      <p class="qf-help">Just yes or no for now. Aaron goes over details privately on the call.</p>
+      <div class="qf-options">
+        <label class="qf-option"><input type="radio" name="health" value="no" required /> No</label>
+        <label class="qf-option"><input type="radio" name="health" value="yes" /> Yes</label>
+        <label class="qf-option"><input type="radio" name="health" value="unsure" /> Not sure</label>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="qf-step" data-step="6">
+    <label class="field" for={`${id}-first`}>First name</label>
+    <input id={`${id}-first`} name="first_name" type="text" autocomplete="given-name" required />
+    <label class="field" for={`${id}-last`}>Last name</label>
+    <input id={`${id}-last`} name="last_name" type="text" autocomplete="family-name" required />
+    <label class="field" for={`${id}-phone`}>Phone number</label>
+    <input id={`${id}-phone`} name="phone" type="tel" inputmode="tel" autocomplete="tel" required />
+    <label class="field" for={`${id}-time`}>Best time to call</label>
+    <select id={`${id}-time`} name="best_time">
+      <option value="anytime">Any time</option>
+      <option value="morning">Morning</option>
+      <option value="afternoon">Afternoon</option>
+      <option value="evening">Evening</option>
+    </select>
+    <label class="field" for={`${id}-lang`}>Language</label>
+    <select id={`${id}-lang`} name="language">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+    </select>
+    <label class="field" for={`${id}-email`}>Email <span class="small">(optional)</span></label>
+    <input id={`${id}-email`} name="email" type="email" autocomplete="email" />
+    <div class="visually-hidden" aria-hidden="true">
+      <label>Leave this empty <input type="text" name="company_website" tabindex="-1" autocomplete="off" /></label>
+    </div>
+    <label class="consent">
+      <input type="checkbox" name="consent" value="yes" required />
+      <span set:html={consent.html} />
+    </label>
+    <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-size="flexible" data-turnstile></div>
+    <input type="hidden" name="consent_version" value={CONSENT_VERSION} />
+    <input type="hidden" name="page" value="" data-page />
+    <input type="hidden" name="utm" value="" data-utm />
+  </div>
+
+  <p class="qf-error" role="alert" data-error hidden></p>
+
+  <div class="qf-nav">
+    <button type="button" class="qf-back" data-back hidden>← Back</button>
+    <button type="button" class="btn btn-primary" data-next>Next <Icon name="arrow" /></button>
+    <button type="submit" class="btn btn-primary btn-block" data-submit>Get my quote</button>
+  </div>
+  <p class="qf-alt">
+    Rather talk now? <a href={`tel:${phone.tel}`} data-track="call" data-location="form">Call Aaron at {phone.display}</a>
+  </p>
+</form>
+
+<script>
+  type W = Window & { dataLayer?: unknown[]; turnstile?: unknown; gtag?: (...args: unknown[]) => void };
+  const w = window as W;
+  // Sends to GA4 when it's installed (PUBLIC_GA4_ID), otherwise just queues on dataLayer.
+  const track = (event: string, data: Record<string, unknown> = {}) => {
+    if (typeof w.gtag === 'function') w.gtag('event', event, data);
+    else (w.dataLayer = w.dataLayer || []).push({ event, ...data });
+  };
+
+  document.addEventListener('click', (e) => {
+    const a = (e.target as HTMLElement).closest('[data-track="call"]') as HTMLElement | null;
+    if (a) track('call_click', { location: a.dataset.location || 'unknown', page: location.pathname });
+  });
+
+  document.querySelectorAll<HTMLFormElement>('[data-quote-form]').forEach((form) => {
+    const steps = Array.from(form.querySelectorAll<HTMLElement>('.qf-step'));
+    const total = steps.length;
+    const bar = form.querySelector<HTMLElement>('[data-bar]')!;
+    const count = form.querySelector<HTMLElement>('[data-count]')!;
+    const back = form.querySelector<HTMLButtonElement>('[data-back]')!;
+    const next = form.querySelector<HTMLButtonElement>('[data-next]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const err = form.querySelector<HTMLElement>('[data-error]')!;
+    const otherState = form.querySelector<HTMLElement>('[data-other-state]');
+    let i = 0;
+    let started = false;
+
+    form.classList.add('qf-js');
+    (form.querySelector('[data-page]') as HTMLInputElement).value = location.pathname;
+    const params = new URLSearchParams(location.search);
+    const utm = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'gclid']
+      .filter((k) => params.get(k))
+      .map((k) => `${k}=${params.get(k)}`)
+      .join('&');
+    (form.querySelector('[data-utm]') as HTMLInputElement).value = utm || `ref=${document.referrer || 'direct'}`;
+
+    let turnstileLoaded = false;
+    const loadTurnstile = () => {
+      if (turnstileLoaded) return;
+      turnstileLoaded = true;
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+      s.async = true;
+      s.defer = true;
+      document.head.appendChild(s);
+    };
+
+    const render = () => {
+      steps.forEach((s, n) => s.classList.toggle('is-active', n === i));
+      bar.style.width = `${Math.round(((i + 1) / total) * 100)}%`;
+      count.textContent = `Question ${i + 1} of ${total}`;
+      back.hidden = i === 0;
+      next.hidden = i === total - 1;
+      submit.hidden = i !== total - 1;
+      err.hidden = true;
+      if (i === total - 1) loadTurnstile();
+    };
+
+    const validStep = (s: HTMLElement) => {
+      const fields = Array.from(s.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input, select'));
+      const radios = new Set(fields.filter((f) => f.type === 'radio' && f.required).map((f) => f.name));
+      for (const name of radios) {
+        if (!s.querySelector(`input[name="${name}"]:checked`)) return 'Please choose an answer to continue.';
+      }
+      for (const f of fields) {
+        if (f.type === 'radio' || f.type === 'hidden') continue;
+        if (f.required && f.type === 'checkbox' && !(f as HTMLInputElement).checked)
+          return 'Please check the consent box so Aaron can call you, or call him directly.';
+        if (f.required && !f.value.trim()) return 'Please fill in your name and phone number.';
+        if (f.name === 'phone' && f.value.replace(/\D/g, '').length < 10) return 'Please enter a 10-digit phone number.';
+      }
+      return '';
+    };
+
+    form.addEventListener('change', (e) => {
+      const t = e.target as HTMLInputElement;
+      if (!started) {
+        started = true;
+        track('form_start', { page: location.pathname });
+      }
+      if (t.name === 'state' && otherState) otherState.hidden = t.value !== 'other';
+      // Auto-advance on single-question radio steps for fewer taps.
+      if (t.type === 'radio' && i < total - 1 && steps[i].querySelectorAll('fieldset').length === 1) {
+        setTimeout(() => go(1), 180);
+      }
+    });
+
+    const go = (d: number) => {
+      if (d > 0) {
+        const msg = validStep(steps[i]);
+        if (msg) {
+          err.textContent = msg;
+          err.hidden = false;
+          return;
+        }
+        track('form_step', { step: i + 1 });
+      }
+      i = Math.max(0, Math.min(total - 1, i + d));
+      render();
+      const first = steps[i].querySelector<HTMLElement>('input, select');
+      first?.focus({ preventScroll: true });
+      form.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    };
+
+    next.addEventListener('click', () => go(1));
+    back.addEventListener('click', () => go(-1));
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = validStep(steps[i]);
+      if (msg) {
+        err.textContent = msg;
+        err.hidden = false;
+        return;
+      }
+      submit.disabled = true;
+      submit.textContent = 'Sending…';
+      const data = Object.fromEntries(new FormData(form).entries());
+      try {
+        const res = await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', accept: 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const out = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(out.error || 'Something went wrong.');
+        track('form_submit', { state: data.state, coverage: data.coverage });
+        location.href = `/thank-you/?n=${encodeURIComponent(String(data.first_name || ''))}`;
+      } catch (ex) {
+        err.textContent = `${(ex as Error).message} You can also call Aaron directly.`;
+        err.hidden = false;
+        submit.disabled = false;
+        submit.textContent = 'Get my quote';
+      }
+    });
+
+    render();
+  });
+</script>

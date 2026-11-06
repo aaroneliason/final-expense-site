@@ -1,0 +1,36 @@
+---
+/** Simple layout for about / legal / utility pages. */
+import Base from './Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { agencyLd, breadcrumbLd, personLd, websiteLd } from '../lib/schema';
+interface Props {
+  title: string;
+  h1: string;
+  description: string;
+  path: string;
+  crumb: string;
+  noindex?: boolean;
+  updated?: string;
+}
+const { title, h1, description, path, crumb, noindex = false, updated } = Astro.props;
+const site = Astro.site!;
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: crumb, path },
+];
+const jsonLd = [websiteLd(site), agencyLd(site), personLd(site), breadcrumbLd(site, crumbs)];
+---
+<Base {title} {description} {path} {noindex} {jsonLd}>
+  <section class="hero" style="padding-bottom:2rem">
+    <div class="wrap">
+      <Breadcrumbs items={crumbs} />
+      <h1 class="prose">{h1}</h1>
+      {updated && <p class="reviewed">Last updated {new Date(updated + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>}
+    </div>
+  </section>
+  <section class="section" style="padding-top:1rem">
+    <div class="wrap prose">
+      <slot />
+    </div>
+  </section>
+</Base>

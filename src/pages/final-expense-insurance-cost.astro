@@ -1,0 +1,63 @@
+---
+import Guide from '../layouts/Guide.astro';
+import RateTable from '../components/RateTable.astro';
+import Faq from '../components/Faq.astro';
+
+const faqs = [
+  {
+    q: 'Why do two people the same age pay different prices?',
+    a: '<p>Health answers, tobacco use and sex all change the price, and each insurer weighs them differently. That is why comparing several insurers matters more for final expense than for most insurance.</p>',
+  },
+  {
+    q: 'Is it cheaper to buy now or wait?',
+    a: '<p>Prices are set by your age when you apply, so the same coverage costs more each birthday. Health changes can also close off the best plans. Waiting rarely saves money.</p>',
+  },
+  {
+    q: 'Do premiums go up later?',
+    a: '<p>On the whole life plans used for final expense, the premium is normally fixed when you buy and the coverage doesn’t expire while premiums are paid. Check the policy for the exact terms.</p>',
+  },
+];
+---
+<Guide
+  title="How Much Does Final Expense Insurance Cost? Sample Prices by Age"
+  h1="How much does final expense insurance cost?"
+  description="Sample monthly prices for final expense and burial insurance by age, with the insurer named on every quote, plus what makes your own price higher or lower."
+  path="/final-expense-insurance-cost/"
+  crumb="What final expense costs"
+  eyebrow="Prices"
+  lede="Your price depends mostly on your age, your health answers and how much coverage you choose. Here is what moves the number, with real sample quotes."
+>
+  <h2>Sample prices by age</h2>
+  <p>
+    Every row below is a real quote with the insurer, the plan and the date named, as Florida's advertising rules require. They're for a
+    healthy, non-tobacco applicant buying $10,000 of coverage.
+  </p>
+  <RateTable />
+
+  <h2>The five things that set your price</h2>
+  <ol>
+    <li><strong>Age when you apply.</strong> The biggest factor. Each birthday raises the price for the same coverage.</li>
+    <li><strong>Health answers.</strong> Good answers can qualify you for full coverage from day one at the best rates. Some conditions lead to a plan with a waiting period.</li>
+    <li><strong>Tobacco or nicotine.</strong> Smokers and vapers usually pay noticeably more.</li>
+    <li><strong>Coverage amount.</strong> $5,000 costs roughly half of $10,000; the price climbs with each step up.</li>
+    <li><strong>Sex.</strong> Women usually pay less than men of the same age because they live longer on average.</li>
+  </ol>
+
+  <div class="callout">
+    <h3>Pick coverage by the bill, not by the premium</h3>
+    <p>
+      Start with what a funeral costs where you live, add any final bills, then see what that coverage costs each month. Aaron can help you
+      price two or three amounts side by side.
+    </p>
+  </div>
+
+  <h2>What funerals cost</h2>
+  <p>
+    The National Funeral Directors Association's 2023 study put the national median at about $8,300 for a funeral with viewing and burial and
+    about $6,280 with cremation (TODO: confirm figures and check for a newer NFDA study). Cemetery costs such as the plot, opening the grave and
+    a headstone are extra.
+  </p>
+
+  <h2>Questions about price</h2>
+  <Faq items={faqs} />
+</Guide>

@@ -1,0 +1,20 @@
+---
+import Page from '../layouts/Page.astro';
+import { phone, brand } from '../config/site';
+---
+<Page
+  title="Accessibility"
+  h1="Accessibility"
+  description="Our commitment to an accessible site for every visitor, including older adults and people using screen readers, and how to get help."
+  path="/accessibility/"
+  crumb="Accessibility"
+  updated="2026-11-06"
+>
+  <p>We want this site to be easy for everyone to use, including older adults and people who use screen readers, magnifiers or keyboards.</p>
+  <ul>
+    <li>We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.1, level AA.</li>
+    <li>Text is large and high-contrast by default, and you can zoom up to 200% without losing content.</li>
+    <li>Every form field has a label, and the site works with a keyboard alone.</li>
+  </ul>
+  <p>If anything is hard to use, please call {phone.display} or email {brand.email} and we'll help, and fix it.</p>
+</Page>
