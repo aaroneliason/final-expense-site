@@ -1,20 +1,22 @@
 ---
 import Icon from './Icon.astro';
 import { agent, brand, lastReviewed, links } from '../config/site';
+import { fill, longDate, ui, type Lang } from '../i18n/ui';
 interface Props {
   reviewed?: string;
+  lang?: Lang;
 }
-const { reviewed = lastReviewed } = Astro.props;
-const date = new Date(reviewed + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+const { reviewed = lastReviewed, lang = 'en' } = Astro.props;
+const t = ui[lang].author;
+const date = longDate(reviewed, lang);
 ---
-<aside class="author-box" aria-label="Who wrote this guide">
+<aside class="author-box" aria-label={t.label}>
   <span class="avatar avatar--mark" aria-hidden="true"><Icon name="mark" /></span>
   <div>
     <p>
-      <strong>Written and reviewed by <a href="/about/">{brand.name}</a></strong>, an independent insurance agency. Every guide is checked by a
-      licensed life insurance agent (Florida license {agent.flLicense}, NPN {agent.npn};
-      <a href={links.dfsLookup} rel="noopener">verify with Florida DFS</a>).
+      <strong>{t.by} <a href="/about/" hreflang={lang === 'es' ? 'en' : undefined}>{brand.name}</a></strong>, {fill(t.text, { license: agent.flLicense, npn: agent.npn })}
+      <a href={links.dfsLookup} rel="noopener">{t.verify}</a>).
     </p>
-    <p class="reviewed">Last reviewed {date}. <a href="/editorial-standards/">How we write and check these guides</a>.</p>
+    <p class="reviewed">{fill(t.reviewed, { date })} <a href="/editorial-standards/" hreflang={lang === 'es' ? 'en' : undefined}>{t.how}</a>.</p>
   </div>
 </aside>

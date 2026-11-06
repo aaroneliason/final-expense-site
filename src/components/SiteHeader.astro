@@ -2,31 +2,44 @@
 import Icon from './Icon.astro';
 import PhoneButton from './PhoneButton.astro';
 import { brand, phone } from '../config/site';
+import { paths, ui, type Lang } from '../i18n/ui';
 interface Props {
-  lang?: 'en' | 'es';
+  lang?: Lang;
   path: string;
+  alternates?: { lang: string; path: string }[];
 }
-const { lang = 'en', path } = Astro.props;
+const { lang = 'en', path, alternates = [] } = Astro.props;
+const t = ui[lang].header;
 const nav =
   lang === 'es'
-    ? [{ href: '/es/', label: 'Inicio' }]
+    ? [
+        { href: paths.es.florida, label: 'Seguro de gastos finales' },
+        { href: paths.es.privacy, label: 'Privacidad' },
+      ]
     : [
         { href: '/final-expense-insurance-florida/', label: 'Florida' },
         { href: '/final-expense-insurance-cost/', label: 'Costs' },
         { href: '/guaranteed-issue-vs-simplified-issue/', label: 'Which plan?' },
         { href: '/about/', label: 'About us' },
       ];
+// The same page in the other language, when it exists (from the page's hreflang alternates).
+const other = alternates.find((a) => a.lang.startsWith(lang === 'es' ? 'en' : 'es'));
 ---
 <header class="site-header">
   <div class="wrap">
-    <a class="wordmark" href={lang === 'es' ? '/es/' : '/'} aria-label={`${brand.name} home`}>
+    <a class="wordmark" href={lang === 'es' ? paths.es.florida : '/'} aria-label={`${brand.name} ${t.home}`}>
       <Icon name="mark" />
-      <span class="wordmark-text"><span>{brand.shortName}</span><small>{lang === 'es' ? 'Agencia de seguros' : 'Insurance Agency'}</small></span>
+      <span class="wordmark-text"><span>{brand.shortName}</span><small>{t.tagline}</small></span>
     </a>
-    <nav class="nav" aria-label="Main">
+    <nav class="nav" aria-label={t.mainNav}>
       {nav.map((n) => <a href={n.href} aria-current={path === n.href ? 'page' : undefined}>{n.label}</a>)}
     </nav>
-    <PhoneButton class="header-call" label={lang === 'es' ? 'Llámenos' : 'Call us'} location="header" />
+    {other && (
+      <a class="lang-switch" href={other.path} hreflang={other.lang} lang={lang === 'es' ? 'en' : 'es'}>
+        {lang === 'es' ? 'English' : 'Español'}
+      </a>
+    )}
+    <PhoneButton class="header-call" label={t.call} location="header" />
     <a class="header-call-mobile" href={`tel:${phone.tel}`} data-track="call" data-location="header-mobile">{phone.display}</a>
   </div>
 </header>

@@ -32,6 +32,7 @@ walk(join(root, 'src'));
 
 const site = readFileSync(join(root, 'src/config/site.ts'), 'utf8');
 if (/verified:\s*false/.test(site)) problems.push('src/config/site.ts  some licenses/agent details are still verified: false (check NIPR + DFS)');
+if (/spanish = \{\s*reviewed:\s*false/.test(site)) problems.push('src/config/site.ts  Spanish pages not yet read and approved by Aaron (spanish.reviewed: false)');
 const rates = readFileSync(join(root, 'src/data/rates.ts'), 'utf8');
 if (/placeholder:\s*true/.test(rates)) problems.push('src/data/rates.ts  sample rates are still placeholders');
 // Carriers: count only insurers Aaron can write in Florida; name only those that are also ad-approved.

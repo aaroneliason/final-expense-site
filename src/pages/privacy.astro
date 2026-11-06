@@ -1,6 +1,7 @@
 ---
 import Page from '../layouts/Page.astro';
 import { brand, phone } from '../config/site';
+import { paths } from '../i18n/ui';
 ---
 <Page
   title="Privacy Policy"
@@ -9,13 +10,19 @@ import { brand, phone } from '../config/site';
   path="/privacy/"
   crumb="Privacy"
   updated="2026-11-06"
+  alternates={[
+    { lang: 'en-US', path: paths.en.privacy },
+    { lang: 'es-US', path: paths.es.privacy },
+    { lang: 'x-default', path: paths.en.privacy },
+  ]}
 >
   <p class="lede">Short version: your information stays with {brand.name}. It is never sold, rented or shared with other agents.</p>
+  <p class="small"><a href={paths.es.privacy} hreflang="es" lang="es">Lea esta política en español</a></p>
   <p>(TODO: have NBG compliance or a lawyer review this policy before launch.)</p>
 
   <h2>What we collect</h2>
   <ul>
-    <li><strong>What you type in the quote form:</strong> who the coverage is for, age range, state, coverage amount, tobacco use, a yes/no about major health conditions, your name, phone, best time to call, language and (optionally) email.</li>
+    <li><strong>What you type in the quote form:</strong> who the coverage is for, age range, state, coverage amount, tobacco use, a yes/no about major health conditions, your name and phone. If you choose, on the thank-you page: your last name, language, email and the time you'd like us to call.</li>
     <li><strong>Proof of your consent:</strong> the exact consent wording you agreed to, its version, the date and time, the page you were on and your IP address and browser type.</li>
     <li><strong>Basic site analytics:</strong> pages visited and how you arrived, measured without selling or advertising profiles. (TODO: list the analytics tools once chosen, e.g. Cloudflare Web Analytics and Google Analytics.)</li>
     <li><strong>On the phone:</strong> the details needed to quote and apply, such as date of birth and health answers. (TODO: if calls are recorded or transcribed, say so here and announce it at the start of every call — Florida requires the consent of everyone on a recorded call.)</li>

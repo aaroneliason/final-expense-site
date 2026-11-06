@@ -7,7 +7,8 @@ import { phone } from '../config/site';
 interface Props {
   short?: boolean; // compact wording for the mobile call bar
   class?: string;
+  lang?: 'en' | 'es';
 }
-const { short = false, class: cls = '' } = Astro.props;
+const { short = false, class: cls = '', lang = 'en' } = Astro.props;
 ---
-<span class:list={['open-status', cls]} data-open-status data-variant={short ? 'short' : 'long'}>{phone.hours}</span>
+<span class:list={['open-status', cls]} data-open-status data-variant={short ? 'short' : 'long'}>{lang === 'es' ? phone.hoursEs : phone.hours}</span>

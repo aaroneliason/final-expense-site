@@ -104,6 +104,12 @@ export const links = {
 
 export const lastReviewed = '2026-11-06';
 
+// Spanish pages (/es/…, src/i18n/ui.ts, the Spanish consent text). Aaron reads every line, fixes anything that
+// doesn't sound natural, and flips this to true. scripts/check-publish.mjs blocks launch until then.
+export const spanish = {
+  reviewed: false,
+};
+
 // Cloudflare Turnstile (bot check on the quote form). The site key is public by design and only works on the
 // widget's hostnames (olive-tree-insurance.pages.dev; add the real domain at launch). The secret lives in
 // Cloudflare Pages as TURNSTILE_SECRET. Override with PUBLIC_TURNSTILE_SITE_KEY if needed.

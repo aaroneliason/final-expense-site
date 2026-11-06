@@ -3,10 +3,12 @@
  * - Rejects bots (honeypot + Cloudflare Turnstile)
  * - Requires the consent box, stores the EXACT consent text shown plus time, IP, page and version
  * - Saves the lead to D1, then alerts the agency (webhook and/or email). The lead is never shared or sold.
- * Accepts JSON (multi-step form) or form-encoded posts (no-JavaScript fallback → 303 to /thank-you/).
+ * Accepts JSON (multi-step form) or form-encoded posts (no-JavaScript fallback → 303 to the thank-you page).
+ * English or Spanish: `lang` picks the consent text (own version per language), the error messages and the
+ * thank-you page; Spanish-page leads are saved with language 'es' so the agent calls in Spanish.
  */
 import { brand } from '../../src/config/site';
-import { CONSENT_VERSION, consentText } from '../../src/lib/consent';
+import { CONSENT_VERSIONS, consentText } from '../../src/lib/consent';
 import { LEAD_ENUMS, refCode, telegram } from '../../src/lib/alerts';
 
 interface Env {
@@ -26,6 +28,31 @@ type Lead = Record<string, string>;
 
 const pick = (o: Lead, k: string, max = 120) => String(o[k] ?? '').trim().slice(0, max);
 const ENUMS = LEAD_ENUMS;
+type Lang = 'en' | 'es';
+
+const MSG: Record<Lang, Record<string, string>> = {
+  en: {
+    unreadable: 'Could not read the form.',
+    consent: 'Please check the consent box, or call us instead.',
+    first: 'Please add your first name.',
+    phone: 'Please enter a 10-digit phone number.',
+    robot: 'We could not confirm you are not a robot. Please try again.',
+    stale: 'This page is out of date. Please refresh and try again.',
+    fallback: 'Something went wrong.',
+    back: 'Please go back and try again, or call us.',
+  },
+  es: {
+    unreadable: 'No pudimos leer el formulario.',
+    consent: 'Marque la casilla de consentimiento, o llámenos.',
+    first: 'Escriba su nombre.',
+    phone: 'Escriba un número de teléfono de 10 dígitos.',
+    robot: 'No pudimos confirmar que usted no es un robot. Inténtelo otra vez.',
+    stale: 'Esta página está desactualizada. Actualícela e inténtelo otra vez.',
+    fallback: 'Algo salió mal.',
+    back: 'Regrese e inténtelo otra vez, o llámenos.',
+  },
+};
+const THANKS: Record<Lang, string> = { en: '/thank-you/', es: '/es/gracias/' };
 
 async function sha256(text: string) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
@@ -50,10 +77,10 @@ async function verifyTurnstile(secret: string | undefined, token: string, ip: st
   }
 }
 
-function reply(isJson: boolean, status: number, data: Record<string, unknown>, origin: string) {
+function reply(isJson: boolean, status: number, data: Record<string, unknown>, origin: string, lang: Lang = 'en') {
   if (isJson) return Response.json(data, { status });
-  if (status < 300) return Response.redirect(new URL('/thank-you/', origin).href, 303);
-  return new Response(`${data.error ?? 'Something went wrong.'} Please go back and try again, or call us.`, {
+  if (status < 300) return Response.redirect(new URL(THANKS[lang], origin).href, 303);
+  return new Response(`${data.error ?? MSG[lang].fallback} ${MSG[lang].back}`, {
     status,
     headers: { 'content-type': 'text/plain; charset=utf-8' },
   });
@@ -66,11 +93,14 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   try {
     raw = isJson ? await request.json() : (Object.fromEntries((await request.formData()).entries()) as Lead);
   } catch {
-    return reply(isJson, 400, { error: 'Could not read the form.' }, url.origin);
+    return reply(isJson, 400, { error: MSG.en.unreadable }, url.origin);
   }
+  const lang: Lang = pick(raw, 'lang', 2) === 'es' ? 'es' : 'en';
+  const m = MSG[lang];
+  const send = (status: number, data: Record<string, unknown>) => reply(isJson, status, data, url.origin, lang);
 
   // Honeypot: real people never fill this hidden field. Pretend success, store nothing.
-  if (pick(raw, 'company_website')) return reply(isJson, 200, { ok: true }, url.origin);
+  if (pick(raw, 'company_website')) return send(200, { ok: true });
 
   const ip = request.headers.get('cf-connecting-ip') || '';
   const lead = {
@@ -85,17 +115,17 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
     tobacco: pick(raw, 'tobacco', 5),
     health: pick(raw, 'health', 10),
     best_time: pick(raw, 'best_time', 12) || 'anytime',
-    language: pick(raw, 'language', 2) || 'en',
+    language: pick(raw, 'language', 2) || lang, // a Spanish-page lead is called in Spanish unless they say otherwise
     page: pick(raw, 'page', 200),
     utm: pick(raw, 'utm', 400),
   };
 
   // Validation
   const digits = lead.phone.replace(/\D/g, '');
-  if (pick(raw, 'consent') !== 'yes') return reply(isJson, 422, { error: 'Please check the consent box, or call us instead.' }, url.origin);
+  if (pick(raw, 'consent') !== 'yes') return send(422, { error: m.consent });
   // Only first name + phone + consent are asked before sending; the rest is optional on the thank-you page.
-  if (!lead.first_name) return reply(isJson, 422, { error: 'Please add your first name.' }, url.origin);
-  if (digits.length < 10 || digits.length > 11) return reply(isJson, 422, { error: 'Please enter a 10-digit phone number.' }, url.origin);
+  if (!lead.first_name) return send(422, { error: m.first });
+  if (digits.length < 10 || digits.length > 11) return send(422, { error: m.phone });
   if (lead.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(lead.email)) lead.email = '';
   const allowed = (env.ALLOWED_STATES || '').split(',').map((s) => s.trim()).filter(Boolean);
   if (lead.state !== 'OTHER' && allowed.length && !allowed.includes(lead.state)) lead.state = 'OTHER';
@@ -108,12 +138,12 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
 
   // Bot check
   const ts = await verifyTurnstile(env.TURNSTILE_SECRET, pick(raw, 'cf-turnstile-response', 4096), ip, url.hostname);
-  if (!ts.ok) return reply(isJson, 403, { error: 'We could not confirm you are not a robot. Please try again.' }, url.origin);
+  if (!ts.ok) return send(403, { error: m.robot });
 
-  // Consent proof: the server rebuilds the exact text for the version the page showed.
+  // Consent proof: the server rebuilds the exact text for the version (and language) the page showed.
   const version = pick(raw, 'consent_version', 40);
-  if (version !== CONSENT_VERSION) return reply(isJson, 409, { error: 'This page is out of date. Please refresh and try again.' }, url.origin);
-  const consent = consentText(brand.name).plain;
+  if (version !== CONSENT_VERSIONS[lang]) return send(409, { error: m.stale });
+  const consent = consentText(brand.name, lang).plain;
 
   const id = crypto.randomUUID();
   const created_at = new Date().toISOString();
@@ -136,13 +166,13 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
     .run();
 
   waitUntil(notify(env, { id, created_at, ...lead }));
-  return reply(isJson, 200, { ok: true, id, token: edit_token }, url.origin);
+  return send(200, { ok: true, id, token: edit_token });
 };
 
 async function notify(env: Env, lead: Record<string, string>) {
   const summary =
     `New website lead: ${lead.first_name} ${lead.last_name} · ${lead.phone} · ${lead.state} · age ${lead.age_range} · ` +
-    `$${lead.coverage} · tobacco ${lead.tobacco} · health ${lead.health} · from ${lead.page} · ref ${refCode(lead.id)}`;
+    `$${lead.coverage} · tobacco ${lead.tobacco} · health ${lead.health}${lead.language === 'es' ? ' · SPANISH' : ''} · from ${lead.page} · ref ${refCode(lead.id)}`;
   const jobs: Promise<unknown>[] = [];
   const tg = telegram(
     env,
@@ -150,6 +180,7 @@ async function notify(env: Env, lead: Record<string, string>) {
       `🌿 New lead (call within 5 minutes): ${lead.first_name} ${lead.last_name}`.trim(),
       `📞 ${lead.phone}`,
       `${lead.state} · age ${lead.age_range} · $${lead.coverage} · tobacco ${lead.tobacco} · health ${lead.health}`,
+      ...(lead.language === 'es' ? ['🗣 Spanish speaker: call in Spanish'] : []),
       `From ${lead.page} · ref ${refCode(lead.id)}`,
     ].join('\n'),
   );

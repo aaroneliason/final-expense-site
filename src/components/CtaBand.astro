@@ -1,14 +1,16 @@
 ---
 import PhoneButton from './PhoneButton.astro';
 import { phone } from '../config/site';
+import { fill, ui, type Lang } from '../i18n/ui';
 interface Props {
   heading?: string;
   text?: string;
+  lang?: Lang;
 }
-const {
-  heading = 'Questions? Talk them through with a licensed agent.',
-  text = `Most calls take 15–20 minutes. No obligation, and no pressure to decide on the spot. ${phone.hours}.`,
-} = Astro.props;
+const { lang = 'en' } = Astro.props;
+const t = ui[lang].cta;
+const heading = Astro.props.heading ?? t.heading;
+const text = Astro.props.text ?? fill(t.text, { hours: lang === 'es' ? phone.hoursEs : phone.hours });
 ---
 <div class="cta-band">
   <div>
@@ -16,7 +18,7 @@ const {
     <p>{text}</p>
   </div>
   <div class="btn-row" style="margin:0">
-    <PhoneButton label="Call" location="cta-band" />
-    <a class="btn btn-outline" href="#quote">Get a quote online</a>
+    <PhoneButton label={t.call} location="cta-band" />
+    <a class="btn btn-outline" href="#quote">{t.quote}</a>
   </div>
 </div>

@@ -1,68 +1,129 @@
 ---
 import { agent, brand, licenses, links, phone } from '../config/site';
+import { paths, stateName, type Lang } from '../i18n/ui';
 interface Props {
-  lang?: 'en' | 'es';
+  lang?: Lang;
 }
 const { lang = 'en' } = Astro.props;
 const year = new Date().getFullYear();
-const stateList = licenses.map((l) => l.name).join(', ');
+const stateList = licenses.map((l) => stateName(l.code, l.name, lang)).join(', ');
+const guides = [
+  { href: '/final-expense-insurance-florida/', label: 'Final expense insurance in Florida' },
+  { href: '/final-expense-insurance-cost/', label: 'What final expense costs' },
+  { href: '/how-much-burial-insurance-do-i-need/', label: 'Coverage calculator' },
+  { href: '/guaranteed-issue-vs-simplified-issue/', label: 'Guaranteed vs simplified issue' },
+  { href: '/burial-insurance-for-seniors/', label: 'Burial insurance after 70, 75 and 80' },
+  { href: '/burial-insurance-over-85/', label: 'Burial insurance at 85 and older' },
+  { href: '/cremation-insurance-florida/', label: 'Cremation insurance in Florida' },
+  { href: '/burial-insurance-for-parents/', label: 'Burial insurance for a parent' },
+  { href: '/government-burial-insurance/', label: 'Is there government burial insurance?' },
+];
 ---
 <footer class="site-footer">
   <div class="wrap">
-    <div class="footer-grid">
-      <div>
-        <h2>{brand.name}</h2>
-        <p>{brand.tagline}.</p>
-        <p>
-          <a href={`tel:${phone.tel}`} data-track="call" data-location="footer">{phone.display}</a><br />
-          {phone.hours}
-        </p>
+    {lang === 'es' ? (
+      <div class="footer-grid">
+        <div>
+          <h2>{brand.name}</h2>
+          <p>Seguro de gastos finales explicado con honestidad por un agente con licencia.</p>
+          <p>
+            <a href={`tel:${phone.tel}`} data-track="call" data-location="footer">{phone.display}</a><br />
+            {phone.hoursEs}
+          </p>
+        </div>
+        <div>
+          <h3>En español</h3>
+          <ul>
+            <li><a href={paths.es.florida}>Seguro de gastos finales en Florida</a></li>
+            <li><a href={paths.es.privacy}>Política de privacidad</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Guías en inglés</h3>
+          <ul lang="en">
+            {guides.map((g) => <li><a href={g.href} hreflang="en">{g.label}</a></li>)}
+          </ul>
+        </div>
+        <div>
+          <h3>Más (en inglés)</h3>
+          <ul>
+            <li><a href="/about/" hreflang="en">Sobre nosotros y cómo nos pagan</a></li>
+            <li><a href="/licenses/" hreflang="en">Licencias</a></li>
+            <li><a href="/terms/" hreflang="en">Términos y mensajes de texto</a></li>
+            <li><a href="/accessibility/" hreflang="en">Accesibilidad</a></li>
+            <li><a href="/contact/" hreflang="en">Contacto</a></li>
+          </ul>
+        </div>
       </div>
-      <div>
-        <h3>Guides</h3>
-        <ul>
-          <li><a href="/final-expense-insurance-florida/">Final expense insurance in Florida</a></li>
-          <li><a href="/final-expense-insurance-cost/">What final expense costs</a></li>
-          <li><a href="/how-much-burial-insurance-do-i-need/">Coverage calculator</a></li>
-          <li><a href="/guaranteed-issue-vs-simplified-issue/">Guaranteed vs simplified issue</a></li>
-          <li><a href="/burial-insurance-for-seniors/">Burial insurance after 70, 75 and 80</a></li>
-          <li><a href="/burial-insurance-over-85/">Burial insurance at 85 and older</a></li>
-          <li><a href="/cremation-insurance-florida/">Cremation insurance in Florida</a></li>
-          <li><a href="/burial-insurance-for-parents/">Burial insurance for a parent</a></li>
-          <li><a href="/government-burial-insurance/">Is there government burial insurance?</a></li>
-        </ul>
+    ) : (
+      <div class="footer-grid">
+        <div>
+          <h2>{brand.name}</h2>
+          <p>{brand.tagline}.</p>
+          <p>
+            <a href={`tel:${phone.tel}`} data-track="call" data-location="footer">{phone.display}</a><br />
+            {phone.hours}
+          </p>
+        </div>
+        <div>
+          <h3>Guides</h3>
+          <ul>
+            {guides.map((g) => <li><a href={g.href}>{g.label}</a></li>)}
+            <li><a href={paths.es.florida} hreflang="es" lang="es">Seguro de gastos finales en Florida (en español)</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>About</h3>
+          <ul>
+            <li><a href="/about/">About us and how we're paid</a></li>
+            <li><a href="/licenses/">Licenses</a></li>
+            <li><a href="/editorial-standards/">Editorial standards</a></li>
+            <li><a href="/contact/">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Legal</h3>
+          <ul>
+            <li><a href="/privacy/">Privacy policy</a></li>
+            <li><a href="/terms/">Terms and SMS terms</a></li>
+            <li><a href="/accessibility/">Accessibility</a></li>
+          </ul>
+        </div>
       </div>
-      <div>
-        <h3>About</h3>
-        <ul>
-          <li><a href="/about/">About us and how we're paid</a></li>
-          <li><a href="/licenses/">Licenses</a></li>
-          <li><a href="/editorial-standards/">Editorial standards</a></li>
-          <li><a href="/contact/">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3>Legal</h3>
-        <ul>
-          <li><a href="/privacy/">Privacy policy</a></li>
-          <li><a href="/terms/">Terms and SMS terms</a></li>
-          <li><a href="/accessibility/">Accessibility</a></li>
-        </ul>
-      </div>
-    </div>
+    )}
     <div class="footer-legal">
-      <p>
-        {brand.name} · Florida agency license {brand.agencyLicenseNumber} · Agent in charge: Florida license {agent.flLicense}, NPN {agent.npn}.
-        Agent licensed in: {stateList}.
-        Verify a license with the <a href={links.dfsLookup} rel="noopener">Florida Department of Financial Services</a> or
-        <a href={links.nipr} rel="noopener">NIPR</a>.
-      </p>
-      <p>
-        {brand.name} is an independent insurance agency, not an insurance company. Insurance is issued by the insurance company named on your
-        policy. Coverage, rates and eligibility vary by carrier and state and are not guaranteed until the insurer approves your application.
-      </p>
-      <p><strong>Not affiliated with or endorsed by any government agency, including Medicare, Social Security or the VA.</strong></p>
-      <p>© {year} {brand.name}. Content reviewed by a licensed agent.</p>
+      {lang === 'es' ? (
+        <>
+          <p>
+            {brand.name} · Licencia de agencia de Florida {brand.agencyLicenseNumber} · Agente a cargo: licencia de Florida {agent.flLicense}, NPN {agent.npn}.
+            Agente con licencia en: {stateList}.
+            Verifique una licencia con el <a href={links.dfsLookup} rel="noopener">Departamento de Servicios Financieros de Florida</a> o con{' '}
+            <a href={links.nipr} rel="noopener">NIPR</a>.
+          </p>
+          <p>
+            {brand.name} es una agencia de seguros independiente, no una compañía de seguros. El seguro lo emite la compañía de seguros que aparece
+            en su póliza. La cobertura, las tarifas y la elegibilidad varían según la aseguradora y el estado, y no están garantizadas hasta que la
+            aseguradora apruebe su solicitud.
+          </p>
+          <p><strong>No estamos afiliados ni respaldados por ninguna agencia del gobierno, incluidos Medicare, el Seguro Social y el VA.</strong></p>
+          <p>© {year} {brand.name}. Contenido revisado por un agente con licencia.</p>
+        </>
+      ) : (
+        <>
+          <p>
+            {brand.name} · Florida agency license {brand.agencyLicenseNumber} · Agent in charge: Florida license {agent.flLicense}, NPN {agent.npn}.
+            Agent licensed in: {stateList}.
+            Verify a license with the <a href={links.dfsLookup} rel="noopener">Florida Department of Financial Services</a> or{' '}
+            <a href={links.nipr} rel="noopener">NIPR</a>.
+          </p>
+          <p>
+            {brand.name} is an independent insurance agency, not an insurance company. Insurance is issued by the insurance company named on your
+            policy. Coverage, rates and eligibility vary by carrier and state and are not guaranteed until the insurer approves your application.
+          </p>
+          <p><strong>Not affiliated with or endorsed by any government agency, including Medicare, Social Security or the VA.</strong></p>
+          <p>© {year} {brand.name}. Content reviewed by a licensed agent.</p>
+        </>
+      )}
     </div>
   </div>
 </footer>

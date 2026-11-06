@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS leads (
   status TEXT NOT NULL DEFAULT 'new',
   edit_token TEXT,          -- one-time token for optional details on the thank-you page
   edit_expires TEXT,        -- token expiry (2 hours after the lead)
-  updated_at TEXT
+  updated_at TEXT,
+  call_at TEXT              -- call time picked on the thank-you page: Eastern wall clock, start of a 1-hour window (YYYY-MM-DDTHH:MM)
 );
 CREATE INDEX IF NOT EXISTS idx_leads_created ON leads (created_at);
 CREATE INDEX IF NOT EXISTS idx_leads_phone ON leads (phone);

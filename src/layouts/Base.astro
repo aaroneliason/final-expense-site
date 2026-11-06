@@ -15,6 +15,7 @@ interface Props {
   lang?: 'en' | 'es';
   noindex?: boolean;
   jsonLd?: object[];
+  /** hreflang alternates, including this page, e.g. [{ lang: 'en-US', path }, { lang: 'es-US', path: '/es/…/' }, { lang: 'x-default', path }] */
   alternates?: { lang: string; path: string }[];
   ogType?: 'website' | 'article';
   modified?: string; // ISO date, for article:modified_time
@@ -28,6 +29,7 @@ const robots = isPreview || noindex ? 'noindex, nofollow' : 'index, follow, max-
 // Keep titles short in search results: brand suffix is the short name unless the title already names us.
 const fullTitle = title.includes(brand.shortName) ? title : `${title} | ${brand.shortName}`;
 const ogImage = new URL('/og/olive-tree-1200x630.png', site).href;
+const hasOtherLang = alternates.some((a) => a.lang.startsWith(lang === 'es' ? 'en' : 'es'));
 // Analytics IDs are public values, set at build time. Nothing loads in preview builds.
 const ga4 = import.meta.env.PUBLIC_GA4_ID as string | undefined;
 const cfBeacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN as string | undefined;
@@ -49,6 +51,7 @@ const cfBeacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN as string | undefined;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={lang === 'es' ? 'es_US' : 'en_US'} />
+    {hasOtherLang && <meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_US'} />}
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -83,7 +86,7 @@ const cfBeacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN as string | undefined;
         Preview build — not public, hidden from search engines. Items marked TODO must be filled and verified before launch.{/* check-publish-ignore */}
       </div>
     )}
-    <SiteHeader lang={lang} path={path} />
+    <SiteHeader lang={lang} path={path} alternates={alternates} />
     <main id="main">
       <slot />
     </main>
@@ -91,6 +94,17 @@ const cfBeacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN as string | undefined;
     <CallBar lang={lang} />
     <script is:inline define:vars={{ hours: phone.open }}>
       (() => {
+        // Site-wide click tracking: call buttons (data-track="call") and other tracked links. GA4 when installed, else dataLayer.
+        document.addEventListener('click', (e) => {
+          const a = e.target && e.target.closest ? e.target.closest('[data-track]') : null;
+          if (!a) return;
+          const event = a.dataset.track === 'call' ? 'call_click' : a.dataset.track;
+          const data = { location: a.dataset.location || 'unknown', page: location.pathname };
+          if (typeof window.gtag === 'function') window.gtag('event', event, data);
+          else (window.dataLayer = window.dataLayer || []).push({ event, ...data });
+        });
+
+        // Live "Open now / Closed now" next to call buttons, from the hours in src/config/site.ts (Eastern time).
         const els = document.querySelectorAll('[data-open-status]');
         if (!els.length) return;
         const es = document.documentElement.lang.startsWith('es');
@@ -98,7 +112,7 @@ const cfBeacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN as string | undefined;
         const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(parts.find((p) => p.type === 'weekday').value);
         const hour = Number(parts.find((p) => p.type === 'hour').value) % 24;
         const open = hours.days.includes(day) && hour >= hours.start && hour < hours.end;
-        const t = (h) => `${((h + 11) % 12) + 1} ${h < 12 ? 'AM' : 'PM'}`;
+        const t = (h) => `${((h + 11) % 12) + 1} ${es ? (h < 12 ? 'a. m.' : 'p. m.') : h < 12 ? 'AM' : 'PM'}`;
         const names = es ? ['el domingo', 'el lunes', 'el martes', 'el miércoles', 'el jueves', 'el viernes', 'el sábado'] : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         let next = '';
         for (let k = 0; k < 8 && !open; k++) {
@@ -112,7 +126,9 @@ const cfBeacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN as string | undefined;
           const short = el.dataset.variant === 'short';
           el.classList.add(open ? 'is-open' : 'is-closed');
           el.textContent = es
-            ? open ? `Abierto ahora · hasta las ${t(hours.end)} (ET)` : `Cerrado · abrimos ${next} a las ${t(hours.start)} (ET)`
+            ? open
+              ? short ? `Abierto hasta las ${t(hours.end)} (ET)` : `Abierto ahora · un agente con licencia contesta hasta las ${t(hours.end)} (hora del Este)`
+              : short ? `Abre ${next} a las ${t(hours.start)} (ET)` : `Cerrado ahora · abrimos ${next} a las ${t(hours.start)} (hora del Este). Déjenos su número y le llamamos.`
             : open
               ? short ? `Open now until ${t(hours.end)} ET` : `Open now · a licensed agent answers until ${t(hours.end)} ET`
               : short ? `Opens ${next} at ${t(hours.start)} ET` : `Closed now · we open ${next} at ${t(hours.start)} ET. Leave your number and we'll call you.`;

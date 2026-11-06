@@ -1,15 +1,17 @@
 ---
 import PhoneButton from './PhoneButton.astro';
 import OpenStatus from './OpenStatus.astro';
-import { agent, phone } from '../config/site';
+import { agent } from '../config/site';
+import { ui, type Lang } from '../i18n/ui';
 interface Props {
-  lang?: 'en' | 'es';
+  lang?: Lang;
 }
 const { lang = 'en' } = Astro.props;
+const t = ui[lang].callbar;
 ---
-<div class="callbar" role="region" aria-label={lang === 'es' ? 'Llamar' : 'Call'}>
-  <PhoneButton label={lang === 'es' ? 'Llámenos' : 'Call us'} location="callbar" />
+<div class="callbar" role="region" aria-label={t.region}>
+  <PhoneButton label={t.call} location="callbar" />
   <small>
-    <OpenStatus short /> · {lang === 'es' ? 'Agente con licencia' : 'Licensed agent'} · FL {agent.flLicense}
+    <OpenStatus short lang={lang} /> · {t.licensedAgent} · FL {agent.flLicense}
   </small>
 </div>

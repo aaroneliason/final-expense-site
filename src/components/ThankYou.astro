@@ -1,0 +1,293 @@
+---
+/**
+ * Thank-you page body, in English or Spanish: greeting + reference, "save our number", the call-time
+ * picker, optional details, and what happens next. The picker and the details card appear only right
+ * after a request from this browser tab (one-time token in sessionStorage, valid 2 hours).
+ */
+import PhoneButton from './PhoneButton.astro';
+import { brand, phone } from '../config/site';
+import { fill, ui, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'en' } = Astro.props;
+const t = ui[lang].ty;
+const p = ui[lang].pick;
+const hours = lang === 'es' ? phone.hoursEs : phone.hours;
+const strings = {
+  greetName: t.greetName,
+  sending: t.sending,
+  sent: t.sent,
+  failed: t.failed,
+  tellAgent: t.tellAgent,
+  pick: {
+    ...p,
+    calTitle: fill(p.calTitle, { brand: brand.name }),
+    calDetails: fill(p.calDetails, { phone: phone.display }),
+  },
+};
+---
+<div data-ty data-lang={lang} data-t={JSON.stringify(strings)} data-hours={JSON.stringify(phone.open)}>
+  <p class="lede" data-greet>{t.greet}</p>
+  <p class="ref-box" data-ref hidden>{t.refLabel} <strong data-ref-code></strong><br /><span class="small">{t.refHelp}</span></p>
+
+  <section class="ty-card" aria-labelledby="ty-save">
+    <h2 id="ty-save" class="h3">{t.saveTitle}</h2>
+    <p set:html={fill(t.saveText, { phone: `<strong class="nowrap">${phone.display}</strong>` })} />
+    <div class="btn-row">
+      <a class="btn btn-primary" href="/olive-tree-insurance.vcf" download data-track="save_contact">{t.save}</a>
+      <PhoneButton label={t.callNow} variant="outline" location="thank-you" />
+    </div>
+  </section>
+
+  <section class="ty-card" aria-labelledby="ty-when" data-pick hidden>
+    <h2 id="ty-when" class="h3">{p.title}</h2>
+    <p data-pick-intro></p>
+    <form class="qf qf--plain" data-pick-form novalidate>
+      <fieldset>
+        <legend>{p.day}</legend>
+        <p class="field-error" id="ty-err-call_day" data-error-slot hidden></p>
+        <div class="qf-options qf-options--2" data-pick-days></div>
+      </fieldset>
+      <fieldset data-pick-timeset hidden>
+        <legend>{p.time}</legend>
+        <p class="field-error" id="ty-err-call_hour" data-error-slot hidden></p>
+        <div class="qf-options qf-options--2" data-pick-hours></div>
+      </fieldset>
+      <button class="btn btn-primary" type="submit" data-pick-send>{p.set}</button>
+      <p class="ty-status" role="status" data-pick-status></p>
+    </form>
+    <div class="ty-done" data-pick-done hidden tabindex="-1">
+      <p data-pick-done-text></p>
+      <div class="btn-row">
+        <a class="btn btn-outline" href="#" data-pick-ics data-track="add_to_calendar">{p.calendar}</a>
+        <a class="btn btn-outline" href="#" data-pick-gcal rel="noopener" target="_blank" data-track="add_to_calendar">{p.google}</a>
+      </div>
+      <button type="button" class="qf-back" data-pick-again>{p.change}</button>
+    </div>
+  </section>
+
+  <section class="ty-card" aria-labelledby="ty-prep" data-enrich hidden>
+    <h2 id="ty-prep" class="h3">{t.prepTitle} <span class="small">{t.optional}</span></h2>
+    <form class="qf qf--plain" data-enrich-form novalidate>
+      <label class="field" for="ty-last">{t.last}</label>
+      <input id="ty-last" name="last_name" type="text" autocomplete="family-name" autocapitalize="words" spellcheck="false" />
+      <label class="field" for="ty-lang">{t.language}</label>
+      <select id="ty-lang" name="language">
+        <option value="en" lang="en" selected={lang === 'en'}>English</option>
+        <option value="es" lang="es" selected={lang === 'es'}>Español</option>
+      </select>
+      <label class="field" for="ty-email">{t.email} <span class="small">{t.optional}</span></label>
+      <p class="qf-hint" id="ty-email-hint">{t.emailHint}</p>
+      <input id="ty-email" name="email" type="email" autocomplete="email" spellcheck="false" aria-describedby="ty-email-hint" />
+      <button class="btn btn-primary" type="submit" data-enrich-send>{t.send}</button>
+      <p class="ty-status" role="status" data-enrich-status></p>
+    </form>
+  </section>
+
+  <h2 class="h3">{t.nextTitle}</h2>
+  <ul>
+    <li><strong>{t.when}</strong> {fill(t.whenText, { hours })}</li>
+    <li><strong>{t.who}</strong> {t.whoText}</li>
+    <li><strong>{t.ready}</strong> {t.readyText}</li>
+  </ul>
+</div>
+
+<script>
+  import { dayName, hourLabel, isOpenNow, openSlots, weekdayName, windowBetween, windowLabel, zonedToUtc, type Hours, type Lang } from '../lib/calltime';
+
+  type PickStrings = Record<
+    'open' | 'closed' | 'today' | 'tomorrow' | 'set' | 'saving' | 'errDay' | 'errTime' | 'done' | 'local' | 'failed' | 'callInstead' | 'calTitle' | 'calDetails',
+    string
+  >;
+  type Strings = { greetName: string; sending: string; sent: string; failed: string; tellAgent: string; pick: PickStrings };
+  type W = Window & { gtag?: (...a: unknown[]) => void; dataLayer?: unknown[] };
+
+  const root = document.querySelector<HTMLElement>('[data-ty]');
+  if (root) {
+    const lang: Lang = root.dataset.lang === 'es' ? 'es' : 'en';
+    const T = JSON.parse(root.dataset.t || '{}') as Strings;
+    const hours = JSON.parse(root.dataset.hours || '{}') as Hours;
+    const fill = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? String(vars[k]) : m));
+    const track = (event: string, data: Record<string, unknown> = {}) => {
+      const w = window as W;
+      if (typeof w.gtag === 'function') w.gtag('event', event, data);
+      else (w.dataLayer = w.dataLayer || []).push({ event, ...data });
+    };
+
+    // Greeting and reference number from the URL (set by the quote form).
+    const params = new URLSearchParams(location.search);
+    const n = params.get('n');
+    const greet = root.querySelector('[data-greet]');
+    if (n && greet) greet.textContent = fill(T.greetName, { n: n.slice(0, 40) });
+    const ref = (params.get('ref') || '').replace(/[^A-Z0-9]/gi, '').slice(0, 8).toUpperCase();
+    const box = root.querySelector<HTMLElement>('[data-ref]');
+    const code = root.querySelector('[data-ref-code]');
+    if (ref.length === 8 && box && code) {
+      code.textContent = `${ref.slice(0, 4)}-${ref.slice(4)}`;
+      box.hidden = false;
+    }
+
+    // Everything below needs the one-time token from a request made in this tab.
+    let saved: { id?: string; token?: string } = {};
+    try {
+      saved = JSON.parse(sessionStorage.getItem('ot_lead') || '{}');
+    } catch {}
+    const update = async (body: Record<string, unknown>, fallback: string) => {
+      const res = await fetch('/api/lead-update', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ ...body, id: saved.id, token: saved.token, lang }),
+      });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(out.error || fallback);
+    };
+
+    if (saved.id && saved.token) {
+      // ---- Pick a call time ----
+      const pick = root.querySelector<HTMLElement>('[data-pick]');
+      const slots = openSlots(hours, 5);
+      if (pick && slots.length) {
+        const P = T.pick;
+        const form = pick.querySelector<HTMLFormElement>('[data-pick-form]')!;
+        const days = pick.querySelector<HTMLElement>('[data-pick-days]')!;
+        const hoursBox = pick.querySelector<HTMLElement>('[data-pick-hours]')!;
+        const timeset = pick.querySelector<HTMLElement>('[data-pick-timeset]')!;
+        const status = pick.querySelector<HTMLElement>('[data-pick-status]')!;
+        const send = pick.querySelector<HTMLButtonElement>('[data-pick-send]')!;
+        const done = pick.querySelector<HTMLElement>('[data-pick-done]')!;
+        const doneText = pick.querySelector<HTMLElement>('[data-pick-done-text]')!;
+        const ics = pick.querySelector<HTMLAnchorElement>('[data-pick-ics]')!;
+        const gcal = pick.querySelector<HTMLAnchorElement>('[data-pick-gcal]')!;
+        const intro = pick.querySelector<HTMLElement>('[data-pick-intro]')!;
+
+        if (isOpenNow(hours)) intro.textContent = P.open;
+        else {
+          const first = slots[0];
+          const next = first.offset === 0 ? P.today.toLowerCase() : first.offset === 1 ? P.tomorrow.toLowerCase() : `${lang === 'es' ? 'el ' : ''}${weekdayName(lang, first.weekday)}`;
+          intro.textContent = fill(P.closed, { next, start: hourLabel(first.hours[0], lang) });
+        }
+
+        const radio = (name: string, value: string, label: string) => {
+          const l = document.createElement('label');
+          l.className = 'qf-option';
+          const input = document.createElement('input');
+          input.type = 'radio';
+          input.name = name;
+          input.value = value;
+          l.append(input, document.createTextNode(` ${label}`));
+          return l;
+        };
+        slots.forEach((s) => {
+          const when = s.offset === 0 ? `${P.today} · ` : s.offset === 1 ? `${P.tomorrow} · ` : '';
+          days.append(radio('call_day', s.day, when + dayName(lang, s.day)));
+        });
+
+        const clear = () => {
+          pick.querySelectorAll<HTMLElement>('[data-error-slot]').forEach((e) => {
+            e.hidden = true;
+            e.textContent = '';
+          });
+          pick.querySelectorAll('.has-error').forEach((e) => e.classList.remove('has-error'));
+          pick.querySelectorAll('fieldset[aria-describedby]').forEach((e) => e.removeAttribute('aria-describedby'));
+        };
+        const showError = (slotId: string, msg: string) => {
+          const slot = pick.querySelector<HTMLElement>(`#${slotId}`)!;
+          const fs = slot.closest('fieldset')!;
+          slot.textContent = msg;
+          slot.hidden = false;
+          fs.classList.add('has-error');
+          fs.setAttribute('aria-describedby', slotId);
+          return fs;
+        };
+        const chosen = (name: string) => form.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`)?.value || '';
+
+        days.addEventListener('change', () => {
+          const s = slots.find((x) => x.day === chosen('call_day'));
+          if (!s) return;
+          clear();
+          hoursBox.replaceChildren(...s.hours.map((h) => radio('call_hour', String(h), windowLabel(h, lang))));
+          timeset.hidden = false;
+        });
+        hoursBox.addEventListener('change', clear);
+
+        let busy = false;
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (busy) return;
+          clear();
+          const day = chosen('call_day');
+          const hour = chosen('call_hour');
+          if (!day || !hour) {
+            const fs = !day ? showError('ty-err-call_day', P.errDay) : showError('ty-err-call_hour', P.errTime);
+            fs.querySelector<HTMLInputElement>('input')?.focus();
+            return;
+          }
+          busy = true;
+          send.setAttribute('aria-disabled', 'true');
+          status.textContent = P.saving;
+          try {
+            await update({ call_day: day, call_hour: Number(hour) }, P.failed);
+            const h = Number(hour);
+            const start = zonedToUtc(hours.tz, day, h);
+            const end = new Date(start.getTime() + 3_600_000);
+            let msg = fill(P.done, { day: dayName(lang, day, 'long'), window: windowBetween(h, lang) });
+            const localHour = start.getHours();
+            if (start.getMinutes() === 0 && localHour !== h) msg += ` ${fill(P.local, { window: windowLabel(localHour, lang) })}`;
+            doneText.textContent = msg;
+            ics.href = `/api/calendar?d=${day}&h=${h}&lang=${lang}`;
+            const z = (d: Date) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+            gcal.href =
+              'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+              `&text=${encodeURIComponent(P.calTitle)}&dates=${z(start)}/${z(end)}&details=${encodeURIComponent(P.calDetails)}`;
+            status.textContent = '';
+            form.hidden = true;
+            done.hidden = false;
+            done.focus();
+            track('call_time_set', { days_ahead: slots.find((s) => s.day === day)?.offset ?? -1, hour: h, lang });
+          } catch (ex) {
+            status.textContent = `${(ex as Error).message} ${P.callInstead}`;
+          } finally {
+            busy = false;
+            send.removeAttribute('aria-disabled');
+          }
+        });
+        pick.querySelector('[data-pick-again]')?.addEventListener('click', () => {
+          done.hidden = true;
+          form.hidden = false;
+          form.querySelector<HTMLInputElement>('input[name="call_day"]:checked, input[name="call_day"]')?.focus();
+        });
+        pick.hidden = false;
+      }
+
+      // ---- Optional details ----
+      const card = root.querySelector<HTMLElement>('[data-enrich]');
+      const form = root.querySelector<HTMLFormElement>('[data-enrich-form]');
+      const status = root.querySelector<HTMLElement>('[data-enrich-status]');
+      const send = root.querySelector<HTMLButtonElement>('[data-enrich-send]');
+      if (card && form && status && send) {
+        card.hidden = false;
+        let busy = false;
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (busy) return;
+          busy = true;
+          send.setAttribute('aria-disabled', 'true');
+          status.textContent = T.sending;
+          try {
+            await update(Object.fromEntries(new FormData(form).entries()), T.failed);
+            status.textContent = T.sent;
+            form.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input, select').forEach((f) => (f.disabled = true));
+            send.hidden = true;
+            track('lead_details', { lang });
+          } catch (ex) {
+            status.textContent = `${(ex as Error).message} ${T.tellAgent}`;
+            busy = false;
+            send.removeAttribute('aria-disabled');
+          }
+        });
+      }
+    }
+  }
+</script>

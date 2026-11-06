@@ -1,8 +1,9 @@
 ---
-/** Simple layout for about / legal / utility pages. */
+/** Simple layout for about / legal / utility pages, in English or Spanish. */
 import Base from './Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { agencyLd, breadcrumbLd, websiteLd } from '../lib/schema';
+import { longDate, paths, ui, type Lang } from '../i18n/ui';
 interface Props {
   title: string;
   h1: string;
@@ -11,21 +12,24 @@ interface Props {
   crumb: string;
   noindex?: boolean;
   updated?: string;
+  lang?: Lang;
+  alternates?: { lang: string; path: string }[];
 }
-const { title, h1, description, path, crumb, noindex = false, updated } = Astro.props;
+const { title, h1, description, path, crumb, noindex = false, updated, lang = 'en', alternates = [] } = Astro.props;
 const site = Astro.site!;
+const t = ui[lang].page;
 const crumbs = [
-  { name: 'Home', path: '/' },
+  { name: t.home, path: lang === 'es' ? paths.es.florida : '/' },
   { name: crumb, path },
 ];
 const jsonLd = [websiteLd(site), agencyLd(site), breadcrumbLd(site, crumbs)];
 ---
-<Base {title} {description} {path} {noindex} {jsonLd}>
+<Base {title} {description} {path} {noindex} {jsonLd} {lang} {alternates}>
   <section class="hero" style="padding-bottom:2rem">
     <div class="wrap">
-      <Breadcrumbs items={crumbs} />
+      <Breadcrumbs items={crumbs} lang={lang} />
       <h1 class="prose">{h1}</h1>
-      {updated && <p class="reviewed">Last updated {new Date(updated + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>}
+      {updated && <p class="reviewed">{t.updated} {longDate(updated, lang)}</p>}
     </div>
   </section>
   <section class="section" style="padding-top:1rem">

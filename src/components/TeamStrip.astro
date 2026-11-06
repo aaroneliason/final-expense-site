@@ -6,7 +6,13 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import team from '../data/team.json';
+import { ui, type Lang } from '../i18n/ui';
 
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'en' } = Astro.props;
+const t = ui[lang].team;
 type Member = { id: string; displayName: string; role: string; photo: string | null; consent: boolean };
 const photos = import.meta.glob<{ default: ImageMetadata }>('../assets/team/*.{jpg,jpeg,png,webp}', { eager: true });
 const members = (team.members as Member[])
@@ -15,12 +21,12 @@ const members = (team.members as Member[])
   .filter((m) => m.img);
 ---
 {members.length > 0 && (
-  <a class="team-strip" href="/about/" aria-label="Meet the licensed agents you'll talk to">
+  <a class="team-strip" href="/about/" aria-label={t.label} hreflang={lang === 'es' ? 'en' : undefined}>
     <span class="team-faces">
       {members.slice(0, 4).map((m) => (
         <Image src={m.img!} alt="" width={56} height={56} class="team-face" />
       ))}
     </span>
-    <span class="team-strip-text"><strong>Licensed agents, not a call center.</strong> Meet the team you'll talk to.</span>
+    <span class="team-strip-text"><strong>{t.strong}</strong> {t.text}</span>
   </a>
 )}

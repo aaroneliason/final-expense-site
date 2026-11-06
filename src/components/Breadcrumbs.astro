@@ -1,10 +1,11 @@
 ---
 interface Props {
   items: { name: string; path: string }[];
+  lang?: 'en' | 'es';
 }
-const { items } = Astro.props;
+const { items, lang = 'en' } = Astro.props;
 ---
-<nav class="crumbs" aria-label="Breadcrumb">
+<nav class="crumbs" aria-label={lang === 'es' ? 'Ruta de navegación' : 'Breadcrumb'}>
   <ol>
     {items.map((it, n) =>
       n === items.length - 1 ? <li aria-current="page">{it.name}</li> : <li><a href={it.path}>{it.name}</a></li>,

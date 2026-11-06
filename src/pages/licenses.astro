@@ -12,7 +12,7 @@ const fmt = (d?: string) => (d ? new Date(d + 'T12:00:00').toLocaleDateString('e
   updated="2026-11-06"
 >
   <p>
-    {brand.name}: Florida insurance agency license <strong>{brand.agencyLicenseNumber}</strong>. Agent in charge: Florida resident license
+    {brand.name}: Florida insurance agency license <strong>{brand.agencyLicenseNumber}</strong>. Agent in charge: Florida resident license{' '}
     <strong>{agent.flLicense}</strong> · National Producer Number (NPN) <strong>{agent.npn}</strong>.
     Verify with <a href={links.dfsLookup} rel="noopener">Florida DFS</a> or <a href={links.nipr} rel="noopener">NIPR</a>.
   </p>
