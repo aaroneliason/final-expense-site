@@ -1,0 +1,81 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Faq from '../components/Faq.astro';
+
+const faqs = [
+  {
+    q: 'Can you get burial insurance at 85?',
+    a: '<p>Yes, often. Many insurers accept new applicants up to about 85, and a few accept people into their late 80s. The choices narrow with each birthday, so it helps to compare soon.</p>',
+  },
+  {
+    q: 'Is there burial insurance for someone over 90?',
+    a: '<p>It’s rare for a new policy to start after 89. Over 90, money set aside for the funeral, or a preneed arrangement with a funeral home, may work better. We’ll tell you honestly if we can’t help.</p>',
+  },
+  {
+    q: 'Can the price go up before my birthday?',
+    a: '<p>It can. Some insurers price by your age at your nearest birthday, so the price can change about six months before the birthday itself. Ask which rule the insurer uses.</p>',
+  },
+  {
+    q: 'What happens if I die during the waiting period?',
+    a: '<p>On graded and guaranteed issue plans, if death from natural causes happens during the waiting period, usually the first two or three years, the insurer usually refunds the premiums paid, plus interest, instead of paying the full amount. Accidental death is usually covered in full from the start. Check the policy for the exact terms.</p>',
+  },
+];
+---
+<Guide
+  title="Burial Insurance Over 85: Options at 85 to 89"
+  h1="Burial insurance at 85 and older"
+  description="Burial and final expense insurance after 85: which plans still accept new applicants, how waiting periods work, and how to judge if it's worth it."
+  path="/burial-insurance-over-85/"
+  crumb="Burial insurance over 85"
+  eyebrow="Seniors"
+  lede="Coverage is still possible at 85 and beyond, but the choices are narrower. Here's what's available, and how to decide whether it's worth it."
+  summary={[
+    "Many insurers accept new applicants up to about 85; a few accept people into their late 80s.",
+    "Coverage amounts are smaller at these ages, and some insurers cap how much you can buy.",
+    "Before you choose, ask how many years of premiums would add up to the coverage amount.",
+    "No medical exam. Approval depends on your answers to a few health questions.",
+  ]}
+>
+  <h2>What's available at 85 and older</h2>
+  <p>
+    Many final expense insurers accept new applicants up to about 85, and a few go into the late 80s. The limits vary by insurer and by
+    state, and some insurers lower the most coverage they'll offer at these ages. Guaranteed issue plans, which ask no health questions,
+    often stop accepting new applicants at 80 or 85.
+  </p>
+  <p>Because each birthday can close off a plan, it pays to compare sooner rather than later.</p>
+
+  <h2>Compare the premiums with the benefit</h2>
+  <p>
+    At these ages premiums are higher, so do one simple calculation before you buy: how many years of premiums would add up to the coverage
+    amount? If you expect to pay in for longer than that, setting money aside may fit better. If your health makes the future hard to
+    predict, coverage that pays in full from day one can be worth a great deal to your family. We'll walk through the numbers with you on the
+    call.
+  </p>
+
+  <h2>Health questions and waiting periods</h2>
+  <p>
+    No medical exam. Approval depends on your answers to a few health questions. If your answers allow it, a simplified issue plan pays the
+    full amount from day one. If not, graded and guaranteed issue plans have a waiting period: if death from natural causes happens during
+    the first two or three years, the insurer usually refunds the premiums paid, plus interest, instead of the full amount.
+    <a href="/guaranteed-issue-vs-simplified-issue/">How the plan types work</a>.
+  </p>
+
+  <h2>Other ways to plan for funeral costs</h2>
+  <ul>
+    <li><strong>A savings account set aside for the funeral.</strong> Many banks let you name a payable-on-death beneficiary, so the money goes straight to them.</li>
+    <li>
+      <strong>A preneed contract with a funeral home.</strong> You choose and pay for the arrangements ahead of time. In Florida these
+      contracts are regulated by the Department of Financial Services.
+    </li>
+    <li><strong>A plan your family knows about.</strong> Even if you don't buy anything, writing down your wishes and where your papers are saves your family time and stress.</li>
+  </ul>
+  <p>Not sure which fits? Call us. If insurance isn't the right answer for you, we'll say so.</p>
+
+  <div class="callout">
+    <h3>Helping a parent over 85?</h3>
+    <p>Your parent answers the health questions and signs, and you can often pay. <a href="/burial-insurance-for-parents/">How buying for a parent works</a>.</p>
+  </div>
+
+  <h2>Questions about coverage after 85</h2>
+  <Faq items={faqs} />
+</Guide>

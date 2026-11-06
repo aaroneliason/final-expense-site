@@ -655,6 +655,15 @@ th.num {
     color: var(--ink-2);
     text-align: left;
   }
+  /* First cell of a comparison row becomes the card's title */
+  table.stack th[scope='row'] {
+    display: block;
+    border: 0;
+    padding: 0.3rem 1.1rem 0.2rem;
+    font-size: 1.05rem;
+    color: var(--ink);
+    text-align: left;
+  }
 }
 .table-note {
   font-size: 0.9rem;
