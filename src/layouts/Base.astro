@@ -5,7 +5,7 @@ import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import CallBar from '../components/CallBar.astro';
-import { SITE_MODE, brand } from '../config/site';
+import { SITE_MODE, brand, phone } from '../config/site';
 import { graph } from '../lib/schema';
 
 interface Props {
@@ -89,5 +89,35 @@ const cfBeacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN as string | undefined;
     </main>
     <SiteFooter lang={lang} />
     <CallBar lang={lang} />
+    <script is:inline define:vars={{ hours: phone.open }}>
+      (() => {
+        const els = document.querySelectorAll('[data-open-status]');
+        if (!els.length) return;
+        const es = document.documentElement.lang.startsWith('es');
+        const parts = new Intl.DateTimeFormat('en-US', { timeZone: hours.tz, weekday: 'short', hour: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+        const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(parts.find((p) => p.type === 'weekday').value);
+        const hour = Number(parts.find((p) => p.type === 'hour').value) % 24;
+        const open = hours.days.includes(day) && hour >= hours.start && hour < hours.end;
+        const t = (h) => `${((h + 11) % 12) + 1} ${h < 12 ? 'AM' : 'PM'}`;
+        const names = es ? ['el domingo', 'el lunes', 'el martes', 'el miércoles', 'el jueves', 'el viernes', 'el sábado'] : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        let next = '';
+        for (let k = 0; k < 8 && !open; k++) {
+          const d = (day + k) % 7;
+          if ((k > 0 || hour < hours.start) && hours.days.includes(d)) {
+            next = k === 0 ? (es ? 'hoy' : 'today') : k === 1 ? (es ? 'mañana' : 'tomorrow') : names[d];
+            break;
+          }
+        }
+        els.forEach((el) => {
+          const short = el.dataset.variant === 'short';
+          el.classList.add(open ? 'is-open' : 'is-closed');
+          el.textContent = es
+            ? open ? `Abierto ahora · hasta las ${t(hours.end)} (ET)` : `Cerrado · abrimos ${next} a las ${t(hours.start)} (ET)`
+            : open
+              ? short ? `Open now until ${t(hours.end)} ET` : `Open now · a licensed agent answers until ${t(hours.end)} ET`
+              : short ? `Opens ${next} at ${t(hours.start)} ET` : `Closed now · we open ${next} at ${t(hours.start)} ET. Leave your number and we'll call you.`;
+        });
+      })();
+    </script>
   </body>
 </html>

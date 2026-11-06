@@ -1,0 +1,4 @@
+{
+  "rules": "Real clients only, with written permission. name = first name + last initial. source = where the review lives (e.g. 'Google review', 'Trustpilot', 'Text message, shared with permission'). date = ISO date. Set disclosure if any incentive was offered. The reviews section appears once 3 or more approved reviews exist.",
+  "items": []
+}

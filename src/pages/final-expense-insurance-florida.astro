@@ -9,6 +9,9 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CtaBand from '../components/CtaBand.astro';
 import PhoneButton from '../components/PhoneButton.astro';
 import Icon from '../components/Icon.astro';
+import OpenStatus from '../components/OpenStatus.astro';
+import TeamStrip from '../components/TeamStrip.astro';
+import Reviews from '../components/Reviews.astro';
 import { agent, brand, lastReviewed, links, nameableIn } from '../config/site';
 import { agencyLd, articleLd, breadcrumbLd, websiteLd } from '../lib/schema';
 
@@ -85,6 +88,8 @@ const faqs = [
             <PhoneButton label="Call us" location="hero" />
             <a class="btn btn-outline" href="#quote">Get a quote online</a>
           </div>
+          <OpenStatus class="hero-status" />
+          <TeamStrip />
           <div class="agent-chip">
             <span class="avatar avatar--mark" aria-hidden="true"><Icon name="mark" /></span>
             <p>
@@ -101,6 +106,7 @@ const faqs = [
   <section class="section section--white">
     <div class="wrap">
       <TrustStrip />
+      <Reviews />
     </div>
   </section>
 
@@ -211,6 +217,7 @@ const faqs = [
         </p>
         <p class="small">Prices vary a lot between funeral homes. Under the FTC's Funeral Rule, every funeral home must give you an itemized price list.</p>
         <p class="small">Planning a cremation? <a href="/cremation-insurance-florida/">Cremation insurance in Florida</a>. Helping a parent? <a href="/burial-insurance-for-parents/">How it works</a>.</p>
+        <p><a class="btn btn-outline btn-block" href="/how-much-burial-insurance-do-i-need/">Estimate how much coverage you need</a></p>
       </aside>
     </div>
   </section>

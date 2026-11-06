@@ -22,6 +22,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.
     <h2 class="h3">{heading}</h2>
     <span class="qf-count" aria-live="polite" data-count>6 quick questions</span>
   </div>
+  <p class="qf-sub">A licensed agent calls you with prices from several insurers, usually the same business day. No obligation.</p>
   <div class="qf-bar" aria-hidden="true"><span data-bar></span></div>
 
   <div class="qf-step is-active" data-step="1">
@@ -102,31 +103,14 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.
   </div>
 
   <div class="qf-step" data-step="6">
+    <p class="qf-step-title">Where should a licensed agent call you?</p>
     <label class="field" for={`${id}-first`}>First name</label>
     <p class="field-error" id={`${id}-err-first_name`} data-error-slot hidden></p>
     <input id={`${id}-first`} name="first_name" type="text" autocomplete="given-name" autocapitalize="words" spellcheck="false" required data-error-msg="Enter a first name" />
-    <label class="field" for={`${id}-last`}>Last name</label>
-    <p class="field-error" id={`${id}-err-last_name`} data-error-slot hidden></p>
-    <input id={`${id}-last`} name="last_name" type="text" autocomplete="family-name" autocapitalize="words" spellcheck="false" required data-error-msg="Enter a last name" />
     <label class="field" for={`${id}-phone`}>Phone number</label>
-    <p class="qf-hint" id={`${id}-phone-hint`}>So a licensed agent can call you with your quote. We never sell it.</p>
+    <p class="qf-hint" id={`${id}-phone-hint`}>So a licensed agent can call you with your prices. We never sell it.</p>
     <p class="field-error" id={`${id}-err-phone`} data-error-slot hidden></p>
     <input id={`${id}-phone`} name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby={`${id}-phone-hint`} data-error-msg="Enter a phone number" data-error-format="Enter a 10-digit phone number, like (407) 555-0123" />
-    <label class="field" for={`${id}-time`}>Best time to call</label>
-    <select id={`${id}-time`} name="best_time">
-      <option value="anytime">Any time</option>
-      <option value="morning">Morning</option>
-      <option value="afternoon">Afternoon</option>
-      <option value="evening">Evening</option>
-    </select>
-    <label class="field" for={`${id}-lang`}>Language</label>
-    <select id={`${id}-lang`} name="language">
-      <option value="en">English</option>
-      <option value="es">Español</option>
-    </select>
-    <label class="field" for={`${id}-email`}>Email <span class="small">(optional)</span></label>
-    <p class="field-error" id={`${id}-err-email`} data-error-slot hidden></p>
-    <input id={`${id}-email`} name="email" type="email" autocomplete="email" spellcheck="false" data-error-format="Enter an email address like name@example.com, or leave it blank" />
     <div class="visually-hidden" aria-hidden="true">
       <label>Leave this empty <input type="text" name="company_website" tabindex="-1" autocomplete="off" /></label>
     </div>
@@ -341,6 +325,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.
         if (!res.ok) throw new Error(out.error || 'Something went wrong.');
         track('form_submit', { state: data.state, coverage: data.coverage });
         const ref = String(out.id || '').replace(/-/g, '').slice(0, 8).toUpperCase();
+        try {
+          if (out.id && out.token) sessionStorage.setItem('ot_lead', JSON.stringify({ id: out.id, token: out.token, first: data.first_name }));
+        } catch {}
         location.href = `/thank-you/?n=${encodeURIComponent(String(data.first_name || ''))}${ref ? `&ref=${ref}` : ''}`;
       } catch (ex) {
         err.textContent = `${(ex as Error).message} You can also call us directly.`;
@@ -350,6 +337,21 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.
         submit.textContent = 'Get my quote';
       }
     });
+
+    const prefill = (value: string, scroll: boolean) => {
+      const radio = form.querySelector<HTMLInputElement>(`input[name="coverage"][value="${value}"]`);
+      if (!radio) return;
+      radio.checked = true;
+      if (scroll) {
+        form.scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
+        steps[i].querySelector<HTMLElement>('input, select')?.focus({ preventScroll: true });
+      }
+    };
+    const fromUrl = new URLSearchParams(location.search).get('coverage');
+    if (fromUrl) prefill(fromUrl, false);
+    if (form === document.querySelector('[data-quote-form]')) {
+      document.addEventListener('ot:prefill-coverage', (e) => prefill(String((e as CustomEvent).detail), true));
+    }
 
     render();
   });

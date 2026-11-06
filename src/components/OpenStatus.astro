@@ -1,0 +1,13 @@
+---
+/**
+ * "Open now" / "Closed now" next to call buttons, from the hours in src/config/site.ts (Eastern time).
+ * Static fallback is the plain hours text; the shared script in Base.astro fills in the live status.
+ */
+import { phone } from '../config/site';
+interface Props {
+  short?: boolean; // compact wording for the mobile call bar
+  class?: string;
+}
+const { short = false, class: cls = '' } = Astro.props;
+---
+<span class:list={['open-status', cls]} data-open-status data-variant={short ? 'short' : 'long'}>{phone.hours}</span>

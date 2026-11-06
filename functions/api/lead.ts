@@ -7,6 +7,7 @@
  */
 import { brand } from '../../src/config/site';
 import { CONSENT_VERSION, consentText } from '../../src/lib/consent';
+import { LEAD_ENUMS, refCode, telegram } from '../../src/lib/alerts';
 
 interface Env {
   LEADS_DB: D1Database;
@@ -17,20 +18,14 @@ interface Env {
   RESEND_API_KEY?: string;
   NOTIFY_EMAIL_TO?: string;
   NOTIFY_EMAIL_FROM?: string;
+  TELEGRAM_BOT_TOKEN?: string; // instant lead alert to Aaron's phone (Telegram bot)
+  TELEGRAM_CHAT_ID?: string;
 }
 
 type Lead = Record<string, string>;
 
 const pick = (o: Lead, k: string, max = 120) => String(o[k] ?? '').trim().slice(0, max);
-const ENUMS: Record<string, string[]> = {
-  for: ['myself', 'spouse', 'parent', 'other'],
-  age: ['under-50', '50-59', '60-69', '70-79', '80-85', 'over-85'],
-  coverage: ['5000', '10000', '15000', '20000', '25000', 'unsure'],
-  tobacco: ['no', 'yes'],
-  health: ['no', 'yes', 'unsure'],
-  best_time: ['anytime', 'morning', 'afternoon', 'evening'],
-  language: ['en', 'es'],
-};
+const ENUMS = LEAD_ENUMS;
 
 async function sha256(text: string) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
@@ -98,7 +93,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   // Validation
   const digits = lead.phone.replace(/\D/g, '');
   if (pick(raw, 'consent') !== 'yes') return reply(isJson, 422, { error: 'Please check the consent box, or call us instead.' }, url.origin);
-  if (!lead.first_name || !lead.last_name) return reply(isJson, 422, { error: 'Please add your first and last name.' }, url.origin);
+  // Only first name + phone + consent are asked before sending; the rest is optional on the thank-you page.
+  if (!lead.first_name) return reply(isJson, 422, { error: 'Please add your first name.' }, url.origin);
   if (digits.length < 10 || digits.length > 11) return reply(isJson, 422, { error: 'Please enter a 10-digit phone number.' }, url.origin);
   if (lead.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(lead.email)) lead.email = '';
   const allowed = (env.ALLOWED_STATES || '').split(',').map((s) => s.trim()).filter(Boolean);
@@ -121,28 +117,43 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
 
   const id = crypto.randomUUID();
   const created_at = new Date().toISOString();
+  // One-time token so the visitor can add optional details on the thank-you page (2-hour window).
+  const edit_token = crypto.randomUUID().replace(/-/g, '') + crypto.randomUUID().replace(/-/g, '');
+  const edit_expires = new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString();
   const cf = (request as unknown as { cf?: { country?: string; region?: string } }).cf || {};
   await env.LEADS_DB.prepare(
     `INSERT INTO leads (id, created_at, first_name, last_name, phone, email, coverage_for, age_range, state, coverage, tobacco, health,
-      best_time, language, page, utm, consent_version, consent_text, consent_sha256, ip, user_agent, country, region, turnstile_ok)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, 1)`,
+      best_time, language, page, utm, consent_version, consent_text, consent_sha256, ip, user_agent, country, region, turnstile_ok,
+      edit_token, edit_expires)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, 1, ?24, ?25)`,
   )
     .bind(
       id, created_at, lead.first_name, lead.last_name, lead.phone, lead.email || null, lead.coverage_for, lead.age_range, lead.state,
       lead.coverage, lead.tobacco, lead.health, lead.best_time, lead.language, lead.page, lead.utm, version, consent, await sha256(consent),
       ip, (request.headers.get('user-agent') || '').slice(0, 300), cf.country || null, cf.region || null,
+      edit_token, edit_expires,
     )
     .run();
 
   waitUntil(notify(env, { id, created_at, ...lead }));
-  return reply(isJson, 200, { ok: true, id }, url.origin);
+  return reply(isJson, 200, { ok: true, id, token: edit_token }, url.origin);
 };
 
 async function notify(env: Env, lead: Record<string, string>) {
   const summary =
     `New website lead: ${lead.first_name} ${lead.last_name} · ${lead.phone} · ${lead.state} · age ${lead.age_range} · ` +
-    `$${lead.coverage} · tobacco ${lead.tobacco} · health ${lead.health} · call ${lead.best_time} · ${lead.language} · from ${lead.page}`;
+    `$${lead.coverage} · tobacco ${lead.tobacco} · health ${lead.health} · from ${lead.page} · ref ${refCode(lead.id)}`;
   const jobs: Promise<unknown>[] = [];
+  const tg = telegram(
+    env,
+    [
+      `🌿 New lead (call within 5 minutes): ${lead.first_name} ${lead.last_name}`.trim(),
+      `📞 ${lead.phone}`,
+      `${lead.state} · age ${lead.age_range} · $${lead.coverage} · tobacco ${lead.tobacco} · health ${lead.health}`,
+      `From ${lead.page} · ref ${refCode(lead.id)}`,
+    ].join('\n'),
+  );
+  if (tg) jobs.push(tg);
   if (env.NOTIFY_WEBHOOK_URL) {
     jobs.push(
       fetch(env.NOTIFY_WEBHOOK_URL, {

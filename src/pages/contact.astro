@@ -2,6 +2,7 @@
 import Page from '../layouts/Page.astro';
 import PhoneButton from '../components/PhoneButton.astro';
 import QuoteForm from '../components/QuoteForm.astro';
+import OpenStatus from '../components/OpenStatus.astro';
 import { brand, phone } from '../config/site';
 ---
 <Page
@@ -13,6 +14,7 @@ import { brand, phone } from '../config/site';
 >
   <p class="lede">The fastest way to get answers is a phone call. You'll talk with a licensed agent, not a call center.</p>
   <div class="btn-row"><PhoneButton label="Call" location="contact" /></div>
+  <p><OpenStatus /></p>
   <p><strong>Hours:</strong> {phone.hours} · <strong>Email:</strong> <a href={`mailto:${brand.email}`}>{brand.email}</a></p>
   <p>Prefer a call back? Answer the questions below and we'll call you at the time you choose.</p>
   <QuoteForm id="quote" heading="Ask for a call back" />
