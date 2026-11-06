@@ -8,6 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check:publish": "node scripts/check-publish.mjs",
+    "deploy:preview": "npm run build && wrangler pages deploy dist --project-name olive-tree-insurance --branch main --commit-dirty=true",
     "build:production": "SITE_MODE=production node scripts/check-publish.mjs && SITE_MODE=production astro build"
   },
   "dependencies": {

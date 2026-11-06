@@ -100,3 +100,10 @@ export const links = {
 };
 
 export const lastReviewed = '2026-11-06';
+
+// Cloudflare Turnstile (bot check on the quote form). The site key is public by design and only works on the
+// widget's hostnames (olive-tree-insurance.pages.dev; add the real domain at launch). The secret lives in
+// Cloudflare Pages as TURNSTILE_SECRET. Override with PUBLIC_TURNSTILE_SITE_KEY if needed.
+export const turnstile = {
+  siteKey: env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAAF1oJpPHqmHC8Raw',
+};

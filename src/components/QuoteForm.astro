@@ -5,7 +5,7 @@
  * Health detail is NOT collected here — it belongs on the call.
  */
 import Icon from './Icon.astro';
-import { brand, licenses, phone } from '../config/site';
+import { brand, licenses, phone, turnstile } from '../config/site';
 import { CONSENT_VERSION, consentText } from '../lib/consent';
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 }
 const { id = 'quote', heading = 'See your options', defaultState = 'FL' } = Astro.props;
 const consent = consentText(brand.name);
-const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'; // Cloudflare test key in preview
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.siteKey;
 ---
 <form class="qf" id={id} method="post" action="/api/lead" novalidate data-quote-form>
   <div class="qf-head">

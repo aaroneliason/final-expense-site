@@ -58,6 +58,8 @@ for (const m of team.members) {
 const wrangler = readFileSync(join(root, 'wrangler.toml'), 'utf8');
 if (wrangler.includes('00000000-0000-0000-0000-000000000000')) problems.push('wrangler.toml  D1 database_id is still a placeholder');
 if (!process.env.SITE_URL || process.env.SITE_URL.includes('invalid')) problems.push('SITE_URL env var not set to the real domain');
+const tsKey = process.env.PUBLIC_TURNSTILE_SITE_KEY || (site.match(/siteKey:[^']*'([^']+)'/) || [])[1] || '';
+if (!tsKey || tsKey.startsWith('1x0000')) problems.push('Turnstile site key is missing or is the Cloudflare test key');
 
 if (problems.length) {
   console.error(`\n✗ Not ready to publish: ${problems.length} item(s)\n`);

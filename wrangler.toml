@@ -1,5 +1,6 @@
-# Cloudflare Pages project config. Deploy: npm run build && npx wrangler pages deploy
-name = "final-expense-site"
+# Cloudflare Pages project config (project olive-tree-insurance → https://olive-tree-insurance.pages.dev).
+# Preview deploy: npm run deploy:preview
+name = "olive-tree-insurance"
 pages_build_output_dir = "./dist"
 compatibility_date = "2026-11-01"
 

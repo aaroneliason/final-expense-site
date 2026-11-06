@@ -29,9 +29,10 @@ SITE_URL=https://<domain> npm run build:production   # refuses to build until ch
    npx wrangler pages secret put NOTIFY_WEBHOOK_URL     # e.g. an Aaron OS prospects endpoint
    npx wrangler pages secret put NOTIFY_WEBHOOK_TOKEN
    ```
-2. Preview deploy (safe; every `*.pages.dev` URL sends `X-Robots-Tag: noindex`):
+2. Preview deploy (safe; every `*.pages.dev` URL sends `X-Robots-Tag: noindex`). Live preview: https://olive-tree-insurance.pages.dev
    ```bash
-   npm run build && npx wrangler pages deploy
+   git push                    # GitHub Actions (.github/workflows/deploy.yml) builds and deploys every push
+   npm run deploy:preview      # or from a Mac with wrangler logged in (cloud sessions can't: their proxy rewrites the upload auth)
    ```
 3. Production, only after `check:publish` passes and every carrier has approved the copy:
    ```bash
