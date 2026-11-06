@@ -6,7 +6,7 @@ compatibility_date = "2026-11-01"
 [[d1_databases]]
 binding = "LEADS_DB"
 database_name = "fe-leads"
-database_id = "00000000-0000-0000-0000-000000000000" # TODO: replace after `wrangler d1 create fe-leads`
+database_id = "f273fdbf-092a-4934-a110-3dd6bade6ea8" # TODO: replace after `wrangler d1 create fe-leads`
 
 [vars]
 # Comma-separated state codes Aaron is licensed in (mirrors src/config/site.ts).
