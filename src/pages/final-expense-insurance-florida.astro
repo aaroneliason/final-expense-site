@@ -9,7 +9,7 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CtaBand from '../components/CtaBand.astro';
 import PhoneButton from '../components/PhoneButton.astro';
 import Icon from '../components/Icon.astro';
-import { agent, carriers, lastReviewed, links } from '../config/site';
+import { agent, lastReviewed, links, nameableIn } from '../config/site';
 import { agencyLd, articleLd, breadcrumbLd, personLd, websiteLd } from '../lib/schema';
 
 const path = '/final-expense-insurance-florida/';
@@ -28,7 +28,7 @@ const jsonLd = [
   breadcrumbLd(site, crumbs),
   articleLd(site, { path, headline: 'Final expense and burial insurance in Florida', description, datePublished: '2026-11-06', dateModified: lastReviewed }),
 ];
-const carrierNames = carriers.filter((c) => c.adApproval === 'approved').map((c) => c.shortName);
+const carrierNames = nameableIn('FL').map((c) => c.shortName);
 
 const faqs = [
   {

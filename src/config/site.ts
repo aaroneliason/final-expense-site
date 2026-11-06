@@ -63,23 +63,26 @@ export const licenses: StateLicense[] = [
   { code: 'WI', name: 'Wisconsin', verified: false },
 ];
 
+import carrierData from '../data/carriers.json';
+
 export type Carrier = {
   legalName: string;
   shortName: string;
   amBest?: string; // rating + date checked, e.g. 'A- (checked 2026-11-20)'
+  appointedIn: string[]; // states with an ACTIVE appointment (FL: DFS licensee search; others: NIPR)
+  writable: boolean; // Aaron confirmed the contract is live and he can submit business
   adApproval: 'not-submitted' | 'submitted' | 'approved';
   approvalRef?: string;
   approvalExpires?: string;
 };
 
-// Carriers Aaron writes today. Names may appear on the site only after written ad approval.
-// Florida DFS (checked 2026-11-06): active FL appointments = Fidelity Life, American General, United of Omaha.
-// A carrier must be appointed in a state before it is advertised or sold there (626.112(2)).
-export const carriers: Carrier[] = [
-  { legalName: 'American Home Life Insurance Company', shortName: 'American Home Life', adApproval: 'not-submitted' },
-  { legalName: 'Fidelity Life Association', shortName: 'Fidelity Life', adApproval: 'not-submitted' }, // FL appointed 10/27/2026
-  { legalName: 'Americo Financial Life and Annuity Insurance Company', shortName: 'Americo', adApproval: 'not-submitted' },
-];
+// Facts live in src/data/carriers.json (also read by scripts/check-publish.mjs).
+export const carriers = carrierData.carriers as Carrier[];
+export const appointmentsCheckedOn = carrierData.checkedOn;
+/** Insurers Aaron can actually quote in a state. Backs "several insurers" claims; names are not shown. */
+export const writableIn = (state: string) => carriers.filter((c) => c.writable && c.appointedIn.includes(state));
+/** Insurers that may be NAMED on a state's pages: appointed there, writable, and ad-approved (Fla. Stat. 626.112(2)). */
+export const nameableIn = (state: string) => writableIn(state).filter((c) => c.adApproval === 'approved');
 
 export const links = {
   dfsLookup: 'https://licenseesearch.fldfs.com/',

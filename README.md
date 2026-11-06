@@ -44,7 +44,8 @@ SITE_URL=https://<domain> npm run build:production   # refuses to build until ch
 
 | What | File |
 |---|---|
-| Business facts (brand, phone, licenses, carriers, approvals) | `src/config/site.ts` |
+| Business facts (brand, phone, licenses) | `src/config/site.ts` |
+| Insurers: appointments by state, live contract, ad approval | `src/data/carriers.json` |
 | Sample rates (must name the insurer + date; Fla. Rule 69B-150.114) | `src/data/rates.ts` |
 | Consent wording (bump `CONSENT_VERSION` on any change) | `src/lib/consent.ts` |
 | Structured data (InsuranceAgency, Person, Article, Breadcrumbs) | `src/lib/schema.ts` |
@@ -54,7 +55,7 @@ SITE_URL=https://<domain> npm run build:production   # refuses to build until ch
 
 ## Compliance rules baked in (don't undo)
 
-- Every rate names the insurer, plan and quote date. Name a carrier only after its written ad approval **and** an active appointment in that state.
+- Every rate names the insurer, plan and quote date. Name a carrier only after its written ad approval **and** an active appointment in that state. `src/data/carriers.json` plus `check:publish` enforce this, and "several insurers" needs 2 or more insurers Aaron can write in Florida.
 - Never write "free", "no cost", "government", "program" or "benefit program", and use no official-looking seals. Every page footer says the site isn't affiliated with any government agency.
 - "No medical exam" always appears next to "approval depends on your health answers" (NAIC 570 §5C).
 - Waiting periods on graded and guaranteed-issue plans are explained wherever those plans appear. Guaranteed issue is never called "low cost".

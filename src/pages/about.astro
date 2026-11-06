@@ -1,8 +1,8 @@
 ---
 import Page from '../layouts/Page.astro';
 import PhoneButton from '../components/PhoneButton.astro';
-import { agent, brand, carriers, licenses, links } from '../config/site';
-const approved = carriers.filter((c) => c.adApproval === 'approved');
+import { agent, brand, licenses, links, nameableIn } from '../config/site';
+const approved = nameableIn('FL');
 ---
 <Page
   title="About Aaron Eliason, Licensed Life Insurance Agent"
