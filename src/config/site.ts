@@ -24,7 +24,7 @@ export const brand = {
 
 // SITE VOICE (Aaron, 2026-11-06): the agency speaks as "we". Never print the agent's personal name in page copy;
 // show license numbers so anyone can verify. Say "a licensed agent" (singular) and never imply a team size or
-// headcount we don't have (Fla. Stat. 626.9541(1)(b) false advertising). agent.name appears in ONE place only: the legal owner line on /terms/ (Aaron: "buried but legal").
+// headcount we don't have (Fla. Stat. 626.9541(1)(b) false advertising). agent.name appears only in the legal owner line on /terms/; team names live in src/data/team.json (full names, Aaron 2026-11-06).
 
 export const agent = {
   name: 'Aaron Eliason', // exactly as it appears on the license

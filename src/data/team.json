@@ -3,12 +3,15 @@
   "members": [
     {
       "id": "founder",
-      "displayName": "TODO",
+      "displayName": "Aaron Eliason",
       "role": "Founder and agent in charge",
       "photo": null,
       "flLicense": "G246242",
       "npn": "21620314",
-      "languages": ["English", "Español"],
+      "languages": [
+        "English",
+        "Español"
+      ],
       "bio": "TODO: one or two sentences in a professional voice",
       "consent": true,
       "verified": false
