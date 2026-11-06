@@ -16,14 +16,18 @@ interface Props {
   noindex?: boolean;
   jsonLd?: object[];
   alternates?: { lang: string; path: string }[];
+  ogType?: 'website' | 'article';
+  modified?: string; // ISO date, for article:modified_time
 }
 
-const { title, description, path, lang = 'en', noindex = false, jsonLd = [], alternates = [] } = Astro.props;
+const { title, description, path, lang = 'en', noindex = false, jsonLd = [], alternates = [], ogType = 'website', modified } = Astro.props;
 const site = Astro.site ?? new URL('https://preview.invalid');
 const canonical = new URL(path, site).href;
 const isPreview = SITE_MODE !== 'production';
 const robots = isPreview || noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large';
-const fullTitle = title.includes(brand.name) ? title : `${title} | ${brand.name}`;
+// Keep titles short in search results: brand suffix is the short name unless the title already names us.
+const fullTitle = title.includes(brand.shortName) ? title : `${title} | ${brand.shortName}`;
+const ogImage = new URL('/og/olive-tree-1200x630.png', site).href;
 // Analytics IDs are public values, set at build time. Nothing loads in preview builds.
 const ga4 = import.meta.env.PUBLIC_GA4_ID as string | undefined;
 const cfBeacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN as string | undefined;
@@ -39,13 +43,22 @@ const cfBeacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN as string | undefined;
     <link rel="canonical" href={canonical} />
     {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={new URL(a.path, site).href} />)}
     <meta name="theme-color" content="#14273b" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={brand.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={lang === 'es' ? 'es_US' : 'en_US'} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${brand.name}: ${brand.tagline}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {ogType === 'article' && modified && <meta property="article:modified_time" content={modified} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     {jsonLd.length > 0 && <script type="application/ld+json" set:html={JSON.stringify(graph(...jsonLd))} />}
     {ga4 && !isPreview && (
       <>
@@ -66,7 +79,7 @@ const cfBeacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN as string | undefined;
   <body>
     <a class="skip-link" href="#main">{lang === 'es' ? 'Saltar al contenido' : 'Skip to main content'}</a>
     {isPreview && (
-      <div class="preview-banner" role="note">
+      <div class="preview-banner" role="region" aria-label="Preview notice">
         Preview build — not public, hidden from search engines. Items marked TODO must be filled and verified before launch.{/* check-publish-ignore */}
       </div>
     )}
