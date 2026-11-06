@@ -31,7 +31,7 @@ jobs:
       - run: npm ci
       - name: Launch gate (report only; preview builds stay noindex)
         run: npm run check:publish || true
-      - name: Build (preview mode: noindex, robots blocked)
+      - name: "Build (preview mode: noindex, robots blocked)"
         run: npm run build
         env:
           SITE_URL: https://olive-tree-insurance.pages.dev
