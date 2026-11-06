@@ -95,6 +95,7 @@ export const links = {
   ssaDeath: 'https://www.ssa.gov/benefits/survivors/',
   vaBurial: 'https://www.va.gov/burials-memorials/',
   valife: 'https://www.benefits.va.gov/insurance/valife.asp',
+  ftcFuneralRule: 'https://consumer.ftc.gov/articles/ftc-funeral-rule',
   // Florida's cancel-for-a-full-refund rule for life insurance (buyer's guide or at least 14 days)
   flRefundStatute: 'https://www.flsenate.gov/Laws/Statutes/2026/626.99',
 };

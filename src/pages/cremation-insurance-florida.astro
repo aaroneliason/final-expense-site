@@ -1,0 +1,124 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Faq from '../components/Faq.astro';
+import { links } from '../config/site';
+
+const faqs = [
+  {
+    q: 'Is “cremation insurance” a special kind of policy?',
+    a: '<p>No. It’s a name for final expense insurance: a small whole life policy chosen to cover a cremation and final bills. The policy pays your beneficiary in cash, and they decide how to use it.</p>',
+  },
+  {
+    q: 'How much coverage do I need for a cremation?',
+    a: '<p>Start with the cremation you want, then add final bills. A direct cremation costs much less than a funeral with a viewing. A service, an urn, a niche or a plot for the ashes all add to the total. Ask two or three providers for their price lists and choose an amount that covers your plan with a cushion.</p>',
+  },
+  {
+    q: 'Does the money have to go to a certain funeral home?',
+    a: '<p>No. Life insurance pays your beneficiary, not a funeral home, so your family can choose any provider, and can change plans if prices or wishes change. A preneed contract is different: it’s an agreement with one provider.</p>',
+  },
+  {
+    q: 'Can I get coverage if I have health problems?',
+    a: '<p>Often, yes. Many insurers accept conditions that are under control. If the health questions rule out a full-coverage plan, a graded or guaranteed issue plan may still be available, with a waiting period before the full amount is paid for death from natural causes. <a href="/guaranteed-issue-vs-simplified-issue/">How the plan types work</a>.</p>',
+  },
+];
+---
+<Guide
+  title="Cremation Insurance in Florida: What It Covers"
+  h1="Cremation insurance in Florida"
+  description="How to pay for a cremation in Florida with final expense insurance: what cremation costs, how much coverage to choose, and what Florida requires."
+  path="/cremation-insurance-florida/"
+  crumb="Cremation insurance in Florida"
+  eyebrow="Cremation"
+  lede="Most American families now choose cremation. A small life insurance policy can pay for it, so the cost and the decisions don't land on your family."
+  summary={[
+    "“Cremation insurance” is final expense whole life insurance sized for a cremation and final bills.",
+    "The policy pays your beneficiary in cash, so your family can use any funeral home or crematory.",
+    "A direct cremation costs far less than a funeral with a viewing, so many people need less coverage.",
+    "No medical exam. Approval depends on your answers to a few health questions.",
+    "Florida requires a signed authorization and a medical examiner's approval before any cremation.",
+  ]}
+>
+  <h2>Cremation is now the most common choice</h2>
+  <p>
+    About 62% of Americans who died in 2024 were cremated, according to the Cremation Association of North America, and the share keeps
+    growing. Families choose cremation for many reasons: a lower cost, more freedom about when and where to hold a service, relatives who
+    live in other states, or simply personal preference.
+  </p>
+  <p>A cremation costs less than a traditional funeral with burial, but it still costs money, and someone has to pay it quickly.</p>
+
+  <h2>What a cremation costs</h2>
+  <p>
+    Prices vary a lot between providers, and your choices matter more than anything else. The National Funeral Directors Association's 2023
+    price study put the national median for a funeral with a viewing and cremation at about $6,280. A direct cremation, with no viewing or
+    service beforehand, usually costs much less. These can add to the total:
+  </p>
+  <ul>
+    <li>A viewing, memorial service or celebration of life</li>
+    <li>An urn, or a keepsake for each family member</li>
+    <li>A niche in a columbarium, a cemetery plot for the ashes, or scattering arrangements</li>
+    <li>Certified death certificates, an obituary, flowers and travel for family</li>
+  </ul>
+  <div class="callout">
+    <h3>Your rights when you compare prices</h3>
+    <p>
+      Under the Federal Trade Commission's Funeral Rule, funeral homes must give you an itemized price list, and tell you prices over the
+      phone if you ask. You don't have to buy a casket for a cremation; a simple alternative container is allowed.
+      <a href={links.ftcFuneralRule} rel="noopener">Read the FTC Funeral Rule</a>.
+    </p>
+  </div>
+
+  <h2>How much coverage to choose</h2>
+  <ol>
+    <li><strong>Price the cremation you want.</strong> Ask two or three providers near you for their general price list.</li>
+    <li><strong>Add the extras and final bills.</strong> A service, an urn or niche, plus any medical bills, credit cards or the last month's rent.</li>
+    <li><strong>Leave a cushion.</strong> Prices rise over time, so most families round up.</li>
+  </ol>
+  <p>
+    Final expense plans usually range from about $5,000 to $25,000 of coverage. Because a cremation can cost less than a burial, many people
+    choose an amount toward the lower end, which keeps the monthly premium down. <a href="/final-expense-insurance-cost/">See what changes the price</a>.
+  </p>
+
+  <h2>Life insurance or a preneed cremation plan?</h2>
+  <p>
+    Some funeral homes and crematories sell preneed contracts: you choose and pay for the arrangements ahead of time with that provider. In
+    Florida these contracts are regulated by the Department of Financial Services under Chapter 497 of the Florida Statutes. Life insurance
+    works differently:
+  </p>
+  <div class="table-wrap">
+    <table class="stack">
+      <caption>Final expense life insurance compared with a preneed contract</caption>
+      <thead>
+        <tr><th scope="col">Question</th><th scope="col">Final expense life insurance</th><th scope="col">Preneed contract</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Who gets the money</th><td data-label="Life insurance">Your beneficiary, in cash</td><td data-label="Preneed contract">The provider named in the contract</td></tr>
+        <tr><th scope="row">Choice of provider</th><td data-label="Life insurance">Any funeral home or crematory</td><td data-label="Preneed contract">That provider; moving it depends on the contract</td></tr>
+        <tr><th scope="row">Money left over</th><td data-label="Life insurance">Goes to your beneficiary</td><td data-label="Preneed contract">Depends on the contract</td></tr>
+        <tr><th scope="row">Other bills</th><td data-label="Life insurance">Can also cover medical bills or debts</td><td data-label="Preneed contract">Covers the goods and services listed</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Some families use both. The right mix depends on how settled your plans are.</p>
+
+  <h2>What Florida requires before a cremation</h2>
+  <ul>
+    <li>
+      <strong>A signed authorization.</strong> The legally authorized person, usually a person you named, your spouse or your next of kin in
+      an order set by law, must sign before a cremation can happen.
+    </li>
+    <li><strong>A medical examiner's approval.</strong> In Florida, the district medical examiner reviews the death certificate and must approve before a cremation.</li>
+    <li><strong>Your wishes, in writing.</strong> Writing down that you want cremation, and what should happen to the ashes, prevents disagreements later.</li>
+  </ul>
+  <p>Because of these steps, a cremation usually takes several days to arrange. The funeral home or crematory handles the paperwork.</p>
+
+  <h2>Applying is simple</h2>
+  <p>
+    No medical exam. Approval depends on your answers to a few health questions, and many insurers give a decision during the phone call.
+    Coverage starts once the insurer approves the application and the first premium is paid. If the health questions rule out a
+    full-coverage plan, a graded or guaranteed issue plan may still be available, with a waiting period before the full amount is paid for
+    death from natural causes.
+  </p>
+
+  <h2>Questions about cremation coverage</h2>
+  <Faq items={faqs} />
+</Guide>

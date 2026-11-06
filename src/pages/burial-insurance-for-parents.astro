@@ -1,0 +1,96 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Faq from '../components/Faq.astro';
+
+const faqs = [
+  {
+    q: 'Can I buy burial insurance for my parent without them knowing?',
+    a: '<p>No. Your parent has to know about the policy, agree to it, answer the health questions and sign the application. A policy can’t be bought on someone without their consent.</p>',
+  },
+  {
+    q: 'Can I own the policy and pay the premiums?',
+    a: '<p>Often, yes. Many insurers let an adult child own the policy and pay for it, with the parent as the insured. Some insurers require the parent to be the owner. Either way, you can usually be the one who pays, and the beneficiary.</p>',
+  },
+  {
+    q: 'What if my parent has dementia or can’t make decisions?',
+    a: '<p>If your parent can’t understand the application and agree to it, many insurers won’t accept it, even with a power of attorney. Ask us before you apply and we’ll tell you honestly what’s possible.</p>',
+  },
+  {
+    q: 'Is the money taxable?',
+    a: '<p>Life insurance paid because of a death is generally not taxable income for the beneficiary. Ask a tax professional about your own situation.</p>',
+  },
+  {
+    q: 'Can my brothers and sisters share the cost?',
+    a: '<p>Yes. A policy has one owner, but anyone can help with the premium. Agree up front on who pays, who is the beneficiary, and how the money will be used.</p>',
+  },
+];
+---
+<Guide
+  title="Burial Insurance for Parents: How It Works"
+  h1="Burial insurance for a parent"
+  description="How adult children can help a parent get burial or final expense insurance: who signs, who pays, who gets the money, and what happens with health problems."
+  path="/burial-insurance-for-parents/"
+  crumb="Burial insurance for a parent"
+  eyebrow="Family"
+  lede="Adult children often help a parent plan for funeral costs. Here's how it works, what your parent needs to do, and what you can handle for them."
+  summary={[
+    "Your parent must know about the policy, agree to it, answer the health questions and sign.",
+    "You can often be the owner, the one who pays, and the beneficiary. The rules vary by insurer.",
+    "The money is paid to the beneficiary in cash, for the funeral and final bills.",
+    "No medical exam. Approval depends on your parent's answers to a few health questions.",
+  ]}
+>
+  <h2>Who does what on the policy</h2>
+  <div class="table-wrap">
+    <table class="stack">
+      <caption>The four roles on a life insurance policy</caption>
+      <thead>
+        <tr><th scope="col">Role</th><th scope="col">Usually</th><th scope="col">What it means</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Insured</th><td data-label="Usually">Your parent</td><td data-label="What it means">The person whose life is covered. They answer the health questions and sign.</td></tr>
+        <tr><th scope="row">Owner</th><td data-label="Usually">Your parent, or you if the insurer allows it</td><td data-label="What it means">Controls the policy and can change the beneficiary.</td></tr>
+        <tr><th scope="row">Payer</th><td data-label="Usually">You, your parent, or siblings together</td><td data-label="What it means">Pays the monthly premium, often from their own bank account.</td></tr>
+        <tr><th scope="row">Beneficiary</th><td data-label="Usually">You, or whoever will handle the funeral</td><td data-label="What it means">Receives the money when your parent dies.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>How to get started</h2>
+  <ol>
+    <li><strong>Talk with your parent first.</strong> Explain what you'd like to set up and why. Many parents are relieved to have it handled.</li>
+    <li><strong>Gather the basics.</strong> Your parent's date of birth, their list of medicines and doctors, and the bank details of whoever will pay.</li>
+    <li><strong>Call together.</strong> You can be on the phone to help. Your parent answers the health questions and gives their consent themselves.</li>
+    <li>
+      <strong>Choose an amount.</strong> Enough for the funeral or cremation your parent wants, plus final bills.
+      <a href="/final-expense-insurance-cost/">See what changes the price</a>.
+    </li>
+  </ol>
+
+  <h2>When your parent has health problems</h2>
+  <p>
+    No medical exam is needed. Approval depends on your parent's answers to a few health questions, and many common conditions that are under
+    control still qualify for full coverage from day one. If they don't, a graded or guaranteed issue plan may be available. Those plans have
+    a waiting period: if death from natural causes happens during the first two years or so, the full amount isn't paid, and the insurer
+    usually refunds the premiums paid, plus interest. <a href="/guaranteed-issue-vs-simplified-issue/">How the plan types work</a>.
+  </p>
+  <p>
+    Honest answers matter. During the first two years, the insurer can review the application if there's a claim, and a wrong answer can
+    cause problems for your family later.
+  </p>
+
+  <h2>When the time comes</h2>
+  <p>
+    The beneficiary sends the insurer a claim form and a certified copy of the death certificate. The insurer pays the beneficiary directly,
+    and the beneficiary can then pay the funeral home, the crematory or other bills. Keep a copy of the policy and the insurer's phone number
+    where your family can find them.
+  </p>
+
+  <div class="callout">
+    <h3>Does your parent live in another state?</h3>
+    <p>What counts is the state where your parent lives. We can only help where we're licensed; <a href="/licenses/">see our licenses</a>.</p>
+  </div>
+
+  <h2>Questions families ask</h2>
+  <Faq items={faqs} />
+</Guide>
