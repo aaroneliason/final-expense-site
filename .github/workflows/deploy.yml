@@ -31,7 +31,10 @@ jobs:
       - run: npm ci
       - name: Launch gate (report only; preview builds stay noindex)
         run: npm run check:publish || true
-      - run: npm run build
+      - name: Build (preview mode: noindex, robots blocked)
+        run: npm run build
+        env:
+          SITE_URL: https://olive-tree-insurance.pages.dev
       - name: Deploy to Cloudflare Pages
         if: env.CF_TOKEN != '' && github.event_name != 'pull_request'
         uses: cloudflare/wrangler-action@v3
