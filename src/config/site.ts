@@ -44,6 +44,8 @@ export const phone = {
   tel: '+10000000000',
   hours: 'Mon–Sat, 9 AM–7 PM Eastern',
   hoursEs: 'lun.–sáb., 9 a. m.–7 p. m. (hora del Este)',
+  // Same hours as data, for the live "Open now" status (0 = Sunday). Keep in sync with `hours`.
+  open: { tz: 'America/New_York', days: [1, 2, 3, 4, 5, 6], start: 9, end: 19 },
 };
 
 export type StateLicense = {

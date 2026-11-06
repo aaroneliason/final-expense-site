@@ -17,7 +17,7 @@ export function agencyLd(site: URL) {
     areaServed: licenses.map((l) => ({ '@type': 'State', name: l.name })),
     // Credentials shown for verification (Site voice: no personal name).
     hasCredential: [
-      ...(brand.agencyLicenseNumber.startsWith('TODO')
+      ...(brand.agencyLicenseNumber.startsWith('TODO') // check-publish-ignore
         ? []
         : [{ '@type': 'EducationalOccupationalCredential', name: 'Florida insurance agency license', credentialCategory: 'license', identifier: brand.agencyLicenseNumber, recognizedBy: { '@type': 'GovernmentOrganization', name: 'Florida Department of Financial Services' } }]),
       { '@type': 'EducationalOccupationalCredential', name: 'Florida resident life insurance agent license (agent in charge)', credentialCategory: 'license', identifier: agent.flLicense, recognizedBy: { '@type': 'GovernmentOrganization', name: 'Florida Department of Financial Services' } },

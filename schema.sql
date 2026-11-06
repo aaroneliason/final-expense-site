@@ -26,7 +26,10 @@ CREATE TABLE IF NOT EXISTS leads (
   region TEXT,
   turnstile_ok INTEGER NOT NULL DEFAULT 0,
   notified INTEGER NOT NULL DEFAULT 0,
-  status TEXT NOT NULL DEFAULT 'new'
+  status TEXT NOT NULL DEFAULT 'new',
+  edit_token TEXT,          -- one-time token for optional details on the thank-you page
+  edit_expires TEXT,        -- token expiry (2 hours after the lead)
+  updated_at TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_leads_created ON leads (created_at);
 CREATE INDEX IF NOT EXISTS idx_leads_phone ON leads (phone);

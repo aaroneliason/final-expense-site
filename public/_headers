@@ -14,3 +14,7 @@ https://:version.:project.pages.dev/*
   Cache-Control: public, max-age=31536000, immutable
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
+
+/olive-tree-insurance.vcf
+  Content-Type: text/vcard; charset=utf-8
+  Content-Disposition: attachment; filename="olive-tree-insurance.vcf"

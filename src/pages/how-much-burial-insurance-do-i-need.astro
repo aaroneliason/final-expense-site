@@ -1,0 +1,67 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Faq from '../components/Faq.astro';
+import CoverageCalculator from '../components/CoverageCalculator.astro';
+
+const faqs = [
+  {
+    q: 'Is the suggested amount a price?',
+    a: '<p>No. It’s the amount of coverage, the money paid to your family. Your monthly price depends on age, health answers, tobacco use and the amount you choose. <a href="/final-expense-insurance-cost/">See what changes the price</a>.</p>',
+  },
+  {
+    q: 'Should I include cemetery costs?',
+    a: '<p>If you want a burial, yes. The plot, opening and closing the grave, and a headstone are usually separate from the funeral home’s price. For cremation, include a niche or plot only if you want the ashes placed in a cemetery.</p>',
+  },
+  {
+    q: 'Can I buy more than $25,000?',
+    a: '<p>Final expense plans usually stop around $25,000. If you need more, other kinds of life insurance can go higher. Call us and we’ll talk it through.</p>',
+  },
+  {
+    q: 'What if prices go up by the time the money is needed?',
+    a: '<p>Funeral prices tend to rise over time, which is why most families round up. The coverage amount on a final expense whole life policy normally stays the same, so a cushion helps.</p>',
+  },
+];
+---
+<Guide
+  title="How Much Burial Insurance Do I Need? Calculator"
+  h1="How much burial insurance do you need?"
+  description="A quick calculator for burial and final expense coverage: add the funeral, cemetery costs and final bills, subtract savings, and see a suggested amount."
+  path="/how-much-burial-insurance-do-i-need/"
+  crumb="Coverage calculator"
+  eyebrow="Calculator"
+  lede="Add up the farewell you want and the bills you'd like to leave paid. The calculator does the math and suggests a coverage amount."
+  summary={[
+    "Start with the funeral or cremation, then add cemetery costs and final bills.",
+    "Subtract any money already set aside for the funeral.",
+    "Round up: funeral prices tend to rise over time.",
+    "Most final expense plans offer about $5,000 to $25,000 of coverage.",
+  ]}
+>
+  <CoverageCalculator />
+
+  <h2>What goes into the number</h2>
+  <ul>
+    <li>
+      <strong>The funeral or cremation.</strong> The National Funeral Directors Association's 2023 price study put the national median at
+      about $8,300 for a funeral with a viewing and burial, and about $6,280 with cremation. A direct cremation, with no viewing, usually costs
+      much less.
+    </li>
+    <li><strong>Cemetery costs.</strong> A plot, opening and closing the grave, and a headstone are usually priced separately from the funeral home.</li>
+    <li><strong>Final bills.</strong> Medical bills, credit cards, the last month's rent or utilities: anything you don't want to leave behind.</li>
+    <li><strong>Money already set aside.</strong> Savings or an existing policy meant for the funeral lower the amount you need.</li>
+  </ul>
+  <p>
+    Prices vary a lot between providers. Under the FTC's Funeral Rule, funeral homes must give you an itemized price list, and tell you prices
+    over the phone if you ask, so a couple of calls can make your estimate much more accurate.
+  </p>
+
+  <h2>Round up, but don't overbuy</h2>
+  <p>
+    The price of a policy climbs with each step up in coverage; $5,000 costs roughly half of $10,000. Choose enough to cover the plan you want
+    with a cushion, and keep the monthly premium comfortable. No medical exam is needed. Approval depends on your answers to a few health
+    questions.
+  </p>
+
+  <h2>Questions about coverage amounts</h2>
+  <Faq items={faqs} />
+</Guide>
