@@ -14,6 +14,7 @@ import TeamStrip from '../components/TeamStrip.astro';
 import Reviews from '../components/Reviews.astro';
 import { agent, brand, lastReviewed, links, nameableIn } from '../config/site';
 import { agencyLd, articleLd, breadcrumbLd, websiteLd } from '../lib/schema';
+import { paths } from '../i18n/ui';
 
 const path = '/final-expense-insurance-florida/';
 const title = 'Final Expense & Burial Insurance in Florida';
@@ -31,6 +32,11 @@ const jsonLd = [
   articleLd(site, { path, headline: 'Final expense and burial insurance in Florida', description, datePublished: '2026-11-06', dateModified: lastReviewed }),
 ];
 const carrierNames = nameableIn('FL').map((c) => c.shortName);
+const alternates = [
+  { lang: 'en-US', path },
+  { lang: 'es-US', path: paths.es.florida },
+  { lang: 'x-default', path },
+];
 
 const faqs = [
   {
@@ -67,10 +73,11 @@ const faqs = [
   },
 ];
 ---
-<Base {title} {description} {path} {jsonLd}>
+<Base {title} {description} {path} {jsonLd} {alternates}>
   <section class="hero">
     <div class="wrap">
       <Breadcrumbs items={crumbs} />
+      <p class="lang-note"><a href={paths.es.florida} hreflang="es" lang="es">Lea esta página en español</a></p>
       <div class="grid-2">
         <div>
           <span class="eyebrow">Florida · Licensed independent agency</span>
@@ -196,7 +203,7 @@ const faqs = [
         <h2>What's different about buying in Florida</h2>
         <h3>Check any agent's license</h3>
         <p>
-          Florida's Department of Financial Services lets anyone look up an agent's or agency's license. Our license numbers are on our
+          Florida's Department of Financial Services lets anyone look up an agent's or agency's license. Our license numbers are on our{' '}
           <a href="/licenses/">licenses page</a>. <a href={links.dfsLookup} rel="noopener">Search them yourself</a> before you share anything.
         </p>
         <h3>Time to change your mind</h3>
@@ -206,7 +213,10 @@ const faqs = [
           usually come with the refund window, and some insurers allow 30 days. The exact deadline is printed in your policy.
         </p>
         <h3>Se habla español</h3>
-        <p>We can walk you and your family through every question in Spanish, including what your beneficiaries need to do later.</p>
+        <p>
+          We can walk you and your family through every question in Spanish, including what your beneficiaries need to do later.
+          <a href={paths.es.florida} hreflang="es" lang="es">Esta página en español</a>.
+        </p>
       </div>
       <aside class="card">
         <h3>What funerals cost today</h3>

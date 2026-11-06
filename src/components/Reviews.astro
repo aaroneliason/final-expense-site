@@ -4,23 +4,27 @@
  * source (e.g. "Google review"), the date, and no incentive unless it's disclosed in `disclosure`.
  * NAIC Model 570 §5Q: testimonials must be genuine, current and not misleading. Renders nothing until
  * at least `min` approved reviews exist, so the section never looks thin or invented.
+ * Reviews are shown in the words the client wrote; a Spanish page shows the same reviews.
  */
 import reviews from '../data/reviews.json';
+import { ui, type Lang } from '../i18n/ui';
 interface Props {
   min?: number;
+  lang?: Lang;
 }
-const { min = 3 } = Astro.props;
-type Review = { name: string; place?: string; text: string; source: string; date: string; consent: boolean; disclosure?: string };
+const { min = 3, lang = 'en' } = Astro.props;
+const t = ui[lang].reviews;
+type Review = { name: string; place?: string; text: string; source: string; date: string; consent: boolean; disclosure?: string; lang?: string };
 const shown = (reviews.items as Review[]).filter((r) => r.consent && r.text && r.source && r.date);
-const fmt = (d: string) => new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+const fmt = (d: string) => new Date(d + 'T12:00:00').toLocaleDateString(lang === 'es' ? 'es-US' : 'en-US', { month: 'long', year: 'numeric' });
 ---
 {shown.length >= min && (
   <section class="reviews" aria-labelledby="reviews-title">
-    <h2 id="reviews-title">What families say</h2>
+    <h2 id="reviews-title">{t.title}</h2>
     <div class="cards">
       {shown.map((r) => (
         <figure class="card review">
-          <blockquote><p>{r.text}</p></blockquote>
+          <blockquote lang={r.lang}><p>{r.text}</p></blockquote>
           <figcaption>
             <strong>{r.name}</strong>{r.place && `, ${r.place}`}
             <span class="small">{r.source}, {fmt(r.date)}{r.disclosure && ` · ${r.disclosure}`}</span>
@@ -28,6 +32,6 @@ const fmt = (d: string) => new Date(d + 'T12:00:00').toLocaleDateString('en-US',
         </figure>
       ))}
     </div>
-    <p class="small">Real reviews from real clients, shared with their permission. Individual experiences vary.</p>
+    <p class="small">{t.note}</p>
   </section>
 )}

@@ -1,23 +1,32 @@
 ---
 import Icon from './Icon.astro';
 import { agent, licenses, links } from '../config/site';
+import { fill, paths, ui, type Lang } from '../i18n/ui';
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'en' } = Astro.props;
+const t = ui[lang].trust;
 ---
 {/* "Several insurers" is checked by scripts/check-publish.mjs against src/data/carriers.json (needs 2+ insurers writable in Florida). */}
 <div class="trust">
   <div class="trust-item">
     <Icon name="badge" />
-    <p><strong>Licensed in {licenses.length} states</strong><br />Florida license {agent.flLicense}. <a href={links.dfsLookup} rel="noopener">Check it with Florida DFS</a>.</p>
+    <p><strong>{fill(t.licensed, { n: licenses.length })}</strong><br />{fill(t.licensedText, { license: agent.flLicense })} <a href={links.dfsLookup} rel="noopener">{t.check}</a>.</p>
   </div>
   <div class="trust-item">
     <Icon name="scale" />
-    <p><strong>Several insurers, one call</strong><br />An independent agent compares carriers instead of selling one company's plan.</p>
+    <p><strong>{t.several}</strong><br />{t.severalText}</p>
   </div>
   <div class="trust-item">
     <Icon name="chat" />
-    <p><strong>A licensed agent, not a call center</strong><br />No pressure, and your number is never sold.</p>
+    <p><strong>{t.agent}</strong><br />{t.agentText}</p>
   </div>
   <div class="trust-item">
     <Icon name="globe" />
-    <p><strong>Se habla español</strong><br />We can explain everything in English or Spanish.</p>
+    <p>
+      <strong lang="es">{t.spanish}</strong><br />{t.spanishText}
+      {t.spanishLink && <> <a href={paths.es.florida} hreflang="es" lang="es">{t.spanishLink}</a>.</>}
+    </p>
   </div>
 </div>

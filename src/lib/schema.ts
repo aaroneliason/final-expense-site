@@ -26,7 +26,7 @@ export function agencyLd(site: URL) {
 }
 
 export function websiteLd(site: URL) {
-  return { '@type': 'WebSite', '@id': new URL('/#website', site).href, name: brand.name, url: site.href, inLanguage: 'en-US' };
+  return { '@type': 'WebSite', '@id': new URL('/#website', site).href, name: brand.name, url: site.href, inLanguage: ['en-US', 'es-US'] };
 }
 
 export function breadcrumbLd(site: URL, items: { name: string; path: string }[]) {
@@ -43,7 +43,7 @@ export function breadcrumbLd(site: URL, items: { name: string; path: string }[])
 
 export function articleLd(
   site: URL,
-  a: { path: string; headline: string; description: string; datePublished: string; dateModified: string },
+  a: { path: string; headline: string; description: string; datePublished: string; dateModified: string; inLanguage?: string },
 ) {
   return {
     '@type': 'Article',
@@ -56,7 +56,7 @@ export function articleLd(
     author: { '@id': orgId(site) },
     reviewedBy: { '@id': orgId(site) },
     publisher: { '@id': orgId(site) },
-    inLanguage: 'en-US',
+    inLanguage: a.inLanguage ?? 'en-US',
   };
 }
 

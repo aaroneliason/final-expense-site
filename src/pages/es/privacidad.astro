@@ -1,0 +1,62 @@
+---
+/** Spanish privacy policy: a faithful translation of /privacy/. Change both pages together. */
+import Page from '../../layouts/Page.astro';
+import { brand, phone } from '../../config/site';
+import { paths } from '../../i18n/ui';
+const alternates = [
+  { lang: 'en-US', path: paths.en.privacy },
+  { lang: 'es-US', path: paths.es.privacy },
+  { lang: 'x-default', path: paths.en.privacy },
+];
+---
+<Page
+  title="Política de privacidad"
+  h1="Política de privacidad"
+  description="Qué información recoge este sitio, cómo la usamos, con quién se comparte (nunca se vende) y cómo pedir que dejemos de contactarle o que la borremos."
+  path={paths.es.privacy}
+  crumb="Privacidad"
+  updated="2026-11-06"
+  lang="es"
+  alternates={alternates}
+>
+  <p class="lede">En resumen: su información se queda con {brand.name}. Nunca se vende, se alquila ni se comparte con otros agentes.</p>
+  <p class="small"><a href={paths.en.privacy} hreflang="en" lang="en">Read this policy in English</a></p>
+  <p>(TODO: que el departamento de cumplimiento de NBG o un abogado revise esta política, en inglés y en español, antes del lanzamiento.)</p>
+
+  <h2>Qué información recogemos</h2>
+  <ul>
+    <li><strong>Lo que usted escribe en el formulario:</strong> para quién es la cobertura, el rango de edad, el estado, la cantidad de cobertura, el uso de tabaco, un sí o no sobre condiciones de salud importantes, su nombre y su teléfono. Si usted quiere, en la página de agradecimiento también: su apellido, su idioma, su correo electrónico y la hora en que prefiere que le llamemos.</li>
+    <li><strong>Prueba de su consentimiento:</strong> el texto exacto del consentimiento que aceptó, su versión, la fecha y la hora, la página donde estaba, su dirección IP y el tipo de navegador.</li>
+    <li><strong>Estadísticas básicas del sitio:</strong> las páginas visitadas y cómo llegó, medidas sin vender datos ni crear perfiles publicitarios. (TODO: nombrar las herramientas de estadísticas cuando se elijan, por ejemplo Cloudflare Web Analytics y Google Analytics.)</li>
+    <li><strong>Por teléfono:</strong> los datos necesarios para cotizar y solicitar, como la fecha de nacimiento y las respuestas de salud. (TODO: si las llamadas se graban o se transcriben, decirlo aquí y anunciarlo al inicio de cada llamada; Florida exige el consentimiento de todas las personas en una llamada grabada.)</li>
+  </ul>
+
+  <h2>Cómo la usamos</h2>
+  <ul>
+    <li>Para llamarle, enviarle mensajes de texto o correos sobre el seguro de vida que pidió, preparar cotizaciones y ayudarle a solicitar.</li>
+    <li>Para guardar los registros que exigen las leyes de seguros y de telefonía.</li>
+  </ul>
+
+  <h2>Con quién se comparte</h2>
+  <ul>
+    <li><strong>La aseguradora con la que usted solicite</strong>, solo cuando usted decida solicitar.</li>
+    <li><strong>Proveedores de servicios</strong> que operan el sitio y el sistema telefónico por nosotros (por ejemplo, el alojamiento web y nuestro servicio de teléfono), solo para prestar ese servicio.</li>
+    <li><strong>Cuando la ley lo exija.</strong></li>
+  </ul>
+  <p><strong>Nunca vendemos ni alquilamos su información, y nunca la compartimos con otros agentes ni con compradores de datos de clientes.</strong></p>
+
+  <h2>Sus opciones</h2>
+  <ul>
+    <li>Responda <strong>STOP</strong> a cualquier mensaje de texto, o díganoslo en una llamada, y dejaremos de contactarle.</li>
+    <li>Pídanos que borremos su información llamando al {phone.display} o escribiendo a {brand.email}. Solo guardamos lo que la ley nos obliga a guardar.</li>
+  </ul>
+
+  <h2>Seguridad y conservación</h2>
+  <p>Los formularios se guardan cifrados durante el envío y en reposo con nuestro proveedor de alojamiento, y solo {brand.name} tiene acceso a ellos. (TODO: indicar el plazo de conservación cuando se decida.)</p>
+
+  <h2>Menores de edad</h2>
+  <p>Este sitio es para adultos. No recogemos a sabiendas información de menores de 18 años.</p>
+
+  <h2>Contacto</h2>
+  <p>{brand.name} · {phone.display} · {brand.email}</p>
+</Page>

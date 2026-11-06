@@ -1,52 +1,56 @@
 ---
 /**
  * "How much coverage do I need?" — a quick estimate of the coverage amount (never a premium, so no insurer
- * has to be named under Fla. Rule 69B-150.114). Starts from NFDA's 2023 national medians, which visitors can
- * change. "Get prices" pre-selects the closest coverage answer in this page's quote form, or opens the
- * Florida page with it pre-selected when there's no form here.
+ * has to be named under Fla. Rule 69B-150.114), in English or Spanish. Starts from NFDA's 2023 national
+ * medians, which visitors can change. "Get prices" pre-selects the closest coverage answer in this page's
+ * quote form, or opens the Florida page (same language) with it pre-selected when there's no form here.
  */
+import { paths, ui, type Lang } from '../i18n/ui';
 interface Props {
   id?: string;
+  lang?: Lang;
 }
-const { id = 'calc' } = Astro.props;
+const { id = 'calc', lang = 'en' } = Astro.props;
+const t = ui[lang].calc;
+const strings = { go: t.go, baseHint: t.baseHint, customHint: t.customHint, noteNone: t.noteNone, noteLow: t.noteLow, noteHigh: t.noteHigh, noteOk: t.noteOk, florida: paths[lang].florida };
 ---
-<section class="calc" data-calc aria-labelledby={`${id}-title`}>
-  <h2 id={`${id}-title`} class="h3">How much coverage do you need?</h2>
-  <p class="small">A quick estimate. Nothing is sent anywhere until you choose to get prices.</p>
+<section class="calc" data-calc data-t={JSON.stringify(strings)} aria-labelledby={`${id}-title`}>
+  <h2 id={`${id}-title`} class="h3">{t.title}</h2>
+  <p class="small">{t.intro}</p>
 
   <fieldset>
-    <legend>What kind of farewell do you have in mind?</legend>
+    <legend>{t.legend}</legend>
     <div class="qf-options">
-      <label class="qf-option"><input type="radio" name={`${id}-plan`} value="8300" data-calc-plan checked /> A funeral with a viewing, then burial</label>
-      <label class="qf-option"><input type="radio" name={`${id}-plan`} value="6280" data-calc-plan /> A funeral with a viewing, then cremation</label>
-      <label class="qf-option"><input type="radio" name={`${id}-plan`} value="custom" data-calc-plan /> Something simpler, or I know the price</label>
+      <label class="qf-option"><input type="radio" name={`${id}-plan`} value="8300" data-calc-plan checked /> {t.burial}</label>
+      <label class="qf-option"><input type="radio" name={`${id}-plan`} value="6280" data-calc-plan /> {t.cremation}</label>
+      <label class="qf-option"><input type="radio" name={`${id}-plan`} value="custom" data-calc-plan /> {t.custom}</label>
     </div>
   </fieldset>
 
   <div class="calc-grid">
-    <label class="field" for={`${id}-base`}>Funeral or cremation cost</label>
-    <p class="qf-hint" id={`${id}-base-hint`} data-calc-base-hint>National median, 2023 (NFDA). Change it if you have a local price.</p>
+    <label class="field" for={`${id}-base`}>{t.base}</label>
+    <p class="qf-hint" id={`${id}-base-hint`} data-calc-base-hint>{t.baseHint}</p>
     <div class="money"><span aria-hidden="true">$</span><input id={`${id}-base`} type="text" inputmode="numeric" autocomplete="off" value="8,300" aria-describedby={`${id}-base-hint`} data-calc-base /></div>
 
-    <label class="field" for={`${id}-cem`}>Cemetery costs</label>
-    <p class="qf-hint" id={`${id}-cem-hint`}>Plot, opening the grave, headstone or a niche for ashes. Not included above. Enter 0 if none.</p>
+    <label class="field" for={`${id}-cem`}>{t.cem}</label>
+    <p class="qf-hint" id={`${id}-cem-hint`}>{t.cemHint}</p>
     <div class="money"><span aria-hidden="true">$</span><input id={`${id}-cem`} type="text" inputmode="numeric" autocomplete="off" value="0" aria-describedby={`${id}-cem-hint`} data-calc-cem /></div>
 
-    <label class="field" for={`${id}-bills`}>Final bills to leave paid</label>
-    <p class="qf-hint" id={`${id}-bills-hint`}>Medical bills, credit cards, the last month's rent or utilities.</p>
+    <label class="field" for={`${id}-bills`}>{t.bills}</label>
+    <p class="qf-hint" id={`${id}-bills-hint`}>{t.billsHint}</p>
     <div class="money"><span aria-hidden="true">$</span><input id={`${id}-bills`} type="text" inputmode="numeric" autocomplete="off" value="0" aria-describedby={`${id}-bills-hint`} data-calc-bills /></div>
 
-    <label class="field" for={`${id}-saved`}>Money already set aside for this</label>
-    <p class="qf-hint" id={`${id}-saved-hint`}>Savings or an existing policy meant for the funeral.</p>
+    <label class="field" for={`${id}-saved`}>{t.saved}</label>
+    <p class="qf-hint" id={`${id}-saved-hint`}>{t.savedHint}</p>
     <div class="money"><span aria-hidden="true">$</span><input id={`${id}-saved`} type="text" inputmode="numeric" autocomplete="off" value="0" aria-describedby={`${id}-saved-hint`} data-calc-saved /></div>
   </div>
 
   <div class="calc-result" aria-live="polite" data-calc-result>
-    <p class="calc-amount"><span>Suggested coverage</span><strong data-calc-amount>$9,000</strong></p>
-    <p class="small" data-calc-note>Rounded up to the next $1,000. Most final expense plans offer about $5,000 to $25,000.</p>
+    <p class="calc-amount"><span>{t.result}</span><strong data-calc-amount>$9,000</strong></p>
+    <p class="small" data-calc-note>{t.noteOk}</p>
   </div>
-  <button type="button" class="btn btn-primary btn-block" data-calc-go><span>Get prices for <span data-calc-go-amount>$10,000</span></span></button>
-  <p class="small calc-source">Starting prices: National Funeral Directors Association, 2023 General Price List study (national medians). Prices vary by provider.</p>
+  <button type="button" class="btn btn-primary btn-block" data-calc-go><span data-calc-go-label>{t.go.replace('{amount}', '$10,000')}</span></button>
+  <p class="small calc-source">{t.source}</p>
 </section>
 
 <script>
@@ -55,6 +59,7 @@ const { id = 'calc' } = Astro.props;
   const num = (el: HTMLInputElement | null) => Math.max(0, Number((el?.value || '').replace(/[^\d.]/g, '')) || 0);
 
   document.querySelectorAll<HTMLElement>('[data-calc]').forEach((root) => {
+    const T = JSON.parse(root.dataset.t || '{}') as Record<'go' | 'baseHint' | 'customHint' | 'noteNone' | 'noteLow' | 'noteHigh' | 'noteOk' | 'florida', string>;
     const base = root.querySelector<HTMLInputElement>('[data-calc-base]');
     const cem = root.querySelector<HTMLInputElement>('[data-calc-cem]');
     const bills = root.querySelector<HTMLInputElement>('[data-calc-bills]');
@@ -63,7 +68,7 @@ const { id = 'calc' } = Astro.props;
     const amount = root.querySelector<HTMLElement>('[data-calc-amount]');
     const note = root.querySelector<HTMLElement>('[data-calc-note]');
     const go = root.querySelector<HTMLButtonElement>('[data-calc-go]');
-    const goAmount = root.querySelector<HTMLElement>('[data-calc-go-amount]');
+    const goLabel = root.querySelector<HTMLElement>('[data-calc-go-label]');
     let pick = 10000;
 
     const update = () => {
@@ -71,16 +76,8 @@ const { id = 'calc' } = Astro.props;
       const rounded = Math.ceil(need / 1000) * 1000;
       pick = OPTIONS.find((o) => o >= rounded) ?? 25000;
       if (amount) amount.textContent = need <= 0 ? '$0' : money(rounded);
-      if (note)
-        note.textContent =
-          need <= 0
-            ? 'What you have set aside may already cover it. You can still compare plans if you want a cushion.'
-            : rounded < 5000
-              ? 'Most final expense plans start around $5,000, so that is the smallest amount to compare.'
-              : rounded > 25000
-                ? 'Final expense plans usually stop around $25,000. Call us and we will talk through other options.'
-                : 'Rounded up to the next $1,000. Most final expense plans offer about $5,000 to $25,000.';
-      if (goAmount) goAmount.textContent = money(pick);
+      if (note) note.textContent = need <= 0 ? T.noteNone : rounded < 5000 ? T.noteLow : rounded > 25000 ? T.noteHigh : T.noteOk;
+      if (goLabel) goLabel.textContent = T.go.replace('{amount}', money(pick));
     };
 
     root.querySelectorAll<HTMLInputElement>('[data-calc-plan]').forEach((r) =>
@@ -89,10 +86,10 @@ const { id = 'calc' } = Astro.props;
         if (r.value === 'custom') {
           base.value = '';
           base.focus();
-          if (hint) hint.textContent = 'Enter the price you have, or your best guess.';
+          if (hint) hint.textContent = T.customHint;
         } else {
           base.value = Number(r.value).toLocaleString('en-US');
-          if (hint) hint.textContent = 'National median, 2023 (NFDA). Change it if you have a local price.';
+          if (hint) hint.textContent = T.baseHint;
         }
         update();
       }),
@@ -106,7 +103,7 @@ const { id = 'calc' } = Astro.props;
       if (document.querySelector('[data-quote-form]')) {
         document.dispatchEvent(new CustomEvent('ot:prefill-coverage', { detail: String(pick) }));
       } else {
-        location.href = `/final-expense-insurance-florida/?coverage=${pick}#quote`;
+        location.href = `${T.florida}?coverage=${pick}#quote`;
       }
     });
     update();

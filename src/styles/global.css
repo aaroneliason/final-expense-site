@@ -1386,3 +1386,50 @@ table.rates th.num {
   font-size: 0.95rem;
   line-height: 1.4;
 }
+
+/* ---------- language links + call-time picker (2026-11-06) ---------- */
+.lang-switch {
+  display: none;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 0.35rem;
+  font-weight: 700;
+  color: var(--brand);
+}
+@media (min-width: 30em) {
+  .lang-switch {
+    display: inline-flex;
+  }
+}
+.lang-note {
+  margin: 0 0 1rem;
+  font-weight: 700;
+}
+.ty-done {
+  background: var(--sage);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+}
+.ty-done:focus {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.ty-done p {
+  margin-top: 0;
+  font-weight: 700;
+}
+[data-pick-form] fieldset + fieldset {
+  margin-top: 1rem;
+}
+/* Let headers wrap instead of overflowing with long Spanish words or enlarged text spacing (WCAG 1.4.10 / 1.4.12). */
+.qf-head,
+.compare .card h3 {
+  flex-wrap: wrap;
+}
+/* Call-time windows are short labels: two per row from 22em up, so ten choices aren't one long column on a phone. */
+@media (min-width: 22em) {
+  [data-pick-hours] {
+    grid-template-columns: 1fr 1fr;
+  }
+}

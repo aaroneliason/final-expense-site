@@ -1,0 +1,317 @@
+---
+/**
+ * Spanish version of the Florida money page (/final-expense-insurance-florida/). Same facts, same rules:
+ * no "gratis", nothing that looks like a government program, every no-exam line says approval depends on
+ * the health answers, insurers named only when appointed + writable + ad-approved (nameableIn).
+ * Aaron reads every line before launch (spanish.reviewed in src/config/site.ts).
+ */
+import Base from '../../layouts/Base.astro';
+import QuoteForm from '../../components/QuoteForm.astro';
+import TrustStrip from '../../components/TrustStrip.astro';
+import RateTable from '../../components/RateTable.astro';
+import Faq from '../../components/Faq.astro';
+import AuthorBox from '../../components/AuthorBox.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import PhoneButton from '../../components/PhoneButton.astro';
+import Icon from '../../components/Icon.astro';
+import OpenStatus from '../../components/OpenStatus.astro';
+import TeamStrip from '../../components/TeamStrip.astro';
+import Reviews from '../../components/Reviews.astro';
+import CoverageCalculator from '../../components/CoverageCalculator.astro';
+import { agent, brand, lastReviewed, links, nameableIn } from '../../config/site';
+import { agencyLd, articleLd, websiteLd } from '../../lib/schema';
+import { paths } from '../../i18n/ui';
+
+const path = paths.es.florida;
+const enPath = paths.en.florida;
+const title = 'Seguro de gastos finales en Florida';
+const description =
+  'Seguro de gastos finales y seguro funerario en Florida, explicado en español: compare varias aseguradoras en una sola llamada, sin presión.';
+const site = Astro.site!;
+const jsonLd = [
+  websiteLd(site),
+  agencyLd(site),
+  articleLd(site, {
+    path,
+    headline: 'Seguro de gastos finales y seguro funerario en Florida',
+    description,
+    datePublished: '2026-11-06',
+    dateModified: lastReviewed,
+    inLanguage: 'es-US',
+  }),
+];
+const alternates = [
+  { lang: 'en-US', path: enPath },
+  { lang: 'es-US', path },
+  { lang: 'x-default', path: enPath },
+];
+const carrierNames = nameableIn('FL').map((c) => c.shortName);
+const en = (href: string, text: string) => `<a href="${href}" rel="noopener" hreflang="en">${text}</a> (en inglés)`;
+
+const faqs = [
+  {
+    q: '¿Cuánto cuesta el seguro de gastos finales en Florida?',
+    a: `<p>Depende de la edad, el sexo, la salud, el uso de tabaco y la cobertura que desee. Una persona sana de 65 años que compra $10,000 suele pagar mucho menos que una persona de 80 años con problemas de salud. Vea los <a href="#precios">precios de muestra</a>, cada uno con la aseguradora indicada.</p>`,
+  },
+  {
+    q: '¿Puedo obtener cobertura si tengo diabetes, EPOC o problemas del corazón?',
+    a: `<p>Muchas veces, sí. Muchas aseguradoras aceptan condiciones que están bajo control, a veces con tarifas normales. Otras ofrecen un plan con período de espera. Un agente con licencia le hace las preguntas de salud en privado durante la llamada y le dice con honestidad para qué planes puede calificar.</p>`,
+  },
+  {
+    q: '¿Hay examen médico?',
+    a: `<p>No hay examen ni agujas en los planes de gastos finales que ofrecemos. En su lugar hay preguntas de salud y, con su permiso, la aseguradora por lo general revisa su historial de recetas y bases de datos de expedientes médicos. Por eso es importante contestar con la verdad: una respuesta equivocada le puede causar problemas a su familia más adelante.</p>`,
+  },
+  {
+    q: '¿Qué tan rápido empieza la cobertura?',
+    a: `<p>Muchas aseguradoras dan una decisión durante la llamada. La cobertura empieza cuando la aseguradora aprueba la solicitud y se paga la primera prima. En los planes con período de espera, el beneficio completo por causas naturales se paga solo después de ese período, por lo general dos años.</p>`,
+  },
+  {
+    q: '¿Me va a subir la prima con la edad?',
+    a: `<p>En los planes de vida entera que se usan para gastos finales, la prima normalmente se fija al comprar y no sube con la edad, y la cobertura no vence mientras pague las primas. Su póliza indica los términos exactos. Pídanos que se los mostremos antes de solicitar.</p>`,
+  },
+  {
+    q: '¿Puedo cancelar si cambio de opinión?',
+    a: `<p>Sí. Las pólizas vendidas por teléfono en Florida por lo general le permiten cancelar con reembolso completo durante al menos 14 días después de recibir la póliza (${en(links.flRefundStatute, 'Estatutos de Florida 626.99')}), y algunas aseguradoras dan 30. Su póliza indica la fecha límite exacta. Después de ese plazo puede dejar de pagar, pero las primas ya pagadas no se devuelven.</p>`,
+  },
+  {
+    q: '¿Puedo comprar una póliza para mi papá o mi mamá?',
+    a: `<p>Sí, con su participación. La persona asegurada tiene que participar en la solicitud, contestar las preguntas de salud y firmarla. Usted puede ser quien pague la prima y también el beneficiario, si su papá o su mamá así lo deciden. Muchas familias hacen la llamada juntas.</p>`,
+  },
+  {
+    q: '¿Toda la llamada puede ser en español?',
+    a: `<p>Sí. Le explicamos todo en español, de principio a fin, y si un familiar prefiere inglés, también puede estar en la llamada. Algunas solicitudes y pólizas solo están en inglés; en ese caso le explicamos cada parte en español antes de que firme.</p>`,
+  },
+  {
+    q: '¿Cómo les pagan a ustedes?',
+    a: `<p>La compañía de seguros nos paga una comisión cuando emite una póliza. Usted no nos paga nada, y comprar con nosotros no cambia la prima que cobra la aseguradora.</p>`,
+  },
+  {
+    q: '¿Van a vender mi número de teléfono?',
+    a: `<p>No. Lo que usted comparte se queda con ${brand.name}. Nunca se vende, se alquila ni se pasa a otros agentes, y puede pedirnos en cualquier momento que dejemos de contactarle. <a href="${paths.es.privacy}">Política de privacidad</a>.</p>`,
+  },
+];
+---
+<Base {title} {description} {path} {jsonLd} {alternates} lang="es" ogType="article" modified={lastReviewed}>
+  <section class="hero">
+    <div class="wrap">
+      <p class="lang-note"><a href={enPath} hreflang="en" lang="en">Read this page in English</a></p>
+      <div class="grid-2">
+        <div>
+          <span class="eyebrow">Florida · Agencia independiente con licencia</span>
+          <h1>Seguro de gastos finales y seguro funerario en Florida</h1>
+          <p class="lede">
+            Respuestas claras y precios reales de una agencia independiente con licencia en Florida. Compare varias aseguradoras en una sola
+            llamada, en español, y solicite por teléfono si un plan le conviene.
+          </p>
+          <ul class="checks">
+            <li><Icon name="check" /> Coberturas de unos $5,000 a $25,000 para el funeral, el entierro o la cremación y las últimas cuentas</li>
+            <li><Icon name="check" /> Sin examen médico. La aprobación depende de sus respuestas a unas preguntas de salud.</li>
+            <li><Icon name="check" /> Opciones para muchas condiciones de salud, explicadas con honestidad</li>
+          </ul>
+          <div class="btn-row">
+            <PhoneButton label="Llámenos" location="hero" />
+            <a class="btn btn-outline" href="#quote">Cotice en línea</a>
+          </div>
+          <OpenStatus class="hero-status" lang="es" />
+          <TeamStrip lang="es" />
+          <div class="agent-chip">
+            <span class="avatar avatar--mark" aria-hidden="true"><Icon name="mark" /></span>
+            <p>
+              <strong>{brand.name}</strong>, independiente y con licencia en Florida<br />
+              Licencia de agente {agent.flLicense} · NPN {agent.npn} · <a href={links.dfsLookup} rel="noopener">Verifíquela con el DFS de Florida</a>
+            </p>
+          </div>
+        </div>
+        <QuoteForm id="quote" heading="Vea sus opciones en Florida" defaultState="FL" lang="es" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="wrap">
+      <TrustStrip lang="es" />
+      <Reviews lang="es" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid-2">
+      <div class="prose">
+        <span class="eyebrow">Qué es</span>
+        <h2>Un seguro de vida entera pequeño que paga el funeral y las últimas cuentas</h2>
+        <p>
+          El seguro de gastos finales, también llamado seguro funerario o seguro de entierro, es una póliza pequeña de seguro de vida entera, por
+          lo general de $5,000 a $25,000. Cuando usted fallece, le paga a su beneficiario en efectivo. Las familias lo usan para el funeral, el
+          entierro o la cremación, la lápida, las cuentas médicas o cualquier otro gasto.
+        </p>
+        <p>
+          La mayoría de las aseguradoras aceptan solicitantes de unos 50 a 85 años (los límites varían según la aseguradora). Lo venden compañías
+          de seguros privadas y usted paga una prima mensual.
+        </p>
+      </div>
+      <div class="callout callout--warn">
+        <h3>No es un programa del gobierno y no es gratis</h3>
+        <p>
+          Algunas cartas y anuncios lo llaman «programa estatal» o «beneficio funerario del gobierno». No es cierto. Son pólizas privadas que
+          usted paga. <a href="#gobierno">Vea qué ayuda del gobierno sí existe</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Cómo funciona</span>
+        <h2>Cuatro pasos, por lo general en una sola llamada</h2>
+      </div>
+      <ol class="steps">
+        <li><h3>Llame o conteste seis preguntas</h3><p>En línea o por teléfono, como le sea más fácil.</p></li>
+        <li><h3>Comparamos aseguradoras</h3><p>Revisamos precios y requisitos de salud con las aseguradoras con las que estamos autorizados a trabajar.</p></li>
+        <li><h3>Elija un plan, o no</h3><p>Le explicamos las opciones con palabras sencillas. Sin presión para decidir en el momento.</p></li>
+        <li><h3>Solicite por teléfono</h3><p>Muchas aseguradoras dan una decisión durante la llamada. La cobertura empieza cuando la aseguradora aprueba la solicitud y se paga la primera prima.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="precios">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Precios de muestra</span>
+        <h2>Cuánto cuesta el seguro de gastos finales en Florida</h2>
+        <p>
+          Estas son cotizaciones reales de muestra para una persona sana que no usa tabaco, con la aseguradora y el plan indicados en cada tabla,
+          como exige Florida. Su precio depende de su edad, su salud, el uso de tabaco y la cobertura.
+        </p>
+      </div>
+      <RateTable lang="es" />
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Qué plan le conviene</span>
+        <h2>¿Emisión simplificada o emisión garantizada?</h2>
+        <p>Las preguntas de salud deciden qué tipo de plan puede obtener. Si su salud lo permite, un plan sin período de espera suele ser la mejor opción.</p>
+      </div>
+      <div class="compare">
+        <div class="card">
+          <h3>Emisión simplificada <span class="tag">Cobertura completa desde el primer día</span></h3>
+          <p>Unas pocas preguntas de salud de sí o no, sin examen. Si califica, en la mayoría de los planes se paga el beneficio completo desde el primer día.</p>
+        </div>
+        <div class="card">
+          <h3>Graduado o modificado <span class="tag tag--sand">Período de espera</span></h3>
+          <p>Para algunos historiales de salud. Si la muerte por causas naturales ocurre en los dos primeros años, la aseguradora por lo general devuelve las primas más intereses en lugar del monto completo. La muerte accidental casi siempre está cubierta por completo desde el inicio.</p>
+        </div>
+        <div class="card">
+          <h3>Emisión garantizada <span class="tag tag--sand">Sin preguntas de salud</span></h3>
+          <p>Se acepta a cualquier persona dentro del rango de edad, pero siempre hay un período de espera, por lo general de dos años, y el precio es más alto. Es una buena alternativa cuando no hay otra opción.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid-2">
+      <div class="prose">
+        <span class="eyebrow">Lo particular de Florida</span>
+        <h2>Qué es diferente al comprar en Florida</h2>
+        <h3>Verifique la licencia de cualquier agente</h3>
+        <p>
+          El Departamento de Servicios Financieros de Florida (DFS) permite que cualquier persona consulte la licencia de un agente o de una
+          agencia. Nuestros números de licencia están en esta página y en nuestra <a href="/licenses/" hreflang="en">página de licencias</a> (en
+          inglés). <a href={links.dfsLookup} rel="noopener">Búsquelos usted mismo</a> antes de compartir cualquier dato.
+        </p>
+        <h3>Tiempo para cambiar de opinión</h3>
+        <p>
+          La ley de Florida exige que la aseguradora le entregue una guía para compradores antes de que usted pague, o que le permita cancelar
+          con reembolso completo durante al menos 14 días después de recibir la póliza (<a href={links.flRefundStatute} rel="noopener" hreflang="en">Estatutos de Florida 626.99</a>, en inglés).
+          Las pólizas vendidas por teléfono suelen incluir ese plazo de reembolso, y algunas aseguradoras dan 30 días. La fecha límite exacta
+          está impresa en su póliza.
+        </p>
+        <h3>Todo en español</h3>
+        <p>
+          Le explicamos cada pregunta en español, a usted y a su familia, incluido lo que sus beneficiarios deberán hacer más adelante. Algunas
+          solicitudes y pólizas solo están en inglés; si es así, le explicamos cada parte en español antes de que firme.
+        </p>
+      </div>
+      <aside class="card">
+        <h3>Lo que cuesta un funeral hoy</h3>
+        <p>
+          El estudio de precios de 2023 de la Asociación Nacional de Directores de Funerarias (NFDA) calculó una mediana nacional de unos{' '}
+          <strong>$8,300</strong> por un funeral con velorio y entierro, y de unos <strong>$6,280</strong> con cremación. Los gastos del
+          cementerio, como la parcela y la lápida, son aparte.
+        </p>
+        <p class="small">
+          Los precios varían mucho entre funerarias. Según la <a href={links.ftcFuneralRule} rel="noopener" hreflang="en">Regla sobre Funerales de la FTC</a>
+          (en inglés), toda funeraria debe darle una lista de precios detallada.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="wrap" style="max-width:48rem">
+      <CoverageCalculator id="calc" lang="es" />
+    </div>
+  </section>
+
+  <section class="section" id="gobierno">
+    <div class="wrap prose">
+      <span class="eyebrow">Hablando claro</span>
+      <h2>¿Existe un programa funerario del gobierno?</h2>
+      <p>
+        No. No existe un seguro funerario del gobierno para el público en general, ni en Florida ni en el resto del país. Esto es lo que sí
+        existe, para que lo tenga en cuenta en sus planes:
+      </p>
+      <ul>
+        <li>El <strong>Seguro Social</strong> hace un pago único por fallecimiento de <strong>$255</strong> al cónyuge o al hijo sobreviviente que califique. <a href={links.ssaDeath} rel="noopener" hreflang="en">Detalles en ssa.gov</a> (en inglés).</li>
+        <li>Los <strong>veteranos</strong> pueden calificar para los beneficios funerarios del VA y para ser sepultados en un cementerio nacional. <a href={links.vaBurial} rel="noopener" hreflang="en">Detalles en va.gov</a> (en inglés).</li>
+        <li>Los <strong>veteranos con una discapacidad relacionada con el servicio</strong> pueden solicitar VALife, el seguro de vida entera del propio VA. <a href={links.valife} rel="noopener" hreflang="en">Sobre VALife</a> (en inglés).</li>
+      </ul>
+      <p>Para la mayoría de las familias, esos beneficios no alcanzan para un funeral completo, y por eso compran un seguro de gastos finales.</p>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Preguntas</span>
+        <h2>Preguntas frecuentes de familias en Florida</h2>
+      </div>
+      <div class="prose" style="max-width:48rem">
+        <Faq items={faqs} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid-2">
+      <div class="prose">
+        <span class="eyebrow">Quién le atiende</span>
+        <h2>Sobre nosotros y cómo nos pagan</h2>
+        <p>
+          {brand.name} es una agencia independiente de seguros de vida en el centro de Florida. Ayudamos a familias por teléfono en todo Florida,
+          en inglés y en español, y cada llamada es con un agente con licencia.
+        </p>
+        <p>
+          Como somos independientes, comparamos planes de varias aseguradoras{carrierNames.length ? ` (entre ellas ${carrierNames.join(', ')})` : ''}.
+          La aseguradora nos paga una comisión cuando se emite una póliza; usted nunca nos paga, y su prima es la misma que si le comprara
+          directamente a la aseguradora.
+        </p>
+        <p><a href="/about/" hreflang="en">Más sobre nosotros</a> (en inglés)</p>
+      </div>
+      <QuoteForm id="quote-2" heading="Cuando usted esté listo" defaultState="FL" lang="es" />
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="wrap">
+      <CtaBand lang="es" />
+      <div class="prose">
+        <AuthorBox lang="es" />
+      </div>
+    </div>
+  </section>
+</Base>
