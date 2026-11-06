@@ -50,6 +50,7 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-padding-top: 6rem;
+  scroll-padding-bottom: calc(var(--callbar-h) + 1rem);
 }
 @media (min-width: 64em) {
   html {
@@ -314,6 +315,14 @@ hr {
   height: 2.3rem;
   flex: none;
 }
+.wordmark-text > span {
+  white-space: nowrap;
+}
+@media (max-width: 26em) {
+  .header-call-mobile {
+    font-size: 0.92rem;
+  }
+}
 .wordmark-text {
   display: grid;
   line-height: 1.05;
@@ -356,10 +365,19 @@ hr {
   }
 }
 .header-call-mobile {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 0.25rem;
   font-weight: 700;
   text-decoration: none;
   color: var(--accent);
   white-space: nowrap;
+}
+@media (max-width: 22.5em) {
+  .header-call-mobile {
+    display: none;
+  }
 }
 @media (min-width: 52em) {
   .header-call-mobile {
@@ -798,7 +816,12 @@ th.num {
   gap: 0.7rem;
 }
 .qf-options--2 {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 30em) {
+  .qf-options--2 {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 .qf-option {
   position: relative;
@@ -886,6 +909,31 @@ th.num {
   color: var(--brand);
   text-decoration: underline;
   cursor: pointer;
+}
+/* GOV.UK-style field errors: message above the control, thick left rule on the question */
+.field-error {
+  color: var(--danger);
+  font-weight: 700;
+  margin: 0.15rem 0 0.45rem;
+}
+.qf fieldset.has-error {
+  border-left: 4px solid var(--danger);
+  padding-left: 0.85rem;
+}
+.qf [aria-invalid='true'] {
+  border-color: var(--danger) !important;
+  border-width: 3px;
+}
+.qf .consent:has(input[aria-invalid='true']) {
+  border: 3px solid var(--danger);
+}
+.qf-hint {
+  margin: -0.15rem 0 0.4rem;
+  font-size: 0.9rem;
+  color: var(--ink-2);
+}
+.qf [aria-disabled='true'] {
+  cursor: progress;
 }
 .qf-error {
   color: var(--danger);
@@ -1069,4 +1117,80 @@ th.num {
 .team-card figcaption p {
   margin: 0.45rem 0 0;
   font-size: 0.95rem;
+}
+
+/* ---------- rate tables (age × women/men) ---------- */
+table.rates {
+  width: 100%;
+}
+table.rates caption {
+  text-align: left;
+  font-weight: 700;
+  padding: 0.9rem 1rem 0.6rem;
+  color: var(--ink);
+}
+table.rates .caption-sub {
+  display: block;
+  font-weight: 400;
+  font-size: 0.88rem;
+  color: var(--ink-2);
+  margin-top: 0.15rem;
+}
+table.rates th[scope='row'] {
+  font-weight: 700;
+}
+table.rates td.num,
+table.rates th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.table-wrap + .table-wrap {
+  margin-top: 1rem;
+}
+
+.ref-box {
+  background: var(--sage);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+  font-size: 1.05rem;
+}
+.ref-box strong {
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- guide hero + "At a glance" summary box ---------- */
+.guide-hero {
+  display: grid;
+  gap: 1.75rem;
+  align-items: start;
+}
+.guide-hero > * {
+  min-width: 0;
+}
+@media (min-width: 64em) {
+  .guide-hero {
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    gap: 3rem;
+  }
+}
+.summary-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--accent);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem 0.6rem;
+}
+.summary-box h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+.summary-box ul {
+  margin: 0;
+  padding-left: 1.15rem;
+}
+.summary-box li {
+  margin-bottom: 0.55rem;
 }

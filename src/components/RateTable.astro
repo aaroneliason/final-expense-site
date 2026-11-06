@@ -1,42 +1,60 @@
 ---
+/**
+ * Sample prices as one small table per insurer and plan: ages down the side, women and men across.
+ * Easier to scan than one long row per quote, and the insurer, plan and quote date sit in the caption
+ * so they're named with every price (Fla. Rule 69B-150.114).
+ */
 import { sampleRates, type RateRow } from '../data/rates';
 interface Props {
   rows?: RateRow[];
   caption?: string;
 }
-const { rows = sampleRates, caption = 'Sample Florida monthly premiums — $10,000 of coverage, non-tobacco' } = Astro.props;
-const fmt = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 });
+const { rows = sampleRates, caption } = Astro.props;
+const money = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 });
+const dollars = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+const month = (iso: string) => new Date(iso + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+const groups = new Map<string, RateRow[]>();
+for (const r of rows) {
+  const key = r.placeholder ? 'placeholder' : [r.insurer, r.plan, r.benefit, r.face, r.tobacco, r.quotedOn].join('|');
+  groups.set(key, [...(groups.get(key) ?? []), r]);
+}
 const anyPlaceholder = rows.some((r) => r.placeholder);
+const tables = [...groups.values()].map((g) => {
+  const f = g[0];
+  return {
+    title: caption ?? (f.placeholder ? 'Sample Florida monthly prices' : `${f.insurer}: ${f.plan}`),
+    detail: f.placeholder
+      ? `${dollars(f.face)} of coverage · non-tobacco · insurer, plan and quote date being verified`
+      : `Florida · ${dollars(f.face)} of coverage · ${f.tobacco ? 'tobacco' : 'non-tobacco'} · ${f.benefit.toLowerCase()} benefit · quoted ${month(f.quotedOn)}`,
+    ages: [...new Set(g.map((r) => r.age))].sort((a, b) => a - b),
+    cell: (age: number, sex: RateRow['sex']) => g.find((r) => r.age === age && r.sex === sex),
+  };
+});
 ---
-<div class="table-wrap">
-  <table class="stack">
-    <caption>{caption}</caption>
-    <thead>
-      <tr>
-        <th scope="col">Age</th>
-        <th scope="col">Sex</th>
-        <th scope="col" class="num">Per month</th>
-        <th scope="col">Insurer and plan</th>
-        <th scope="col">Benefit</th>
-        <th scope="col">Quoted</th>
-      </tr>
-    </thead>
-    <tbody>
-      {rows.map((r) => (
-        <tr>
-          <td data-label="Age">{r.age}</td>
-          <td data-label="Sex">{r.sex}</td>
-          <td class="num" data-label="Per month">{r.monthly == null ? <span class="tag tag--todo">TODO</span> : fmt(r.monthly)}</td>{/* check-publish-ignore */}
-          <td data-label="Insurer and plan">{r.placeholder ? <span class="tag tag--todo">TODO insurer + plan</span> : `${r.insurer}: ${r.plan}`}</td>{/* check-publish-ignore */}
-          <td data-label="Benefit">{r.benefit}</td>
-          <td data-label="Quoted">{r.placeholder ? '—' : new Date(r.quotedOn + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-  <p class="table-note">
-    {anyPlaceholder
-      ? 'Sample rates are being quoted and verified. Each row will name the insurer, the plan and the date it was quoted.'
-      : 'Real quotes for a healthy, non-tobacco applicant. Your price depends on age, sex, health, tobacco use, coverage and state, and isn’t guaranteed until the insurer approves your application.'}
-  </p>
-</div>
+{tables.map((t) => (
+  <div class="table-wrap">
+    <table class="rates">
+      <caption>{t.title}<span class="caption-sub">{t.detail}</span></caption>
+      <thead>
+        <tr><th scope="col">Age</th><th scope="col" class="num">Women</th><th scope="col" class="num">Men</th></tr>
+      </thead>
+      <tbody>
+        {t.ages.map((age) => (
+          <tr>
+            <th scope="row">{age}</th>
+            {(['Female', 'Male'] as const).map((sex) => {
+              const r = t.cell(age, sex);
+              return <td class="num">{!r ? '—' : r.monthly == null ? <span class="tag tag--todo">TODO</span> : `${money(r.monthly)}/mo`}</td>;{/* check-publish-ignore */}
+            })}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+))}
+<p class="table-note">
+  {anyPlaceholder
+    ? 'Sample prices are being quoted and verified. Each table will name the insurer, the plan and the month it was quoted.'
+    : 'Real quotes for a healthy, non-tobacco applicant. Your price depends on age, sex, health, tobacco use, coverage and state, and isn’t guaranteed until the insurer approves your application.'}
+</p>

@@ -25,8 +25,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.
   <div class="qf-bar" aria-hidden="true"><span data-bar></span></div>
 
   <div class="qf-step is-active" data-step="1">
-    <fieldset>
+    <fieldset data-error-msg="Select who the coverage is for">
       <legend>Who is the coverage for?</legend>
+      <p class="field-error" id={`${id}-err-for`} data-error-slot hidden></p>
       <div class="qf-options qf-options--2">
         <label class="qf-option"><input type="radio" name="for" value="myself" required /> Myself</label>
         <label class="qf-option"><input type="radio" name="for" value="spouse" /> My spouse or partner</label>
@@ -38,8 +39,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.
   </div>
 
   <div class="qf-step" data-step="2">
-    <fieldset>
+    <fieldset data-error-msg="Select an age range">
       <legend>How old is the person to be covered?</legend>
+      <p class="field-error" id={`${id}-err-age`} data-error-slot hidden></p>
       <div class="qf-options qf-options--2">
         <label class="qf-option"><input type="radio" name="age" value="under-50" required /> Under 50</label>
         <label class="qf-option"><input type="radio" name="age" value="50-59" /> 50–59</label>
@@ -63,8 +65,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.
   </div>
 
   <div class="qf-step" data-step="4">
-    <fieldset>
+    <fieldset data-error-msg="Select a coverage amount">
       <legend>About how much coverage?</legend>
+      <p class="field-error" id={`${id}-err-coverage`} data-error-slot hidden></p>
       <p class="qf-help">Most families choose enough to cover a funeral and final bills.</p>
       <div class="qf-options qf-options--2">
         <label class="qf-option"><input type="radio" name="coverage" value="5000" required /> $5,000</label>
@@ -78,15 +81,17 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.
   </div>
 
   <div class="qf-step" data-step="5">
-    <fieldset>
+    <fieldset data-error-msg="Select yes or no for tobacco">
       <legend>Any tobacco or nicotine in the last 12 months?</legend>
+      <p class="field-error" id={`${id}-err-tobacco`} data-error-slot hidden></p>
       <div class="qf-options qf-options--2">
         <label class="qf-option"><input type="radio" name="tobacco" value="no" required /> No</label>
         <label class="qf-option"><input type="radio" name="tobacco" value="yes" /> Yes</label>
       </div>
     </fieldset>
-    <fieldset>
+    <fieldset data-error-msg="Select yes, no or not sure for health conditions">
       <legend>Any major health conditions?</legend>
+      <p class="field-error" id={`${id}-err-health`} data-error-slot hidden></p>
       <p class="qf-help">Just yes or no for now. A licensed agent goes over the details privately on the call.</p>
       <div class="qf-options">
         <label class="qf-option"><input type="radio" name="health" value="no" required /> No</label>
@@ -98,11 +103,15 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.
 
   <div class="qf-step" data-step="6">
     <label class="field" for={`${id}-first`}>First name</label>
-    <input id={`${id}-first`} name="first_name" type="text" autocomplete="given-name" required />
+    <p class="field-error" id={`${id}-err-first_name`} data-error-slot hidden></p>
+    <input id={`${id}-first`} name="first_name" type="text" autocomplete="given-name" autocapitalize="words" spellcheck="false" required data-error-msg="Enter a first name" />
     <label class="field" for={`${id}-last`}>Last name</label>
-    <input id={`${id}-last`} name="last_name" type="text" autocomplete="family-name" required />
+    <p class="field-error" id={`${id}-err-last_name`} data-error-slot hidden></p>
+    <input id={`${id}-last`} name="last_name" type="text" autocomplete="family-name" autocapitalize="words" spellcheck="false" required data-error-msg="Enter a last name" />
     <label class="field" for={`${id}-phone`}>Phone number</label>
-    <input id={`${id}-phone`} name="phone" type="tel" inputmode="tel" autocomplete="tel" required />
+    <p class="qf-hint" id={`${id}-phone-hint`}>So a licensed agent can call you with your quote. We never sell it.</p>
+    <p class="field-error" id={`${id}-err-phone`} data-error-slot hidden></p>
+    <input id={`${id}-phone`} name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby={`${id}-phone-hint`} data-error-msg="Enter a phone number" data-error-format="Enter a 10-digit phone number, like (407) 555-0123" />
     <label class="field" for={`${id}-time`}>Best time to call</label>
     <select id={`${id}-time`} name="best_time">
       <option value="anytime">Any time</option>
@@ -116,12 +125,14 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.
       <option value="es">Español</option>
     </select>
     <label class="field" for={`${id}-email`}>Email <span class="small">(optional)</span></label>
-    <input id={`${id}-email`} name="email" type="email" autocomplete="email" />
+    <p class="field-error" id={`${id}-err-email`} data-error-slot hidden></p>
+    <input id={`${id}-email`} name="email" type="email" autocomplete="email" spellcheck="false" data-error-format="Enter an email address like name@example.com, or leave it blank" />
     <div class="visually-hidden" aria-hidden="true">
       <label>Leave this empty <input type="text" name="company_website" tabindex="-1" autocomplete="off" /></label>
     </div>
+    <p class="field-error" id={`${id}-err-consent`} data-error-slot hidden></p>
     <label class="consent">
-      <input type="checkbox" name="consent" value="yes" required />
+      <input type="checkbox" name="consent" value="yes" required data-error-msg="Check the box so we can call you, or call us directly" />
       <span set:html={consent.html} />
     </label>
     <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-size="flexible" data-turnstile></div>
@@ -200,21 +211,78 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.
       if (i === total - 1) loadTurnstile();
     };
 
-    const validStep = (s: HTMLElement) => {
-      const fields = Array.from(s.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input, select'));
-      const radios = new Set(fields.filter((f) => f.type === 'radio' && f.required).map((f) => f.name));
-      for (const name of radios) {
-        if (!s.querySelector(`input[name="${name}"]:checked`)) return 'Please choose an answer to continue.';
-      }
-      for (const f of fields) {
-        if (f.type === 'radio' || f.type === 'hidden') continue;
-        if (f.required && f.type === 'checkbox' && !(f as HTMLInputElement).checked)
-          return 'Please check the consent box so we can call you, or call us directly.';
-        if (f.required && !f.value.trim()) return 'Please fill in your name and phone number.';
-        if (f.name === 'phone' && f.value.replace(/\D/g, '').length < 10) return 'Please enter a 10-digit phone number.';
-      }
-      return '';
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Field-level errors (GOV.UK "Recover from validation errors"): a specific message next to each
+    // problem answer, aria-invalid + aria-describedby on the control, and focus on the first problem.
+    const clearErrors = (scope: HTMLElement) => {
+      scope.querySelectorAll<HTMLElement>('[data-error-slot]').forEach((slot) => {
+        slot.hidden = true;
+        slot.textContent = '';
+      });
+      scope.querySelectorAll('.has-error').forEach((el) => el.classList.remove('has-error'));
+      scope.querySelectorAll<HTMLElement>('[aria-invalid="true"], [aria-describedby*="-err-"]').forEach((el) => {
+        el.removeAttribute('aria-invalid');
+        const ids = (el.getAttribute('aria-describedby') || '').split(' ').filter((x) => x && !x.includes('-err-'));
+        if (ids.length) el.setAttribute('aria-describedby', ids.join(' '));
+        else el.removeAttribute('aria-describedby');
+      });
+      err.hidden = true;
+      err.textContent = '';
     };
+    const slotFor = (el: HTMLElement) => {
+      const name = (el as HTMLInputElement).name;
+      return form.querySelector<HTMLElement>(`[id$="-err-${name}"]`);
+    };
+    const validStep = (s: HTMLElement) => {
+      const problems: { control: HTMLElement; msg: string }[] = [];
+      s.querySelectorAll<HTMLFieldSetElement>('fieldset[data-error-msg]').forEach((fs) => {
+        const radios = fs.querySelectorAll<HTMLInputElement>('input[type="radio"]');
+        if (radios.length && ![...radios].some((r) => r.checked)) problems.push({ control: radios[0], msg: fs.dataset.errorMsg || 'Choose an answer' });
+      });
+      s.querySelectorAll<HTMLInputElement>('input:not([type="radio"]):not([type="hidden"])').forEach((f) => {
+        if (f.closest('.visually-hidden')) return; // honeypot
+        const v = f.value.trim();
+        if (f.type === 'checkbox') {
+          if (f.required && !f.checked) problems.push({ control: f, msg: f.dataset.errorMsg || 'Check this box' });
+        } else if (f.required && !v) {
+          problems.push({ control: f, msg: f.dataset.errorMsg || 'Fill in this field' });
+        } else if (f.name === 'phone' && v.replace(/\D/g, '').length < 10) {
+          problems.push({ control: f, msg: f.dataset.errorFormat || 'Enter a 10-digit phone number' });
+        } else if (f.name === 'email' && v && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) {
+          problems.push({ control: f, msg: f.dataset.errorFormat || 'Enter a valid email address' });
+        }
+      });
+      return problems;
+    };
+    const showErrors = (problems: { control: HTMLElement; msg: string }[]) => {
+      for (const { control, msg } of problems as { control: HTMLInputElement; msg: string }[]) {
+        const slot = slotFor(control);
+        const group = control.closest('fieldset') || control;
+        group.classList.add('has-error');
+        if (slot) {
+          slot.innerHTML = `<span class="visually-hidden">Error: </span>${msg}`;
+          slot.hidden = false;
+        }
+        // Radios: the message is tied to the fieldset (GOV.UK pattern); text fields and the checkbox get aria-invalid.
+        const target = (control as HTMLInputElement).type === 'radio' ? group : control;
+        if (target === control) target.setAttribute('aria-invalid', 'true');
+        if (slot) target.setAttribute('aria-describedby', [target.getAttribute('aria-describedby'), slot.id].filter(Boolean).join(' '));
+      }
+      // Short summary by the buttons, announced once (role="alert"), worded like the inline messages.
+      err.textContent = problems.length === 1 ? problems[0].msg : `There are ${problems.length} problems: ${problems.map((p) => p.msg.toLowerCase()).join('; ')}.`;
+      err.hidden = false;
+      const first = problems[0].control;
+      first.focus({ preventScroll: true });
+      (first.closest('fieldset') || first).scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+    };
+
+    // Auto-advance only after a tap or click. Arrow keys also change radios, and moving to the next
+    // question on a key press would be a change of context on input (WCAG 3.2.2).
+    let pointerAt = 0;
+    form.addEventListener('pointerdown', (e) => {
+      if ((e.target as HTMLElement).closest('.qf-option')) pointerAt = Date.now();
+    });
 
     form.addEventListener('change', (e) => {
       const t = e.target as HTMLInputElement;
@@ -223,41 +291,44 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.
         track('form_start', { page: location.pathname });
       }
       if (t.name === 'state' && otherState) otherState.hidden = t.value !== 'other';
-      // Auto-advance on single-question radio steps for fewer taps.
-      if (t.type === 'radio' && i < total - 1 && steps[i].querySelectorAll('fieldset').length === 1) {
+      if (t.type === 'radio') {
+        const fs = t.closest('fieldset');
+        if (fs?.classList.contains('has-error')) clearErrors(fs as HTMLElement);
+      }
+      // Auto-advance on single-question radio steps, for taps and clicks only.
+      if (t.type === 'radio' && Date.now() - pointerAt < 1500 && i < total - 1 && steps[i].querySelectorAll('fieldset').length === 1) {
         setTimeout(() => go(1), 180);
       }
     });
 
     const go = (d: number) => {
+      clearErrors(steps[i]);
       if (d > 0) {
-        const msg = validStep(steps[i]);
-        if (msg) {
-          err.textContent = msg;
-          err.hidden = false;
-          return;
-        }
+        const problems = validStep(steps[i]);
+        if (problems.length) return showErrors(problems);
         track('form_step', { step: i + 1 });
       }
       i = Math.max(0, Math.min(total - 1, i + d));
       render();
       const first = steps[i].querySelector<HTMLElement>('input, select');
       first?.focus({ preventScroll: true });
-      form.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      form.scrollIntoView({ block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
     };
 
     next.addEventListener('click', () => go(1));
     back.addEventListener('click', () => go(-1));
 
+    let sending = false;
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const msg = validStep(steps[i]);
-      if (msg) {
-        err.textContent = msg;
-        err.hidden = false;
-        return;
-      }
-      submit.disabled = true;
+      // Enter on an earlier question means "Next", never "send a half-finished form".
+      if (i < total - 1) return go(1);
+      if (sending) return; // no double sends; the button stays focusable (no disabled state)
+      clearErrors(steps[i]);
+      const problems = validStep(steps[i]);
+      if (problems.length) return showErrors(problems);
+      sending = true;
+      submit.setAttribute('aria-disabled', 'true');
       submit.textContent = 'Sending…';
       const data = Object.fromEntries(new FormData(form).entries());
       try {
@@ -269,11 +340,13 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.
         const out = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(out.error || 'Something went wrong.');
         track('form_submit', { state: data.state, coverage: data.coverage });
-        location.href = `/thank-you/?n=${encodeURIComponent(String(data.first_name || ''))}`;
+        const ref = String(out.id || '').replace(/-/g, '').slice(0, 8).toUpperCase();
+        location.href = `/thank-you/?n=${encodeURIComponent(String(data.first_name || ''))}${ref ? `&ref=${ref}` : ''}`;
       } catch (ex) {
         err.textContent = `${(ex as Error).message} You can also call us directly.`;
         err.hidden = false;
-        submit.disabled = false;
+        sending = false;
+        submit.removeAttribute('aria-disabled');
         submit.textContent = 'Get my quote';
       }
     });

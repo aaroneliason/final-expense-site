@@ -18,8 +18,9 @@ interface Props {
   lede?: string;
   published?: string;
   reviewed?: string;
+  summary?: string[]; // "At a glance" bullets; facts must match the page body
 }
-const { title, h1, description, path, crumb, eyebrow = 'Guide', lede, published = '2026-11-06', reviewed = lastReviewed } = Astro.props;
+const { title, h1, description, path, crumb, eyebrow = 'Guide', lede, published = '2026-11-06', reviewed = lastReviewed, summary = [] } = Astro.props;
 const site = Astro.site!;
 const crumbs = [
   { name: 'Home', path: '/' },
@@ -33,16 +34,24 @@ const jsonLd = [
 ];
 const reviewedText = new Date(reviewed + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 ---
-<Base {title} {description} {path} {jsonLd}>
+<Base {title} {description} {path} {jsonLd} ogType="article" modified={reviewed}>
   <article>
     <header class="hero" style="padding-bottom:2.5rem">
       <div class="wrap">
         <Breadcrumbs items={crumbs} />
-        <div class="prose">
-          <span class="eyebrow">{eyebrow}</span>
-          <h1>{h1}</h1>
-          {lede && <p class="lede">{lede}</p>}
-          <p class="reviewed">By <a href="/about/">{brand.name}</a> · Reviewed by a licensed agent on {reviewedText}</p>
+        <div class="guide-hero">
+          <div class="prose">
+            <span class="eyebrow">{eyebrow}</span>
+            <h1>{h1}</h1>
+            {lede && <p class="lede">{lede}</p>}
+            <p class="reviewed">By <a href="/about/">{brand.name}</a> · Reviewed by a licensed agent on {reviewedText}</p>
+          </div>
+          {summary.length > 0 && (
+            <aside class="summary-box" aria-labelledby="at-a-glance">
+              <h2 id="at-a-glance">At a glance</h2>
+              <ul>{summary.map((s) => <li>{s}</li>)}</ul>
+            </aside>
+          )}
         </div>
       </div>
     </header>

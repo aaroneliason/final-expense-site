@@ -5,6 +5,7 @@ import { phone } from '../config/site';
 ---
 <Page title="Thank you" h1="Thank you" description="Your request was received." path="/thank-you/" crumb="Thank you" noindex>
   <p class="lede" data-greet>Your request is in. A licensed agent will call you soon.</p>
+  <p class="ref-box" data-ref hidden>Your reference number: <strong data-ref-code></strong><br /><span class="small">Mention it if you call us. It helps us find your request quickly.</span></p>
   <ul>
     <li><strong>When:</strong> as soon as we can, usually the same business day ({phone.hours}), or at the time you picked.</li>
     <li><strong>From:</strong> {phone.display}. Please save the number so you know it's us.</li>
@@ -17,4 +18,11 @@ import { phone } from '../config/site';
   const n = new URLSearchParams(location.search).get('n');
   const el = document.querySelector('[data-greet]');
   if (n && el) el.textContent = `Thank you, ${n.slice(0, 40)}. Your request is in, and a licensed agent will call you soon.`;
+  const ref = (new URLSearchParams(location.search).get('ref') || '').replace(/[^A-Z0-9]/gi, '').slice(0, 8).toUpperCase();
+  const box = document.querySelector<HTMLElement>('[data-ref]');
+  const code = document.querySelector('[data-ref-code]');
+  if (ref.length === 8 && box && code) {
+    code.textContent = `${ref.slice(0, 4)}-${ref.slice(4)}`;
+    box.hidden = false;
+  }
 </script>
