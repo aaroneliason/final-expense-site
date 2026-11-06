@@ -2,36 +2,7 @@ import { agent, brand, licenses, phone } from '../config/site';
 
 /** JSON-LD helpers. Structured data buys clarity about WHO the site is, not visual extras. */
 
-export const personId = (site: URL) => new URL('/about/#aaron', site).href;
 export const orgId = (site: URL) => new URL('/#agency', site).href;
-
-export function personLd(site: URL) {
-  return {
-    '@type': 'Person',
-    '@id': personId(site),
-    name: agent.name,
-    jobTitle: agent.title,
-    knowsLanguage: ['en', 'es'],
-    worksFor: { '@id': orgId(site) },
-    url: new URL('/about/', site).href,
-    hasCredential: [
-      {
-        '@type': 'EducationalOccupationalCredential',
-        name: 'Florida resident life insurance agent license',
-        credentialCategory: 'license',
-        identifier: agent.flLicense,
-        recognizedBy: { '@type': 'GovernmentOrganization', name: 'Florida Department of Financial Services' },
-      },
-      {
-        '@type': 'EducationalOccupationalCredential',
-        name: 'National Producer Number (NPN)',
-        credentialCategory: 'license',
-        identifier: agent.npn,
-        recognizedBy: { '@type': 'Organization', name: 'National Insurance Producer Registry (NIPR)' },
-      },
-    ],
-  };
-}
 
 export function agencyLd(site: URL) {
   return {
@@ -42,8 +13,13 @@ export function agencyLd(site: URL) {
     telephone: phone.tel,
     knowsLanguage: ['en', 'es'],
     areaServed: licenses.map((l) => ({ '@type': 'State', name: l.name })),
-    founder: { '@id': personId(site) },
-    employee: { '@id': personId(site) },
+    // Credentials shown for verification (Site voice: no personal name).
+    hasCredential: [
+      ...(brand.agencyLicenseNumber.startsWith('TODO')
+        ? []
+        : [{ '@type': 'EducationalOccupationalCredential', name: 'Florida insurance agency license', credentialCategory: 'license', identifier: brand.agencyLicenseNumber, recognizedBy: { '@type': 'GovernmentOrganization', name: 'Florida Department of Financial Services' } }]),
+      { '@type': 'EducationalOccupationalCredential', name: 'Florida resident life insurance agent license (agent in charge)', credentialCategory: 'license', identifier: agent.flLicense, recognizedBy: { '@type': 'GovernmentOrganization', name: 'Florida Department of Financial Services' } },
+    ],
   };
 }
 
@@ -74,8 +50,8 @@ export function articleLd(
     mainEntityOfPage: new URL(a.path, site).href,
     datePublished: a.datePublished,
     dateModified: a.dateModified,
-    author: { '@id': personId(site) },
-    reviewedBy: { '@id': personId(site) },
+    author: { '@id': orgId(site) },
+    reviewedBy: { '@id': orgId(site) },
     publisher: { '@id': orgId(site) },
     inLanguage: 'en-US',
   };

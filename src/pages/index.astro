@@ -6,14 +6,14 @@ import CtaBand from '../components/CtaBand.astro';
 import PhoneButton from '../components/PhoneButton.astro';
 import Icon from '../components/Icon.astro';
 import { agent, brand, licenses, links } from '../config/site';
-import { agencyLd, personLd, websiteLd } from '../lib/schema';
+import { agencyLd, websiteLd } from '../lib/schema';
 
 const path = '/';
 const title = `Final Expense & Burial Insurance from a Licensed Agent | ${brand.name}`;
 const description =
-  'Honest guides and real sample prices for final expense and burial insurance, with one licensed agent who compares several insurers for you by phone. English or Spanish.';
+  'Honest guides and real sample prices for final expense and burial insurance, from a licensed, independent agency that compares several insurers for you by phone. English or Spanish.';
 const site = Astro.site!;
-const jsonLd = [websiteLd(site), agencyLd(site), personLd(site)];
+const jsonLd = [websiteLd(site), agencyLd(site)];
 const guides = [
   { href: '/final-expense-insurance-florida/', title: 'Final expense insurance in Florida', text: 'Prices, plan types and Florida rules, in one place.' },
   { href: '/final-expense-insurance-cost/', title: 'What it costs', text: 'How age, health, tobacco and coverage change your price.' },
@@ -29,23 +29,23 @@ const guides = [
         <span class="eyebrow">Final expense · Burial insurance</span>
         <h1>Leave your family a paid-for goodbye, not a bill</h1>
         <p class="lede">
-          Straight answers about final expense whole life insurance, real sample prices, and one licensed agent who compares several insurers for you by
-          phone, in English or Spanish.
+          Straight answers about final expense whole life insurance, real sample prices, and a licensed, independent agency that compares several
+          insurers for you by phone, in English or Spanish.
         </p>
         <ul class="checks">
-          <li><Icon name="check" /> Talk to Aaron Eliason, a licensed agent, not a call center</li>
+          <li><Icon name="check" /> Talk with a licensed agent, not a call center</li>
           <li><Icon name="check" /> Several insurers compared in one call</li>
           <li><Icon name="check" /> Your number is never sold or shared</li>
         </ul>
         <div class="btn-row">
-          <PhoneButton label="Call Aaron" location="hero" />
+          <PhoneButton label="Call us" location="hero" />
           <a class="btn btn-outline" href="#quote">Get a quote online</a>
         </div>
         <div class="agent-chip">
-          <span class="avatar" aria-hidden="true">AE</span>
+          <span class="avatar avatar--mark" aria-hidden="true"><Icon name="mark" /></span>
           <p>
-            <strong>{agent.name}</strong>, licensed in {licenses.length} states<br />
-            Florida license {agent.flLicense} · NPN {agent.npn} · <a href={links.dfsLookup} rel="noopener">Verify</a>
+            <strong>{brand.name}</strong>, independent and licensed<br />
+            Florida agent license {agent.flLicense} · NPN {agent.npn} · <a href={links.dfsLookup} rel="noopener">Verify</a>
           </p>
         </div>
       </div>
@@ -62,7 +62,7 @@ const guides = [
       <div class="section-head">
         <span class="eyebrow">Guides</span>
         <h2>Everything you need to decide, in plain English</h2>
-        <p>Each guide is written and reviewed by Aaron, a licensed agent, and dated so you know it's current.</p>
+        <p>Each guide is written and reviewed by a licensed agent and dated so you know it's current.</p>
       </div>
       <div class="cards">
         {guides.map((g) => (
@@ -78,9 +78,9 @@ const guides = [
   <section class="section section--sand">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow">Where Aaron can help</span>
-        <h2>Licensed in {licenses.length} states</h2>
-        <p>Aaron helps families by phone in every state below. <a href="/licenses/">See every license number</a>.</p>
+        <span class="eyebrow">Where we can help</span>
+        <h2>Florida, plus {licenses.length - 1} more states</h2>
+        <p>A licensed agent can help by phone in every state below. <a href="/licenses/">See every license number</a>.</p>
       </div>
       <ul class="pill-list">{licenses.map((l) => <li>{l.name}</li>)}</ul>
     </div>

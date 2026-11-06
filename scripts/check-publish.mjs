@@ -9,7 +9,7 @@
  *  - the D1 database id still a placeholder
  * Run: npm run check:publish   (also runs automatically in npm run build:production)
  */
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -44,6 +44,17 @@ if (!nameableFL.length) problems.push('src/data/carriers.json  no insurer is app
 const okNames = new Set(nameableFL.flatMap((c) => [c.legalName, c.shortName]));
 for (const name of new Set([...rates.matchAll(/insurer:\s*'([^']+)'/g)].map((m) => m[1]).filter((n) => !n.startsWith('TODO'))))
   if (!okNames.has(name)) problems.push(`src/data/rates.ts  a rate names "${name}", which is not appointed in Florida + writable + ad-approved`);
+// Team page: real people only, each with a headshot on disk, written OK, and a checked license.
+const team = JSON.parse(readFileSync(join(root, 'src/data/team.json'), 'utf8'));
+for (const m of team.members) {
+  const who = m.displayName && !m.displayName.startsWith('TODO') ? m.displayName : m.id;
+  if (!m.displayName || m.displayName.startsWith('TODO')) problems.push(`src/data/team.json  ${m.id}: display name not set`);
+  if (!m.photo) problems.push(`src/data/team.json  ${who}: no headshot yet (real photo only)`);
+  else if (!existsSync(join(root, 'src/assets/team', m.photo))) problems.push(`src/data/team.json  ${who}: photo file src/assets/team/${m.photo} is missing`);
+  if (m.bio && m.bio.startsWith('TODO')) problems.push(`src/data/team.json  ${who}: bio not written`);
+  if (!m.consent) problems.push(`src/data/team.json  ${who}: no written OK to appear on the site`);
+  if (!m.verified) problems.push(`src/data/team.json  ${who}: license not checked on DFS/NIPR`);
+}
 const wrangler = readFileSync(join(root, 'wrangler.toml'), 'utf8');
 if (wrangler.includes('00000000-0000-0000-0000-000000000000')) problems.push('wrangler.toml  D1 database_id is still a placeholder');
 if (!process.env.SITE_URL || process.env.SITE_URL.includes('invalid')) problems.push('SITE_URL env var not set to the real domain');

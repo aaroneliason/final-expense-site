@@ -15,10 +15,16 @@ export const brand = {
   shortName: 'Olive Tree',
   tagline: 'Honest final expense insurance, explained by a licensed agent',
   email: 'TODO@example.com',
+  region: 'Central Florida',
   // A trade name needs a Florida insurance AGENCY license (626.112(7)(a), 626.172) + DFS name approval (626.602)
   // + Sunbiz fictitious-name registration. Only Aaron's own name is exempt.
   agencyLicense: 'TODO-not-applied' as 'TODO-not-applied' | 'applied' | 'approved' | 'not-needed-own-name',
+  agencyLicenseNumber: 'TODO', // Florida DFS agency license number, once issued
 };
+
+// SITE VOICE (Aaron, 2026-11-06): the agency speaks as "we". Never print the agent's personal name in page copy;
+// show license numbers so anyone can verify. Say "a licensed agent" (singular) and never imply a team size or
+// headcount we don't have (Fla. Stat. 626.9541(1)(b) false advertising). agent.name appears in ONE place only: the legal owner line on /terms/ (Aaron: "buried but legal").
 
 export const agent = {
   name: 'Aaron Eliason', // exactly as it appears on the license
@@ -29,7 +35,6 @@ export const agent = {
   npn: '21620314',
   licensedSince: 'June 2025',
   languages: ['English', 'Español'],
-  photo: null as string | null, // e.g. '/images/aaron.jpg' — real photo, not stock
   verified: false, // flip to true after checking DFS + NIPR on launch day
 };
 

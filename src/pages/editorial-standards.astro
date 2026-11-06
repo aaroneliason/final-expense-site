@@ -1,6 +1,6 @@
 ---
 import Page from '../layouts/Page.astro';
-import { agent } from '../config/site';
+import { agent, brand } from '../config/site';
 ---
 <Page
   title="Editorial Standards: How We Write and Check These Guides"
@@ -13,7 +13,7 @@ import { agent } from '../config/site';
   <p class="lede">These guides exist to help you make a good decision, even if that decision is not to buy.</p>
   <h2>Who writes and reviews</h2>
   <p>
-    Every guide is written or reviewed by {agent.name}, a licensed life insurance agent (Florida license {agent.flLicense}, NPN {agent.npn}).
+    Every guide is written or reviewed by a licensed life insurance agent at {brand.name} (Florida license {agent.flLicense}, NPN {agent.npn}).
     Each page shows the date it was last reviewed.
   </p>
   <h2>How we check facts</h2>

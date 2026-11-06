@@ -1,0 +1,47 @@
+---
+/**
+ * "Who you'll talk to": headshots from src/data/team.json + src/assets/team/.
+ * Real people and real photos only (see the rules in team.json); no stock or generated faces.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icon from './Icon.astro';
+import team from '../data/team.json';
+
+type Member = {
+  id: string;
+  displayName: string;
+  role: string;
+  photo: string | null;
+  flLicense?: string;
+  npn?: string;
+  languages?: string[];
+  bio?: string;
+  consent: boolean;
+  verified: boolean;
+};
+const photos = import.meta.glob<{ default: ImageMetadata }>('../assets/team/*.{jpg,jpeg,png,webp}', { eager: true });
+const photoFor = (file: string | null) => (file ? photos[`../assets/team/${file}`]?.default : undefined);
+const members = (team.members as Member[]).filter((m) => m.consent);
+---
+<div class="team">
+  {members.map((m) => {
+    const img = photoFor(m.photo);
+    return (
+      <figure class="team-card">
+        {img ? (
+          <Image src={img} alt={`${m.displayName}, ${m.role}`} widths={[240, 360, 480]} sizes="(min-width: 760px) 240px, 45vw" class="team-photo" />
+        ) : (
+          <div class="team-photo team-photo--empty" aria-hidden="true"><Icon name="mark" /><span>Headshot coming</span></div>
+        )}
+        <figcaption>
+          <strong>{m.displayName}</strong>
+          <span>{m.role}</span>
+          {m.flLicense && <span class="small">FL license {m.flLicense}{m.npn ? ` · NPN ${m.npn}` : ''}</span>}
+          {m.languages?.length ? <span class="small">{m.languages.join(' · ')}</span> : null}
+          {m.bio && <p>{m.bio}</p>}
+        </figcaption>
+      </figure>
+    );
+  })}
+</div>

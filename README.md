@@ -47,6 +47,7 @@ SITE_URL=https://<domain> npm run build:production   # refuses to build until ch
 | Business facts (brand, phone, licenses) | `src/config/site.ts` |
 | Insurers: appointments by state, live contract, ad approval | `src/data/carriers.json` |
 | Sample rates (must name the insurer + date; Fla. Rule 69B-150.114) | `src/data/rates.ts` |
+| Team page: real people, headshots, licenses | `src/data/team.json`, `src/assets/team/` |
 | Consent wording (bump `CONSENT_VERSION` on any change) | `src/lib/consent.ts` |
 | Structured data (InsuranceAgency, Person, Article, Breadcrumbs) | `src/lib/schema.ts` |
 | Design system | `src/styles/global.css` |

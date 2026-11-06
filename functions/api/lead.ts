@@ -2,10 +2,10 @@
  * POST /api/lead — quote-form submissions.
  * - Rejects bots (honeypot + Cloudflare Turnstile)
  * - Requires the consent box, stores the EXACT consent text shown plus time, IP, page and version
- * - Saves the lead to D1, then alerts Aaron (webhook and/or email). The lead is never shared or sold.
+ * - Saves the lead to D1, then alerts the agency (webhook and/or email). The lead is never shared or sold.
  * Accepts JSON (multi-step form) or form-encoded posts (no-JavaScript fallback → 303 to /thank-you/).
  */
-import { agent, brand } from '../../src/config/site';
+import { brand } from '../../src/config/site';
 import { CONSENT_VERSION, consentText } from '../../src/lib/consent';
 
 interface Env {
@@ -117,7 +117,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   // Consent proof: the server rebuilds the exact text for the version the page showed.
   const version = pick(raw, 'consent_version', 40);
   if (version !== CONSENT_VERSION) return reply(isJson, 409, { error: 'This page is out of date. Please refresh and try again.' }, url.origin);
-  const consent = consentText(agent.name, brand.name).plain;
+  const consent = consentText(brand.name).plain;
 
   const id = crypto.randomUUID();
   const created_at = new Date().toISOString();

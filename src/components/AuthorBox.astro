@@ -1,16 +1,20 @@
 ---
-import { agent, lastReviewed } from '../config/site';
+import Icon from './Icon.astro';
+import { agent, brand, lastReviewed, links } from '../config/site';
 interface Props {
   reviewed?: string;
 }
 const { reviewed = lastReviewed } = Astro.props;
 const date = new Date(reviewed + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-const initials = agent.name.split(' ').map((p) => p[0]).join('');
 ---
-<aside class="author-box" aria-label="About the author">
-  {agent.photo ? <img src={agent.photo} alt={agent.name} width="60" height="60" class="avatar" /> : <span class="avatar" aria-hidden="true">{initials}</span>}
+<aside class="author-box" aria-label="Who wrote this guide">
+  <span class="avatar avatar--mark" aria-hidden="true"><Icon name="mark" /></span>
   <div>
-    <p><strong>Written and reviewed by <a href="/about/">{agent.name}</a></strong>, licensed life insurance agent (Florida license {agent.flLicense}, NPN {agent.npn}).</p>
+    <p>
+      <strong>Written and reviewed by <a href="/about/">{brand.name}</a></strong>, an independent insurance agency. Every guide is checked by a
+      licensed life insurance agent (Florida license {agent.flLicense}, NPN {agent.npn};
+      <a href={links.dfsLookup} rel="noopener">verify with Florida DFS</a>).
+    </p>
     <p class="reviewed">Last reviewed {date}. <a href="/editorial-standards/">How we write and check these guides</a>.</p>
   </div>
 </aside>

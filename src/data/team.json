@@ -1,0 +1,17 @@
+{
+  "rules": "Real people only. Each person needs a real, recent photo (saved as src/assets/team/<photo>), written OK to appear on the site, and a license checked on Florida DFS / NIPR (verified: true). Only list agents who are licensed in Florida and take calls for the agency. displayName is how the name is shown. check:publish blocks launch until every entry is complete.",
+  "members": [
+    {
+      "id": "founder",
+      "displayName": "TODO",
+      "role": "Founder and agent in charge",
+      "photo": null,
+      "flLicense": "G246242",
+      "npn": "21620314",
+      "languages": ["English", "Español"],
+      "bio": "TODO: one or two sentences in a professional voice",
+      "consent": true,
+      "verified": false
+    }
+  ]
+}

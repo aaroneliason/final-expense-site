@@ -1,16 +1,16 @@
 ---
 import Page from '../layouts/Page.astro';
-import { agent, brand, phone } from '../config/site';
+import { brand, phone } from '../config/site';
 ---
 <Page
   title="Privacy Policy"
   h1="Privacy policy"
-  description="What information this site collects, how Aaron Eliason uses it, who it is shared with (never sold), and how to opt out or ask for deletion."
+  description="What information this site collects, how we use it, who it is shared with (never sold), and how to opt out or ask for deletion."
   path="/privacy/"
   crumb="Privacy"
   updated="2026-11-06"
 >
-  <p class="lede">Short version: your information goes to {agent.name} only. It is never sold, rented or shared with other agents.</p>
+  <p class="lede">Short version: your information stays with {brand.name}. It is never sold, rented or shared with other agents.</p>
   <p>(TODO: have NBG compliance or a lawyer review this policy before launch.)</p>
 
   <h2>What we collect</h2>
@@ -42,11 +42,11 @@ import { agent, brand, phone } from '../config/site';
   </ul>
 
   <h2>Security and retention</h2>
-  <p>Form submissions are stored encrypted in transit and at rest with our hosting provider, and access is limited to {agent.name}. (TODO: state the retention period once decided.)</p>
+  <p>Form submissions are stored encrypted in transit and at rest with our hosting provider, and only {brand.name} can access it. (TODO: state the retention period once decided.)</p>
 
   <h2>Children</h2>
   <p>This site is for adults. We don't knowingly collect information from children under 18.</p>
 
   <h2>Contact</h2>
-  <p>{agent.name}, {brand.name} · {phone.display} · {brand.email}</p>
+  <p>{brand.name} · {phone.display} · {brand.email}</p>
 </Page>
