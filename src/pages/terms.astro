@@ -13,16 +13,17 @@ import { agent, brand, phone } from '../config/site';
   <p>(TODO: have NBG compliance or a lawyer review these terms before launch.)</p>
   <h2>About this site</h2>
   <p>
-    This site is run by {agent.name}, a licensed insurance agent doing business as {brand.name}. It gives general information about life
-    insurance. It isn't legal, tax or financial advice. Insurance is offered only in states where {agent.name} is licensed, and every policy is
+    This site is run by {brand.name}, an independent insurance agency. It gives general information about life insurance. It isn't legal,
+    tax or financial advice. Insurance is offered only in states where we are licensed, and every policy is
     subject to the insurer's approval and the terms of the policy itself.
   </p>
+  <p class="small">{brand.name} is a trade name of {agent.name}, sole proprietor, Florida insurance agent license {agent.flLicense}.</p>
   <h2>Prices and examples</h2>
   <p>Sample prices are real quotes for specific applicants on the dates shown. Your price may differ and isn't guaranteed until the insurer approves your application.</p>
 
   <h2 id="sms">Text message (SMS) terms</h2>
   <ul>
-    <li><strong>What you'll get:</strong> messages from {agent.name} about the life insurance you asked about: scheduling, quotes and application follow-up.</li>
+    <li><strong>What you'll get:</strong> messages from {brand.name} about the life insurance you asked about: scheduling, quotes and application follow-up.</li>
     <li><strong>How often:</strong> it varies, usually a few messages around your quote.</li>
     <li><strong>Cost:</strong> message and data rates may apply.</li>
     <li><strong>Stop any time:</strong> reply <strong>STOP</strong>. For help, reply <strong>HELP</strong> or call {phone.display}.</li>

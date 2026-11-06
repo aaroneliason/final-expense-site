@@ -1,20 +1,20 @@
 ---
 import Page from '../layouts/Page.astro';
 import PhoneButton from '../components/PhoneButton.astro';
-import { agent, phone } from '../config/site';
+import { phone } from '../config/site';
 ---
 <Page title="Thank you" h1="Thank you" description="Your request was received." path="/thank-you/" crumb="Thank you" noindex>
-  <p class="lede" data-greet>Your request is in. {agent.name} will call you soon.</p>
+  <p class="lede" data-greet>Your request is in. A licensed agent will call you soon.</p>
   <ul>
-    <li><strong>When:</strong> as soon as he can, usually the same business day ({phone.hours}), or at the time you picked.</li>
-    <li><strong>From:</strong> {phone.display}. Please save the number so you know it's Aaron.</li>
+    <li><strong>When:</strong> as soon as we can, usually the same business day ({phone.hours}), or at the time you picked.</li>
+    <li><strong>From:</strong> {phone.display}. Please save the number so you know it's us.</li>
     <li><strong>Have ready:</strong> your date of birth and a list of your current medicines. It makes the call faster.</li>
   </ul>
   <p>Can't wait? Call now:</p>
-  <div class="btn-row"><PhoneButton label="Call Aaron" location="thank-you" /></div>
+  <div class="btn-row"><PhoneButton label="Call us" location="thank-you" /></div>
 </Page>
 <script>
   const n = new URLSearchParams(location.search).get('n');
   const el = document.querySelector('[data-greet]');
-  if (n && el) el.textContent = `Thank you, ${n.slice(0, 40)}. Your request is in, and Aaron will call you soon.`;
+  if (n && el) el.textContent = `Thank you, ${n.slice(0, 40)}. Your request is in, and a licensed agent will call you soon.`;
 </script>

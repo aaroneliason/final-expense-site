@@ -5,7 +5,7 @@
  * Health detail is NOT collected here — it belongs on the call.
  */
 import Icon from './Icon.astro';
-import { agent, brand, licenses, phone } from '../config/site';
+import { brand, licenses, phone, turnstile } from '../config/site';
 import { CONSENT_VERSION, consentText } from '../lib/consent';
 
 interface Props {
@@ -14,8 +14,8 @@ interface Props {
   defaultState?: string;
 }
 const { id = 'quote', heading = 'See your options', defaultState = 'FL' } = Astro.props;
-const consent = consentText(agent.name, brand.name);
-const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'; // Cloudflare test key in preview
+const consent = consentText(brand.name);
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.siteKey;
 ---
 <form class="qf" id={id} method="post" action="/api/lead" novalidate data-quote-form>
   <div class="qf-head">
@@ -58,7 +58,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       <option value="other">Another state</option>
     </select>
     <p class="qf-help" data-other-state hidden>
-      Aaron can only help in states where he holds a license. Leave your number and he'll tell you honestly if he can't help.
+      We can only help in states where we're licensed. Leave your number and we'll tell you honestly if we can't help.
     </p>
   </div>
 
@@ -87,7 +87,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     </fieldset>
     <fieldset>
       <legend>Any major health conditions?</legend>
-      <p class="qf-help">Just yes or no for now. Aaron goes over details privately on the call.</p>
+      <p class="qf-help">Just yes or no for now. A licensed agent goes over the details privately on the call.</p>
       <div class="qf-options">
         <label class="qf-option"><input type="radio" name="health" value="no" required /> No</label>
         <label class="qf-option"><input type="radio" name="health" value="yes" /> Yes</label>
@@ -138,7 +138,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     <button type="submit" class="btn btn-primary btn-block" data-submit>Get my quote</button>
   </div>
   <p class="qf-alt">
-    Rather talk now? <a href={`tel:${phone.tel}`} data-track="call" data-location="form">Call Aaron at {phone.display}</a>
+    Rather talk now? <a href={`tel:${phone.tel}`} data-track="call" data-location="form">Call us at {phone.display}</a>
   </p>
 </form>
 
@@ -209,7 +209,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       for (const f of fields) {
         if (f.type === 'radio' || f.type === 'hidden') continue;
         if (f.required && f.type === 'checkbox' && !(f as HTMLInputElement).checked)
-          return 'Please check the consent box so Aaron can call you, or call him directly.';
+          return 'Please check the consent box so we can call you, or call us directly.';
         if (f.required && !f.value.trim()) return 'Please fill in your name and phone number.';
         if (f.name === 'phone' && f.value.replace(/\D/g, '').length < 10) return 'Please enter a 10-digit phone number.';
       }
@@ -271,7 +271,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         track('form_submit', { state: data.state, coverage: data.coverage });
         location.href = `/thank-you/?n=${encodeURIComponent(String(data.first_name || ''))}`;
       } catch (ex) {
-        err.textContent = `${(ex as Error).message} You can also call Aaron directly.`;
+        err.textContent = `${(ex as Error).message} You can also call us directly.`;
         err.hidden = false;
         submit.disabled = false;
         submit.textContent = 'Get my quote';

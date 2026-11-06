@@ -31,7 +31,7 @@ const stateList = licenses.map((l) => l.name).join(', ');
       <div>
         <h3>About</h3>
         <ul>
-          <li><a href="/about/">About Aaron and how he's paid</a></li>
+          <li><a href="/about/">About us and how we're paid</a></li>
           <li><a href="/licenses/">Licenses</a></li>
           <li><a href="/editorial-standards/">Editorial standards</a></li>
           <li><a href="/contact/">Contact</a></li>
@@ -48,7 +48,8 @@ const stateList = licenses.map((l) => l.name).join(', ');
     </div>
     <div class="footer-legal">
       <p>
-        {agent.name}, licensed life insurance agent. Florida license {agent.flLicense} · NPN {agent.npn}. Licensed in: {stateList}.
+        {brand.name} · Florida agency license {brand.agencyLicenseNumber} · Agent in charge: Florida license {agent.flLicense}, NPN {agent.npn}.
+        Agent licensed in: {stateList}.
         Verify a license with the <a href={links.dfsLookup} rel="noopener">Florida Department of Financial Services</a> or
         <a href={links.nipr} rel="noopener">NIPR</a>.
       </p>
@@ -57,7 +58,7 @@ const stateList = licenses.map((l) => l.name).join(', ');
         policy. Coverage, rates and eligibility vary by carrier and state and are not guaranteed until the insurer approves your application.
       </p>
       <p><strong>Not affiliated with or endorsed by any government agency, including Medicare, Social Security or the VA.</strong></p>
-      <p>© {year} {brand.name}. Content reviewed by {agent.name}.</p>
+      <p>© {year} {brand.name}. Content reviewed by a licensed agent.</p>
     </div>
   </div>
 </footer>

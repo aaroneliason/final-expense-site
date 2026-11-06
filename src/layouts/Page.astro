@@ -2,7 +2,7 @@
 /** Simple layout for about / legal / utility pages. */
 import Base from './Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { agencyLd, breadcrumbLd, personLd, websiteLd } from '../lib/schema';
+import { agencyLd, breadcrumbLd, websiteLd } from '../lib/schema';
 interface Props {
   title: string;
   h1: string;
@@ -18,7 +18,7 @@ const crumbs = [
   { name: 'Home', path: '/' },
   { name: crumb, path },
 ];
-const jsonLd = [websiteLd(site), agencyLd(site), personLd(site), breadcrumbLd(site, crumbs)];
+const jsonLd = [websiteLd(site), agencyLd(site), breadcrumbLd(site, crumbs)];
 ---
 <Base {title} {description} {path} {noindex} {jsonLd}>
   <section class="hero" style="padding-bottom:2rem">

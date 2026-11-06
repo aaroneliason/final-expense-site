@@ -2,7 +2,7 @@
 import Icon from './Icon.astro';
 import { agent, licenses, links } from '../config/site';
 ---
-{/* TODO: before launch, confirm ≥2 insurers are appointed in Florida AND have approved this page; otherwise reword "Several insurers" (DFS showed only Fidelity Life, American General, United of Omaha on 2026-11-06). */}
+{/* "Several insurers" is checked by scripts/check-publish.mjs against src/data/carriers.json (needs 2+ insurers writable in Florida). */}
 <div class="trust">
   <div class="trust-item">
     <Icon name="badge" />
@@ -14,10 +14,10 @@ import { agent, licenses, links } from '../config/site';
   </div>
   <div class="trust-item">
     <Icon name="chat" />
-    <p><strong>You talk to Aaron</strong><br />Not a call center. No pressure, and your number is never sold.</p>
+    <p><strong>A licensed agent, not a call center</strong><br />No pressure, and your number is never sold.</p>
   </div>
   <div class="trust-item">
     <Icon name="globe" />
-    <p><strong>Se habla español</strong><br />Aaron can explain everything in English or Spanish.</p>
+    <p><strong>Se habla español</strong><br />We can explain everything in English or Spanish.</p>
   </div>
 </div>

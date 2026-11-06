@@ -9,13 +9,13 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CtaBand from '../components/CtaBand.astro';
 import PhoneButton from '../components/PhoneButton.astro';
 import Icon from '../components/Icon.astro';
-import { agent, carriers, lastReviewed, links } from '../config/site';
-import { agencyLd, articleLd, breadcrumbLd, personLd, websiteLd } from '../lib/schema';
+import { agent, brand, lastReviewed, links, nameableIn } from '../config/site';
+import { agencyLd, articleLd, breadcrumbLd, websiteLd } from '../lib/schema';
 
 const path = '/final-expense-insurance-florida/';
-const title = 'Burial & Final Expense Insurance in Florida | Aaron Eliason, Licensed Agent';
+const title = 'Burial & Final Expense Insurance in Florida | Olive Tree Insurance Agency';
 const description =
-  'Plain answers and real sample prices for final expense and burial insurance in Florida, from a licensed independent agent. Compare several insurers in one call. Se habla español.';
+  'Plain answers and real sample prices for final expense and burial insurance in Florida, from a licensed independent agency. Compare several insurers in one call. Se habla español.';
 const site = Astro.site!;
 const crumbs = [
   { name: 'Home', path: '/' },
@@ -24,11 +24,10 @@ const crumbs = [
 const jsonLd = [
   websiteLd(site),
   agencyLd(site),
-  personLd(site),
   breadcrumbLd(site, crumbs),
   articleLd(site, { path, headline: 'Final expense and burial insurance in Florida', description, datePublished: '2026-11-06', dateModified: lastReviewed }),
 ];
-const carrierNames = carriers.filter((c) => c.adApproval === 'approved').map((c) => c.shortName);
+const carrierNames = nameableIn('FL').map((c) => c.shortName);
 
 const faqs = [
   {
@@ -37,11 +36,11 @@ const faqs = [
   },
   {
     q: 'Can I get coverage if I have diabetes, COPD or heart problems?',
-    a: `<p>Often, yes. Many insurers accept conditions that are under control, sometimes at regular rates. Others offer a plan with a waiting period. Aaron asks the health questions privately on the call and tells you honestly which plans you can qualify for.</p>`,
+    a: `<p>Often, yes. Many insurers accept conditions that are under control, sometimes at regular rates. Others offer a plan with a waiting period. A licensed agent asks the health questions privately on the call and tells you honestly which plans you can qualify for.</p>`,
   },
   {
     q: 'Is there a medical exam?',
-    a: `<p>No exam and no needles on the final expense plans Aaron offers. Instead there are health questions, and with your permission the insurer usually checks your prescription history and medical records databases. That's why answering honestly matters: a wrong answer can cause problems for your family later.</p>`,
+    a: `<p>No exam and no needles on the final expense plans we offer. Instead there are health questions, and with your permission the insurer usually checks your prescription history and medical records databases. That's why answering honestly matters: a wrong answer can cause problems for your family later.</p>`,
   },
   {
     q: 'How fast does coverage start?',
@@ -49,19 +48,19 @@ const faqs = [
   },
   {
     q: 'Will my premium go up as I get older?',
-    a: `<p>On the whole life plans used for final expense, the premium is normally set when you buy and doesn't rise with age, and the coverage doesn't expire while premiums are paid. Your policy spells out the exact terms. Ask Aaron to show you before you apply.</p>`,
+    a: `<p>On the whole life plans used for final expense, the premium is normally set when you buy and doesn't rise with age, and the coverage doesn't expire while premiums are paid. Your policy spells out the exact terms. Ask us to show you before you apply.</p>`,
   },
   {
     q: 'Can I cancel if I change my mind?',
-    a: `<p>Yes. Florida gives you a "free look" period after the policy is delivered to cancel for a full refund (TODO: verify the exact number of days for individual life insurance in Florida). Your policy states the exact deadline. After that you can still stop paying, but any premiums already paid aren't refunded.</p>`,
+    a: `<p>Yes. Policies sold by phone in Florida usually let you cancel for a full refund for at least 14 days after the policy arrives (<a href="${links.flRefundStatute}" rel="noopener">Florida Statutes 626.99</a>), and some insurers allow 30. Your policy states the exact deadline. After that you can still stop paying, but premiums already paid aren't refunded.</p>`,
   },
   {
-    q: 'Who pays Aaron?',
-    a: `<p>The insurance company pays Aaron a commission when a policy is issued. You don't pay him anything, and buying through him doesn't change the premium the insurer charges. <a href="/about/">How Aaron is paid</a>.</p>`,
+    q: 'How do you get paid?',
+    a: `<p>The insurance company pays us a commission when a policy is issued. You don't pay us anything, and buying through us doesn't change the premium the insurer charges. <a href="/about/">How we're paid</a>.</p>`,
   },
   {
     q: 'Will you sell my phone number?',
-    a: `<p>No. What you share goes only to Aaron. It's never sold, rented or passed to other agents, and you can ask him to stop contacting you at any time. <a href="/privacy/">Privacy policy</a>.</p>`,
+    a: `<p>No. What you share stays with Olive Tree Insurance Agency. It's never sold, rented or passed to other agents, and you can ask us to stop contacting you at any time. <a href="/privacy/">Privacy policy</a>.</p>`,
   },
 ];
 ---
@@ -71,10 +70,10 @@ const faqs = [
       <Breadcrumbs items={crumbs} />
       <div class="grid-2">
         <div>
-          <span class="eyebrow">Florida · Licensed independent agent</span>
+          <span class="eyebrow">Florida · Licensed independent agency</span>
           <h1>Final expense &amp; burial insurance in Florida</h1>
           <p class="lede">
-            Plain answers and real prices from Aaron Eliason, a Florida-licensed agent. Compare several insurers in one call, and apply by
+            Plain answers and real prices from a licensed, independent Florida agency. Compare several insurers in one call, and apply by
             phone if a plan fits.
           </p>
           <ul class="checks">
@@ -83,14 +82,14 @@ const faqs = [
             <li><Icon name="check" /> Options for many health conditions, explained honestly</li>
           </ul>
           <div class="btn-row">
-            <PhoneButton label="Call Aaron" location="hero" />
+            <PhoneButton label="Call us" location="hero" />
             <a class="btn btn-outline" href="#quote">Get a quote online</a>
           </div>
           <div class="agent-chip">
-            {agent.photo ? <img src={agent.photo} alt="" width="60" height="60" /> : <span class="avatar" aria-hidden="true">AE</span>}
+            <span class="avatar avatar--mark" aria-hidden="true"><Icon name="mark" /></span>
             <p>
-              <strong>{agent.name}</strong>, licensed life insurance agent<br />
-              Florida license {agent.flLicense} · NPN {agent.npn} · <a href={links.dfsLookup} rel="noopener">Verify with Florida DFS</a>
+              <strong>Olive Tree Insurance Agency</strong>, independent and Florida-licensed<br />
+              Agent license {agent.flLicense} · NPN {agent.npn} · <a href={links.dfsLookup} rel="noopener">Verify with Florida DFS</a>
             </p>
           </div>
         </div>
@@ -137,8 +136,8 @@ const faqs = [
       </div>
       <ol class="steps">
         <li><h3>Call or answer six questions</h3><p>Online or by phone, whichever is easier for you.</p></li>
-        <li><h3>Aaron compares insurers</h3><p>He checks prices and health rules with the insurers he's appointed with.</p></li>
-        <li><h3>Pick a plan, or don't</h3><p>He explains the options in plain words. No pressure to decide on the spot.</p></li>
+        <li><h3>We compare insurers</h3><p>We check prices and health rules with the insurers we're appointed with.</p></li>
+        <li><h3>Pick a plan, or don't</h3><p>We explain the options in plain words. No pressure to decide on the spot.</p></li>
         <li><h3>Apply by phone</h3><p>Many insurers give a decision during the call. Coverage starts once approved and the first premium is paid.</p></li>
       </ol>
     </div>
@@ -191,28 +190,24 @@ const faqs = [
         <h2>What's different about buying in Florida</h2>
         <h3>Check any agent's license</h3>
         <p>
-          Florida's Department of Financial Services lets anyone look up an agent's license. Aaron's Florida license number is
-          {agent.flLicense}. <a href={links.dfsLookup} rel="noopener">Search it yourself</a> before you share anything.
+          Florida's Department of Financial Services lets anyone look up an agent's or agency's license. Our license numbers are on our
+          <a href="/licenses/">licenses page</a>. <a href={links.dfsLookup} rel="noopener">Search them yourself</a> before you share anything.
         </p>
-        <h3>Your free look period</h3>
+        <h3>Time to change your mind</h3>
         <p>
-          After your policy is delivered, Florida law gives you time to review it and cancel for a full refund (TODO: verify the number of days
-          and the statute). The exact deadline is printed in your policy.
-        </p>
-        <h3>Protection if an insurer fails</h3>
-        <p>
-          Florida's Life and Health Insurance Guaranty Association protects policyholders of licensed insurers up to set limits (TODO: verify
-          the current limits and link the association). Aaron works with insurers licensed in Florida.
+          Florida law requires an insurer either to give you a buyer's guide before you pay, or to let you cancel for a full refund for at least
+          14 days after the policy arrives (<a href={links.flRefundStatute} rel="noopener">Florida Statutes 626.99</a>). Policies sold by phone
+          usually come with the refund window, and some insurers allow 30 days. The exact deadline is printed in your policy.
         </p>
         <h3>Se habla español</h3>
-        <p>Aaron can walk you and your family through every question in Spanish, including what your beneficiaries need to do later.</p>
+        <p>We can walk you and your family through every question in Spanish, including what your beneficiaries need to do later.</p>
       </div>
       <aside class="card">
         <h3>What funerals cost today</h3>
         <p>
-          The National Funeral Directors Association put the national median at about <strong>$8,300</strong> for a funeral with viewing and
-          burial, and about <strong>$6,280</strong> with cremation, in 2023 (TODO: confirm figures and check for a newer NFDA study). Cemetery
-          costs, like the plot and headstone, are extra.
+          The National Funeral Directors Association's 2023 price study put the national median at about <strong>$8,300</strong> for a
+          funeral with viewing and burial, and about <strong>$6,280</strong> with cremation. Cemetery costs, like the plot and headstone, are
+          extra.
         </p>
         <p class="small">Prices vary a lot between funeral homes. Under the FTC's Funeral Rule, every funeral home must give you an itemized price list.</p>
       </aside>
@@ -251,17 +246,17 @@ const faqs = [
     <div class="wrap grid-2">
       <div class="prose">
         <span class="eyebrow">Who you'll talk to</span>
-        <h2>About Aaron and how he's paid</h2>
+        <h2>About us and how we're paid</h2>
         <p>
-          Aaron Eliason is an independent life insurance agent based in {agent.city}, licensed since {agent.licensedSince}. He helps families by
-          phone across Florida and the other states where he's licensed, in English and Spanish.
+          Olive Tree Insurance Agency is an independent life insurance agency in {brand.region}. We help families by phone across Florida, in
+          English and Spanish, and every call is with a licensed agent.
         </p>
         <p>
-          Because he's independent, he can compare plans from several insurers{carrierNames.length ? ` (including ${carrierNames.join(', ')})` : ''}.
-          The insurer pays him a commission when a policy is issued; you never pay him, and your premium is the same as buying from the insurer
+          Because we're independent, we compare plans from several insurers{carrierNames.length ? ` (including ${carrierNames.join(', ')})` : ''}.
+          The insurer pays us a commission when a policy is issued; you never pay us, and your premium is the same as buying from the insurer
           directly.
         </p>
-        <p><a href="/about/">More about Aaron →</a></p>
+        <p><a href="/about/">More about us →</a></p>
       </div>
       <QuoteForm id="quote-2" heading="Ready when you are" defaultState="FL" />
     </div>

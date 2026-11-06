@@ -1,23 +1,24 @@
 ---
 import Page from '../layouts/Page.astro';
-import { agent, licenses, links } from '../config/site';
+import { agent, brand, licenses, links } from '../config/site';
 const fmt = (d?: string) => (d ? new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—');
 ---
 <Page
-  title="Licenses: Aaron Eliason, Life Insurance Agent"
+  title={`Licenses: ${brand.name}`}
   h1="Licenses"
-  description="Every state where Aaron Eliason is licensed to sell life insurance, with his Florida license number and NPN so you can verify them."
+  description="Our Florida agency license and every state where our agent is licensed to sell life insurance, with numbers you can verify."
   path="/licenses/"
   crumb="Licenses"
   updated="2026-11-06"
 >
   <p>
-    {agent.name} · National Producer Number (NPN) <strong>{agent.npn}</strong> · Florida resident license <strong>{agent.flLicense}</strong>.
+    {brand.name}: Florida insurance agency license <strong>{brand.agencyLicenseNumber}</strong>. Agent in charge: Florida resident license
+    <strong>{agent.flLicense}</strong> · National Producer Number (NPN) <strong>{agent.npn}</strong>.
     Verify with <a href={links.dfsLookup} rel="noopener">Florida DFS</a> or <a href={links.nipr} rel="noopener">NIPR</a>.
   </p>
   <div class="table-wrap">
     <table>
-      <caption>Life insurance licenses</caption>
+      <caption>Agent life insurance licenses</caption>
       <thead><tr><th scope="col">State</th><th scope="col">Type</th><th scope="col">Renewal date</th></tr></thead>
       <tbody>
         {licenses.map((l) => (
@@ -29,6 +30,7 @@ const fmt = (d?: string) => (d ? new Date(d + 'T12:00:00').toLocaleDateString('e
         ))}
       </tbody>
     </table>
+    {/* TODO: before marketing any non-Florida state under the Olive Tree name, check that state's agency / assumed-name rules; if needed, list Florida only. */}
     <p class="table-note">Checked against NIPR on (TODO: date). If a license lapses, the state is removed from this site the same day.</p>
   </div>
 </Page>

@@ -4,7 +4,7 @@ interface Props {
   rows?: RateRow[];
   caption?: string;
 }
-const { rows = sampleRates, caption = 'Sample monthly premiums — $10,000 of coverage, non-tobacco' } = Astro.props;
+const { rows = sampleRates, caption = 'Sample Florida monthly premiums — $10,000 of coverage, non-tobacco' } = Astro.props;
 const fmt = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 });
 const anyPlaceholder = rows.some((r) => r.placeholder);
 ---

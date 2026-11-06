@@ -14,7 +14,7 @@ const nav =
         { href: '/final-expense-insurance-florida/', label: 'Florida' },
         { href: '/final-expense-insurance-cost/', label: 'Costs' },
         { href: '/guaranteed-issue-vs-simplified-issue/', label: 'Which plan?' },
-        { href: '/about/', label: 'About Aaron' },
+        { href: '/about/', label: 'About us' },
       ];
 ---
 <header class="site-header">
@@ -26,7 +26,7 @@ const nav =
     <nav class="nav" aria-label="Main">
       {nav.map((n) => <a href={n.href} aria-current={path === n.href ? 'page' : undefined}>{n.label}</a>)}
     </nav>
-    <PhoneButton class="header-call" label={lang === 'es' ? 'Llame a Aaron' : 'Call Aaron'} location="header" />
+    <PhoneButton class="header-call" label={lang === 'es' ? 'Llámenos' : 'Call us'} location="header" />
     <a class="header-call-mobile" href={`tel:${phone.tel}`} data-track="call" data-location="header-mobile">{phone.display}</a>
   </div>
 </header>

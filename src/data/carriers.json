@@ -1,0 +1,11 @@
+{
+  "checkedOn": "2026-11-06",
+  "rules": "appointedIn = states where Aaron holds an ACTIVE appointment (Florida: DFS licensee search; other states: NIPR). writable = Aaron confirmed the contract is live and he can submit business now. adApproval = the insurer's written approval of this site's copy. A carrier can be NAMED on a state's pages only when all three are true (Fla. Stat. 626.112(2); FAC 69B-150). Edit this file, then run npm run check:publish.",
+  "carriers": [
+    { "legalName": "Fidelity Life Association", "shortName": "Fidelity Life", "appointedIn": [ "FL" ], "writable": true, "adApproval": "not-submitted" },
+    { "legalName": "American General Life Insurance Company", "shortName": "American General", "appointedIn": [ "FL" ], "writable": true, "adApproval": "not-submitted" },
+    { "legalName": "United of Omaha Life Insurance Company", "shortName": "United of Omaha", "appointedIn": [ "FL" ], "writable": true, "adApproval": "not-submitted" },
+    { "legalName": "American Home Life Insurance Company", "shortName": "American Home Life", "appointedIn": [], "writable": true, "adApproval": "not-submitted" },
+    { "legalName": "Americo Financial Life and Annuity Insurance Company", "shortName": "Americo", "appointedIn": [], "writable": true, "adApproval": "not-submitted" }
+  ]
+}
