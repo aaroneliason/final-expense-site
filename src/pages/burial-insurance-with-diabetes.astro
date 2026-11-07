@@ -1,0 +1,104 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Faq from '../components/Faq.astro';
+
+const faqs = [
+  {
+    q: 'Can a diabetic get burial insurance?',
+    a: '<p>Yes. Many people with diabetes qualify for full coverage from the first day, especially when it’s controlled with pills and there are no complications. If not, graded plans may fit, and guaranteed issue plans don’t ask health questions at all. Those have a waiting period and cost more.</p>',
+  },
+  {
+    q: 'Does using insulin mean I’ll pay more?',
+    a: '<p>Not always. Some insurers treat insulin-controlled diabetes without complications the same as diabetes controlled with pills. Others charge more or offer a plan with a waiting period. Comparing insurers is how you find the best fit.</p>',
+  },
+  {
+    q: 'Will the insurer find out about my diabetes?',
+    a: '<p>Yes. With your permission, insurers check prescription records and other medical databases, so your diabetes medicines will show up. Leaving diabetes off the application doesn’t help. It can lead to a declined application or a denied claim.</p>',
+  },
+  {
+    q: 'Do I need an exam or a blood test?',
+    a: '<p>No. There’s no exam and no needles on the final expense plans we offer. Approval depends on your answers to a few health questions and the insurer’s records check.</p>',
+  },
+];
+---
+<Guide
+  title="Burial Insurance With Diabetes: What to Expect"
+  h1="Burial insurance with diabetes"
+  description="Final expense insurance with diabetes: how insurers look at pills, insulin and complications, which plan is typical, and what to have ready."
+  path="/burial-insurance-with-diabetes/"
+  crumb="Burial insurance with diabetes"
+  eyebrow="Health conditions"
+  lede="Most people with diabetes can get final expense coverage, and many whose diabetes is under control qualify for full coverage from the first day. Here's how insurers decide."
+  published="2026-11-07"
+  reviewed="2026-11-07"
+  summary={[
+    'Diabetes controlled with pills, with no complications, often qualifies for full coverage from day one.',
+    "Insulin doesn't rule you out. Some insurers still offer full coverage; others offer a plan with a waiting period.",
+    'Complications such as kidney disease, nerve damage or an amputation usually mean a plan with a waiting period.',
+    'No medical exam. Approval depends on your answers to a few health questions.',
+  ]}
+>
+  <h2>How insurers look at diabetes</h2>
+  <p>
+    Final expense insurers don't ask for blood tests. They ask a few yes-or-no health questions, and with your permission they check your
+    prescription history. For diabetes, the questions usually come down to three things:
+  </p>
+  <ul>
+    <li><strong>How it's treated:</strong> diet, pills, insulin, or a mix.</li>
+    <li>
+      <strong>Whether it has caused complications,</strong> such as kidney disease, nerve damage (neuropathy), eye damage (retinopathy),
+      circulation problems or an amputation.
+    </li>
+    <li><strong>When it started,</strong> and whether you've had a recent diabetic emergency, such as a diabetic coma or insulin shock.</li>
+  </ul>
+  <p>
+    Each insurer words its questions differently and draws the lines in different places. That's why comparing several insurers matters so
+    much with diabetes.
+  </p>
+
+  <h2>What's typical, by situation</h2>
+  <div class="table-wrap">
+    <table class="stack">
+      <caption>Typical outcomes with diabetes. Each insurer sets its own rules, so this is a starting point, not a promise.</caption>
+      <thead>
+        <tr><th scope="col">Your situation</th><th scope="col">What's typical</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Diet or pills only, no complications</th><td data-label="What's typical">Often full coverage from day one (a simplified issue plan).</td></tr>
+        <tr><th scope="row">Insulin, no complications</th><td data-label="What's typical">Depends on the insurer. Some offer full coverage; some ask when insulin started or how much you use; others offer a plan with a waiting period.</td></tr>
+        <tr><th scope="row">Complications (kidney, nerve, eye or circulation problems, or an amputation)</th><td data-label="What's typical">Usually a graded or guaranteed issue plan, with a waiting period.</td></tr>
+        <tr><th scope="row">A recent diabetic coma or insulin shock</th><td data-label="What's typical">Often a plan with a waiting period, at least for a while.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What helps your application</h2>
+  <ul>
+    <li><strong>A full list of your medicines and doses.</strong> The insurer will see your prescriptions anyway, so a matching list avoids surprises.</li>
+    <li><strong>The year you were diagnosed,</strong> and when you started insulin if you use it.</li>
+    <li><strong>The names of your doctors,</strong> in case the insurer asks.</li>
+    <li>
+      <strong>Honest answers.</strong> During the first two years, an insurer can review the application if there's a claim, and a wrong
+      answer can lead to a denied claim. A plan you truly qualify for protects your family.
+    </li>
+  </ul>
+
+  <h2>If a plan with a waiting period is the best fit</h2>
+  <p>
+    On graded and guaranteed issue plans, if death from natural causes happens in the first two or three years, the insurer usually refunds
+    the premiums paid, plus interest, instead of paying the full amount. Accidental death is usually covered in full from the start. After
+    the waiting period, the full amount is paid. <a href="/guaranteed-issue-vs-simplified-issue/">How the plan types work</a>.
+  </p>
+  <p>
+    If your health changes later, you can ask us whether a full-coverage plan has opened up. Never cancel a policy until the new one is
+    approved and in force.
+  </p>
+
+  <div class="callout">
+    <h3>Helping a parent with diabetes?</h3>
+    <p>Your parent answers the health questions and signs, and you can often pay. <a href="/burial-insurance-for-parents/">How buying for a parent works</a>.</p>
+  </div>
+
+  <h2>Questions about diabetes and burial insurance</h2>
+  <Faq items={faqs} />
+</Guide>

@@ -1,5 +1,6 @@
 ---
 import Guide from '../layouts/Guide.astro';
+import { pair } from '../i18n/ui';
 import RateTable from '../components/RateTable.astro';
 import Faq from '../components/Faq.astro';
 
@@ -23,6 +24,7 @@ const faqs = [
   h1="How much does final expense insurance cost?"
   description="Sample monthly prices for final expense and burial insurance by age, with the insurer named on every quote, plus what makes your own price higher or lower."
   path="/final-expense-insurance-cost/"
+  alternates={pair('cost')}
   crumb="What final expense costs"
   eyebrow="Prices"
   lede="Your price depends mostly on your age, your health answers and how much coverage you choose. Here is what moves the number, with real sample quotes."

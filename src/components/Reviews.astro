@@ -14,7 +14,22 @@ interface Props {
 }
 const { min = 3, lang = 'en' } = Astro.props;
 const t = ui[lang].reviews;
-type Review = { name: string; place?: string; text: string; source: string; date: string; consent: boolean; disclosure?: string; lang?: string };
+type Review = {
+  name: string;
+  place?: string;
+  text: string;
+  source: string; // e.g. "direct" (sent through /share-your-experience/) or "Google review"
+  date: string;
+  consent: boolean;
+  disclosure?: string;
+  lang?: string;
+  relationship?: 'client' | 'family' | 'prospect';
+};
+const REL = {
+  en: { client: 'Client', family: 'Client’s family', prospect: 'Spoke with us' },
+  es: { client: 'Cliente', family: 'Familiar de un cliente', prospect: 'Habló con nosotros' },
+}[lang];
+const sourceLabel = (s: string) => (s === 'direct' ? (lang === 'es' ? 'Enviada directamente a nosotros' : 'Sent to us directly') : s);
 const shown = (reviews.items as Review[]).filter((r) => r.consent && r.text && r.source && r.date);
 const fmt = (d: string) => new Date(d + 'T12:00:00').toLocaleDateString(lang === 'es' ? 'es-US' : 'en-US', { month: 'long', year: 'numeric' });
 ---
@@ -26,8 +41,8 @@ const fmt = (d: string) => new Date(d + 'T12:00:00').toLocaleDateString(lang ===
         <figure class="card review">
           <blockquote lang={r.lang}><p>{r.text}</p></blockquote>
           <figcaption>
-            <strong>{r.name}</strong>{r.place && `, ${r.place}`}
-            <span class="small">{r.source}, {fmt(r.date)}{r.disclosure && ` · ${r.disclosure}`}</span>
+            <strong>{r.name}</strong>{r.place && `, ${r.place}`}{r.relationship && ` · ${REL[r.relationship]}`}
+            <span class="small">{sourceLabel(r.source)}, {fmt(r.date)}{r.disclosure && ` · ${r.disclosure}`}</span>
           </figcaption>
         </figure>
       ))}

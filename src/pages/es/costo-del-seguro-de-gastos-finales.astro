@@ -1,0 +1,80 @@
+---
+/** Spanish version of /final-expense-insurance-cost/. Same facts; change both pages together. */
+import Guide from '../../layouts/Guide.astro';
+import RateTable from '../../components/RateTable.astro';
+import Faq from '../../components/Faq.astro';
+import { pair, paths } from '../../i18n/ui';
+
+const faqs = [
+  {
+    q: '¿Por qué dos personas de la misma edad pagan precios distintos?',
+    a: '<p>Las respuestas de salud, el uso de tabaco y el sexo cambian el precio, y cada aseguradora los pesa de forma distinta. Por eso comparar varias aseguradoras importa más en el seguro de gastos finales que en casi cualquier otro seguro.</p>',
+  },
+  {
+    q: '¿Sale más barato comprar ahora o esperar?',
+    a: '<p>El precio se fija según su edad al solicitar, así que la misma cobertura cuesta más con cada cumpleaños. Los cambios de salud también le pueden cerrar los mejores planes. Esperar casi nunca ahorra dinero.</p>',
+  },
+  {
+    q: '¿La prima sube más adelante?',
+    a: '<p>En los planes de vida entera que se usan para gastos finales, la prima normalmente queda fija al comprar y la cobertura no vence mientras pague las primas. Revise la póliza para ver los términos exactos.</p>',
+  },
+];
+---
+<Guide
+  title="Costo del seguro de gastos finales por edad"
+  h1="¿Cuánto cuesta el seguro de gastos finales?"
+  description="Precios mensuales de muestra del seguro de gastos finales por edad, con la aseguradora indicada en cada cotización, y qué hace subir o bajar su precio."
+  path={paths.es.cost}
+  crumb="Lo que cuesta"
+  eyebrow="Precios"
+  lede="Su precio depende sobre todo de su edad, sus respuestas de salud y la cobertura que elija. Esto es lo que mueve la cifra, con cotizaciones reales de muestra."
+  published="2026-11-07"
+  reviewed="2026-11-07"
+  lang="es"
+  alternates={pair('cost')}
+  summary={[
+    'Su precio depende sobre todo de su edad, sus respuestas de salud y la cobertura que elija.',
+    'Buenas respuestas de salud pueden darle cobertura completa desde el primer día con las mejores tarifas.',
+    '$5,000 de cobertura cuestan más o menos la mitad que $10,000.',
+    'Las mujeres suelen pagar menos que los hombres de la misma edad.',
+    'Cada precio de muestra indica la aseguradora, el plan y la fecha de la cotización.',
+  ]}
+>
+  <h2>¿Cuánto cuesta el seguro funerario al mes?</h2>
+  <p>Depende sobre todo de la edad, las respuestas de salud y la cantidad de cobertura. Estos precios de muestra enseñan cuánto cambia el precio solo por la edad.</p>
+  <p>
+    Cada precio es una cotización real con la aseguradora, el plan y la fecha indicados, como exigen las reglas de publicidad de Florida. Son
+    para una persona sana que no usa tabaco y compra $10,000 de cobertura.
+  </p>
+  <RateTable lang="es" />
+
+  <h2>Las cinco cosas que deciden su precio</h2>
+  <ol>
+    <li><strong>La edad al solicitar.</strong> Es el factor más importante. Cada cumpleaños sube el precio de la misma cobertura.</li>
+    <li><strong>Las respuestas de salud.</strong> Buenas respuestas pueden darle cobertura completa desde el primer día con las mejores tarifas. Algunas condiciones llevan a un plan con período de espera.</li>
+    <li><strong>Tabaco o nicotina.</strong> Quienes fuman o vapean suelen pagar bastante más.</li>
+    <li><strong>La cantidad de cobertura.</strong> $5,000 cuestan más o menos la mitad que $10,000; el precio sube con cada escalón.</li>
+    <li><strong>El sexo.</strong> Las mujeres suelen pagar menos que los hombres de la misma edad porque, en promedio, viven más.</li>
+  </ol>
+
+  <div class="callout">
+    <h3>Elija la cobertura según la cuenta, no según la prima</h3>
+    <p>
+      Empiece por lo que cuesta un funeral donde usted vive, sume las últimas cuentas y luego vea cuánto cuesta esa cobertura al mes. Le
+      podemos cotizar dos o tres cantidades lado a lado.
+    </p>
+  </div>
+
+  <p><a class="btn btn-outline" href={`${paths.es.florida}#calculadora`}>Calcule cuánta cobertura necesita</a></p>
+
+  <h2>Lo que cuesta un funeral</h2>
+  <p>
+    El estudio de precios de 2023 de la Asociación Nacional de Directores de Funerarias (NFDA) calculó una mediana nacional de unos $8,300 por un
+    funeral con velorio y entierro, y de unos $6,280 con cremación. Los gastos del cementerio, como la parcela, la apertura de la tumba y la
+    lápida, son aparte.
+  </p>
+  <p>¿Qué plan puede obtener? <a href={paths.es.plans}>Emisión garantizada o simplificada, explicado</a>.</p>
+
+  <h2>Preguntas sobre el precio</h2>
+  <Faq items={faqs} />
+</Guide>

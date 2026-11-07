@@ -1,0 +1,214 @@
+---
+/**
+ * Review form for the private review pages. Aaron texts the link to clients; nothing is published until he
+ * approves it. Asks for the person's own words, how their name should appear, and written permission.
+ */
+import { brand, turnstile } from '../config/site';
+import { REVIEW_CONSENT_VERSIONS, reviewConsentText } from '../lib/review-consent';
+
+interface Props {
+  lang?: 'en' | 'es';
+}
+const { lang = 'en' } = Astro.props;
+const T = {
+  en: {
+    text: 'What would you tell a friend about working with us?',
+    textHint: 'In your own words. Please leave out health details, policy numbers and other people’s names.',
+    textErr: 'Write at least a sentence or two',
+    first: 'First name',
+    firstErr: 'Enter your first name',
+    last: 'First letter of your last name',
+    lastHint: 'We show it like this: Martha P.',
+    lastErr: 'Enter the first letter of your last name',
+    city: 'City (optional)',
+    cityHint: 'For example: Apopka',
+    rel: 'Which fits you best?',
+    relErr: 'Choose the one that fits best',
+    client: 'I have a policy through Olive Tree',
+    family: 'I helped a family member get a policy',
+    prospect: 'I talked with Olive Tree but didn’t buy',
+    contact: 'Phone or email (optional, never shown)',
+    contactHint: 'Only so we can confirm the review is from you.',
+    consentErr: 'Check the box so we can show your review',
+    honeypot: 'Leave this empty',
+    submit: 'Send my review',
+    sending: 'Sending…',
+    done: 'Thank you, {n}. We received your review. We read each one before it goes on the site, and we never change your words.',
+    failed: 'That didn’t go through. Please try again.',
+    problems: 'There are {n} problems: {list}.',
+    errorPrefix: 'Error: ',
+  },
+  es: {
+    text: '¿Qué le diría a un amigo sobre su experiencia con nosotros?',
+    textHint: 'Con sus propias palabras. Por favor, no incluya detalles de salud, números de póliza ni nombres de otras personas.',
+    textErr: 'Escriba al menos una o dos oraciones',
+    first: 'Nombre',
+    firstErr: 'Escriba su nombre',
+    last: 'Primera letra de su apellido',
+    lastHint: 'Lo mostramos así: Marta P.',
+    lastErr: 'Escriba la primera letra de su apellido',
+    city: 'Ciudad (opcional)',
+    cityHint: 'Por ejemplo: Kissimmee',
+    rel: '¿Qué describe mejor su caso?',
+    relErr: 'Elija la opción que mejor le describe',
+    client: 'Tengo una póliza con Olive Tree',
+    family: 'Ayudé a un familiar a obtener una póliza',
+    prospect: 'Hablé con Olive Tree pero no compré',
+    contact: 'Teléfono o correo electrónico (opcional, nunca se muestra)',
+    contactHint: 'Solo para confirmar que la opinión es suya.',
+    consentErr: 'Marque la casilla para que podamos mostrar su opinión',
+    honeypot: 'Deje esto vacío',
+    submit: 'Enviar mi opinión',
+    sending: 'Enviando…',
+    done: 'Gracias, {n}. Recibimos su opinión. Leemos cada una antes de publicarla y nunca cambiamos sus palabras.',
+    failed: 'No se pudo enviar. Inténtelo otra vez.',
+    problems: 'Hay {n} problemas: {list}.',
+    errorPrefix: 'Error: ',
+  },
+}[lang];
+const consent = reviewConsentText(brand.name, lang);
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || turnstile.siteKey;
+---
+<form class="qf" method="post" action="/api/review" novalidate data-review-form data-t={JSON.stringify(T)}>
+  <label class="field" for="rv-text">{T.text}</label>
+  <p class="qf-hint" id="rv-text-hint">{T.textHint}</p>
+  <p class="field-error" id="rv-err-text" data-error-slot hidden></p>
+  <textarea id="rv-text" name="text" rows="6" maxlength="1500" required aria-describedby="rv-text-hint" data-error-msg={T.textErr} data-min="20"></textarea>
+
+  <div class="rv-name">
+    <div>
+      <label class="field" for="rv-first">{T.first}</label>
+      <p class="field-error" id="rv-err-first_name" data-error-slot hidden></p>
+      <input id="rv-first" name="first_name" type="text" autocomplete="given-name" autocapitalize="words" spellcheck="false" maxlength="40" required data-error-msg={T.firstErr} />
+    </div>
+    <div>
+      <label class="field" for="rv-last">{T.last}</label>
+      <p class="qf-hint" id="rv-last-hint">{T.lastHint}</p>
+      <p class="field-error" id="rv-err-last_initial" data-error-slot hidden></p>
+      <input id="rv-last" name="last_initial" type="text" autocapitalize="characters" spellcheck="false" maxlength="1" required aria-describedby="rv-last-hint" data-error-msg={T.lastErr} class="rv-initial" />
+    </div>
+  </div>
+
+  <label class="field" for="rv-city">{T.city}</label>
+  <p class="qf-hint" id="rv-city-hint">{T.cityHint}</p>
+  <input id="rv-city" name="city" type="text" autocomplete="address-level2" maxlength="40" aria-describedby="rv-city-hint" />
+
+  <fieldset data-error-msg={T.relErr}>
+    <legend>{T.rel}</legend>
+    <p class="field-error" id="rv-err-relationship" data-error-slot hidden></p>
+    <div class="qf-options">
+      <label class="qf-option"><input type="radio" name="relationship" value="client" required /> {T.client}</label>
+      <label class="qf-option"><input type="radio" name="relationship" value="family" /> {T.family}</label>
+      <label class="qf-option"><input type="radio" name="relationship" value="prospect" /> {T.prospect}</label>
+    </div>
+  </fieldset>
+
+  <label class="field" for="rv-contact" style="margin-top:1rem">{T.contact}</label>
+  <p class="qf-hint" id="rv-contact-hint">{T.contactHint}</p>
+  <input id="rv-contact" name="contact" type="text" autocomplete="tel" maxlength="120" aria-describedby="rv-contact-hint" />
+
+  <div class="visually-hidden" aria-hidden="true">
+    <label>{T.honeypot} <input type="text" name="company_website" tabindex="-1" autocomplete="off" /></label>
+  </div>
+  <p class="field-error" id="rv-err-consent" data-error-slot hidden></p>
+  <label class="consent">
+    <input type="checkbox" name="consent" value="yes" required data-error-msg={T.consentErr} />
+    <span>{consent}</span>
+  </label>
+  <div class="cf-turnstile" data-sitekey={siteKey} data-size="flexible" data-language={lang}></div>
+  <input type="hidden" name="consent_version" value={REVIEW_CONSENT_VERSIONS[lang]} />
+  <input type="hidden" name="lang" value={lang} />
+  <p class="qf-error" role="alert" data-error hidden></p>
+  <button type="submit" class="btn btn-primary" data-submit>{T.submit}</button>
+</form>
+<p class="ref-box" data-review-done hidden tabindex="-1"></p>
+
+<script>
+  type S = Record<string, string>;
+  const form = document.querySelector<HTMLFormElement>('[data-review-form]');
+  if (form) {
+    const T = JSON.parse(form.dataset.t || '{}') as S;
+    const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (m, k) => (k in v ? String(v[k]) : m));
+    const err = form.querySelector<HTMLElement>('[data-error]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const done = document.querySelector<HTMLElement>('[data-review-done]')!;
+    // Turnstile loads when the visitor starts typing, not on page load.
+    let loaded = false;
+    form.addEventListener('focusin', () => {
+      if (loaded) return;
+      loaded = true;
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+      s.async = true;
+      document.head.appendChild(s);
+    });
+
+    const clear = () => {
+      form.querySelectorAll<HTMLElement>('[data-error-slot]').forEach((e) => {
+        e.hidden = true;
+        e.textContent = '';
+      });
+      form.querySelectorAll('.has-error').forEach((e) => e.classList.remove('has-error'));
+      form.querySelectorAll('[aria-invalid]').forEach((e) => e.removeAttribute('aria-invalid'));
+      err.hidden = true;
+    };
+    const problems = () => {
+      const out: { el: HTMLElement; slot: string; msg: string }[] = [];
+      const text = form.querySelector<HTMLTextAreaElement>('#rv-text')!;
+      if (text.value.trim().length < 20) out.push({ el: text, slot: 'rv-err-text', msg: T.textErr });
+      const first = form.querySelector<HTMLInputElement>('#rv-first')!;
+      if (!/^\p{L}[\p{L}' .-]{0,39}$/u.test(first.value.trim())) out.push({ el: first, slot: 'rv-err-first_name', msg: T.firstErr });
+      const last = form.querySelector<HTMLInputElement>('#rv-last')!;
+      if (!/^\p{L}$/u.test(last.value.trim())) out.push({ el: last, slot: 'rv-err-last_initial', msg: T.lastErr });
+      const rel = form.querySelector<HTMLInputElement>('input[name="relationship"]:checked');
+      if (!rel) out.push({ el: form.querySelector<HTMLInputElement>('input[name="relationship"]')!, slot: 'rv-err-relationship', msg: T.relErr });
+      const consent = form.querySelector<HTMLInputElement>('input[name="consent"]')!;
+      if (!consent.checked) out.push({ el: consent, slot: 'rv-err-consent', msg: T.consentErr });
+      return out;
+    };
+
+    let busy = false;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (busy) return;
+      clear();
+      const list = problems();
+      if (list.length) {
+        for (const p of list) {
+          const slot = form.querySelector<HTMLElement>(`#${p.slot}`)!;
+          const prefix = document.createElement('span');
+          prefix.className = 'visually-hidden';
+          prefix.textContent = T.errorPrefix;
+          slot.replaceChildren(prefix, document.createTextNode(p.msg));
+          slot.hidden = false;
+          const group = p.el.closest('fieldset') || p.el;
+          group.classList.add('has-error');
+          if (p.el.getAttribute('type') !== 'radio') p.el.setAttribute('aria-invalid', 'true');
+        }
+        err.textContent = list.length === 1 ? list[0].msg : fill(T.problems, { n: list.length, list: list.map((p) => p.msg.toLowerCase()).join('; ') });
+        err.hidden = false;
+        list[0].el.focus();
+        return;
+      }
+      busy = true;
+      submit.setAttribute('aria-disabled', 'true');
+      submit.textContent = T.sending;
+      const data = Object.fromEntries(new FormData(form).entries());
+      try {
+        const res = await fetch('/api/review', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
+        const out = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(out.error || T.failed);
+        done.textContent = fill(T.done, { n: String(data.first_name || '').slice(0, 40) });
+        form.hidden = true;
+        done.hidden = false;
+        done.focus();
+      } catch (ex) {
+        err.textContent = (ex as Error).message;
+        err.hidden = false;
+        busy = false;
+        submit.removeAttribute('aria-disabled');
+        submit.textContent = T.submit;
+      }
+    });
+  }
+</script>

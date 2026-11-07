@@ -1,0 +1,26 @@
+---
+/** Private review page. Not in the menus or sitemap; Aaron texts the link to clients. Never indexed. */
+import Page from '../layouts/Page.astro';
+import ReviewForm from '../components/ReviewForm.astro';
+import { brand } from '../config/site';
+---
+<Page
+  title="Share your experience"
+  h1="Share your experience"
+  description={`Tell other families what working with ${brand.name} was like.`}
+  path="/share-your-experience/"
+  crumb="Share your experience"
+  noindex
+  alternates={[{ lang: 'en-US', path: '/share-your-experience/' }, { lang: 'es-US', path: '/es/comparta-su-experiencia/' }]}
+>
+  <p class="lede">Thank you for helping another family decide. It takes about two minutes.</p>
+  <p class="small"><a href="/es/comparta-su-experiencia/" hreflang="es" lang="es">En español</a></p>
+  <ReviewForm lang="en" />
+  <h2 class="h3">How we use reviews</h2>
+  <ul>
+    <li>We read every review before it goes on our website, and we never change your words.</li>
+    <li>We show only your first name, the first letter of your last name and your city, if you give one.</li>
+    <li>We never pay for reviews or give anything in return.</li>
+    <li>Changed your mind? Call or text us and we'll take it down.</li>
+  </ul>
+</Page>

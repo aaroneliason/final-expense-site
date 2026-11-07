@@ -15,7 +15,7 @@ export default defineConfig({
   build: { format: 'directory' },
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/thank-you/') && !page.includes('/gracias/') && !page.includes('/404'),
+      filter: (page) => !/\/(thank-you|gracias|share-your-experience|comparta-su-experiencia)\/|\/404/.test(page),
       ...(LAST_REVIEWED ? { lastmod: new Date(LAST_REVIEWED + 'T12:00:00Z') } : {}),
     }),
   ],

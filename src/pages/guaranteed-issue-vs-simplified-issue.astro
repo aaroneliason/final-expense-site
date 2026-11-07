@@ -1,5 +1,6 @@
 ---
 import Guide from '../layouts/Guide.astro';
+import { pair } from '../i18n/ui';
 import Faq from '../components/Faq.astro';
 
 const faqs = [
@@ -22,6 +23,7 @@ const faqs = [
   h1="Guaranteed issue vs simplified issue: which plan fits you?"
   description="The three kinds of final expense plans in plain English: simplified issue, graded benefit and guaranteed issue, and how to tell which you can get."
   path="/guaranteed-issue-vs-simplified-issue/"
+  alternates={pair('plans')}
   crumb="Guaranteed vs simplified issue"
   eyebrow="Plan types"
   lede="Your answers to a few health questions decide which plan you can get. Here's what each one means for your family."

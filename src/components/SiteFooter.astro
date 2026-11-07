@@ -18,6 +18,12 @@ const guides = [
   { href: '/burial-insurance-for-parents/', label: 'Burial insurance for a parent' },
   { href: '/government-burial-insurance/', label: 'Is there government burial insurance?' },
 ];
+const conditions = [
+  { href: '/burial-insurance-with-diabetes/', label: 'With diabetes' },
+  { href: '/burial-insurance-with-copd/', label: 'With COPD' },
+  { href: '/burial-insurance-with-heart-problems/', label: 'With heart conditions' },
+  { href: '/burial-insurance-after-cancer/', label: 'After cancer' },
+];
 ---
 <footer class="site-footer">
   <div class="wrap">
@@ -35,6 +41,9 @@ const guides = [
           <h3>En español</h3>
           <ul>
             <li><a href={paths.es.florida}>Seguro de gastos finales en Florida</a></li>
+            <li><a href={paths.es.cost}>Cuánto cuesta</a></li>
+            <li><a href={paths.es.plans}>Emisión garantizada o simplificada</a></li>
+            <li><a href={paths.es.parents}>Seguro funerario para sus padres</a></li>
             <li><a href={paths.es.privacy}>Política de privacidad</a></li>
           </ul>
         </div>
@@ -70,6 +79,10 @@ const guides = [
           <ul>
             {guides.map((g) => <li><a href={g.href}>{g.label}</a></li>)}
             <li><a href={paths.es.florida} hreflang="es" lang="es">Seguro de gastos finales en Florida (en español)</a></li>
+          </ul>
+          <h3>Health conditions</h3>
+          <ul>
+            {conditions.map((g) => <li><a href={g.href}>Burial insurance {g.label.toLowerCase()}</a></li>)}
           </ul>
         </div>
         <div>
