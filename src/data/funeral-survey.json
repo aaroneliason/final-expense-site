@@ -1,0 +1,697 @@
+{
+  "_comment": "Florida funeral-cost survey. Prices are what providers publish online, gathered from search results on 2026-11-07 (pages were not opened directly). verified stays false until every price is re-checked on the provider's own page; scripts/check-publish.mjs blocks launch until then. Local facts carry their own sources.",
+  "checkedOn": "2026-11-07",
+  "verified": false,
+  "nfda": {
+    "year": 2023,
+    "nationalBurial": 8300,
+    "nationalCremation": 6280,
+    "southAtlanticBurial": 8023,
+    "southAtlanticCremation": 6103,
+    "source": "https://content.nfda.org/Portals/0/12-8-2023--2023%20GPL%20Survey.pdf"
+  },
+  "statewide": {
+    "wait48": {
+      "text": "Florida law bars cremation until 48 hours after death.",
+      "cite": "Fla. Stat. 872.03",
+      "source": "https://law.justia.com/codes/florida/title-xlvi/chapter-872/section-872-03/"
+    },
+    "authorization": {
+      "cite": "Fla. Stat. 497.607 and 497.005",
+      "source": "https://www.flsenate.gov/laws/statutes/2012/497.607"
+    },
+    "meApproval": {
+      "cite": "Fla. Stat. 406.11",
+      "source": "https://flsenate.gov/Laws/Statutes/2025/406.11"
+    },
+    "refrigeration": {
+      "cite": "Fla. Stat. 497.386",
+      "source": "https://flsenate.gov/Laws/statutes/2025/497.386"
+    },
+    "ftc": "https://www.ftc.gov/business-guidance/resources/complying-funeral-rule",
+    "dfs": {
+      "phone": "850-413-3039",
+      "tollFree": "800-323-2627",
+      "source": "https://www.myfloridacfo.com/division/funeralcemetery/consumer-help/consumer-faq"
+    },
+    "vaCovers": "https://www.cem.va.gov/burial-memorial-benefits/"
+  },
+  "metros": [
+    {
+      "slug": "orlando",
+      "city": "Orlando",
+      "area": "Orange, Seminole, Osceola and Lake counties",
+      "county": "Orange County",
+      "intro": "Orlando-area families have a lot of choice. We found published prices from eight funeral homes and cremation providers across Orange, Seminole, Osceola and Lake counties. Direct cremation is the easiest service to compare, and even there the spread is wide.",
+      "me": {
+        "name": "District 9 Medical Examiner (Orange County, also serving Osceola)",
+        "fee": 60,
+        "feeText": "$60 for each cremation approval, effective October 1, 2025",
+        "official": true,
+        "note": "Local price lists also show $60 for Seminole and Lake counties; we could not confirm those on an official page.",
+        "source": "https://ocfl.net/FamiliesHealthSocialSvcs/MedicalExaminer/Cremations.aspx"
+      },
+      "deathCert": {
+        "first": 10,
+        "text": "$10 per certified copy",
+        "office": "Florida Department of Health in Orange County",
+        "source": "https://orange.floridahealth.gov/certificates/death-certificates/"
+      },
+      "cemeteries": [
+        {
+          "name": "Florida National Cemetery",
+          "place": "Bushnell (Sumter County)",
+          "note": "Open for burials.",
+          "source": "https://www.cem.va.gov/cems/nchp/Florida.asp"
+        },
+        {
+          "name": "Cape Canaveral National Cemetery",
+          "place": "Mims (Brevard County)",
+          "note": "VA listings differ on whether casket burial is currently available, so call 321-383-2638 first.",
+          "source": "https://cem.va.gov/cems/nchp/CapeCanaveral.asp"
+        }
+      ],
+      "program": {
+        "name": "Orange County Public Burial & Cremation Program",
+        "points": [
+          "Run by Orange County Health Services: 407-836-2642.",
+          "The closest relative or the legally responsible person applies, and the application must be notarized.",
+          "The county's standard is cremation; ask about burial.",
+          "The ashes must be picked up or shipped within 30 days, and the program does not pay for shipping.",
+          "Ask about the income rules. We could not confirm them on an official page."
+        ],
+        "source": "https://newsroom.ocfl.net/directory/burial-and-cremation-program/"
+      }
+    },
+    {
+      "slug": "tampa",
+      "city": "Tampa",
+      "area": "Hillsborough County and nearby",
+      "county": "Hillsborough County",
+      "intro": "Tampa had the lowest middle price for direct cremation of the four metros we checked. The catch is the medical examiner's approval fee: Hillsborough County doesn't publish it where we could find it, and local price lists disagree.",
+      "me": {
+        "name": "District 13 Medical Examiner (Hillsborough County)",
+        "fee": null,
+        "feeText": "Not published where we could find it. Local price lists show $50 or $75",
+        "official": false,
+        "note": "The county posted a change to its medical examiner fee ordinance in May 2026, so ask the provider for the current amount.",
+        "source": "https://hcfl.gov/residents/public-safety/medical-examiner/medical-examiner-faqs"
+      },
+      "deathCert": {
+        "first": 10,
+        "text": "$10 per certified copy",
+        "office": "Florida Department of Health in Hillsborough County",
+        "source": "https://hillsborough.floridahealth.gov/certificates/death-certificates/"
+      },
+      "cemeteries": [
+        {
+          "name": "Florida National Cemetery",
+          "place": "Bushnell, about 50 miles north of Tampa",
+          "note": "Open for burials.",
+          "source": "https://www.cem.va.gov/cems/nchp/Florida.asp"
+        },
+        {
+          "name": "Sarasota National Cemetery",
+          "place": "Sarasota",
+          "note": "Open for casket and cremation burials.",
+          "source": "https://www.cem.va.gov/cems/nchp/Sarasota.asp"
+        },
+        {
+          "name": "Bay Pines National Cemetery",
+          "place": "Bay Pines (Pinellas County)",
+          "note": "Cremated remains only for new burials.",
+          "source": "https://www.cem.va.gov/cems/nchp/BayPines.asp"
+        }
+      ],
+      "program": null,
+      "programNote": "We didn't find a Hillsborough County program that pays for burial or cremation for low-income families. The county's policy for unclaimed remains makes cremation the default, and relatives who want a burial are pointed to agencies that help with burial costs.",
+      "programSource": "https://hcfl.gov/policies/board-policy---section-number-09-19-00-00"
+    },
+    {
+      "slug": "jacksonville",
+      "city": "Jacksonville",
+      "area": "Duval County",
+      "county": "Duval County",
+      "intro": "For veterans and their spouses, Jacksonville National Cemetery changes the math: for eligible families the VA provides the grave, the opening and closing, the liner, the headstone and perpetual care at no cost. Funeral home and cremation charges are still the family's to pay.",
+      "me": {
+        "name": "District 4 Medical Examiner (Duval County)",
+        "fee": 50,
+        "feeText": "$50 for each cremation approval",
+        "official": true,
+        "note": "Set by a 2014 city ordinance, the newest official schedule we found; a 2025 local price list shows the same $50.",
+        "source": "https://cityclts.coj.net/docs/2014-0043/Current%20Text/2014-43-E.doc"
+      },
+      "deathCert": {
+        "first": 15,
+        "text": "$15 for the first certified copy and $10 for each additional copy",
+        "office": "Florida Department of Health in Duval County",
+        "source": "https://duval.floridahealth.gov/certificates/death-certificates/"
+      },
+      "cemeteries": [
+        {
+          "name": "Jacksonville National Cemetery",
+          "place": "4083 Lannie Road, Jacksonville",
+          "note": "Casket and cremation burials. 904-766-5222.",
+          "source": "https://www.cem.va.gov/cems/nchp/jacksonville.asp"
+        },
+        {
+          "name": "St. Augustine National Cemetery",
+          "place": "St. Augustine",
+          "note": "Closed to new burials; only existing family graves.",
+          "source": "https://www.cem.va.gov/cems/nchp/StAugustine.asp"
+        }
+      ],
+      "program": {
+        "name": "City of Jacksonville Indigent Cremation Program",
+        "points": [
+          "Run by the Social Services Division. It covers cremation only.",
+          "Eligibility depends on income, assets and ability to pay for private arrangements.",
+          "Apply through the Emergency Financial Assistance line: (904) 255-2469.",
+          "Bring photo ID, Social Security documents for the household, and proof of household income and resources.",
+          "If an application is denied, there is a 90-day wait before a new appointment."
+        ],
+        "source": "https://www.jacksonville.gov/departments/parks-and-recreation/social-services/emergency-financial-assistance-program"
+      }
+    },
+    {
+      "slug": "miami",
+      "city": "Miami",
+      "area": "Miami-Dade County and nearby",
+      "county": "Miami-Dade County",
+      "intro": "Miami-Dade's medical examiner charges $75 to approve a cremation, the highest official fee among the counties we checked. The county also runs one of the most detailed help programs for families who cannot afford a cremation.",
+      "me": {
+        "name": "District 11 Medical Examiner (Miami-Dade County)",
+        "fee": 75,
+        "feeText": "$75 for each approval, effective October 1, 2025",
+        "official": true,
+        "note": "Set by Miami-Dade Implementing Order 4-88.",
+        "source": "https://documents.miamidade.gov/ao-io/IO/IO-04-88.pdf"
+      },
+      "deathCert": {
+        "first": 20,
+        "text": "$20 for the first certified copy and $16 for each additional copy ordered at the same time",
+        "office": "Florida Department of Health in Miami-Dade County",
+        "source": "https://miamidade.floridahealth.gov/certificates/death-certificates/"
+      },
+      "cemeteries": [
+        {
+          "name": "South Florida National Cemetery",
+          "place": "Lake Worth (Palm Beach County)",
+          "note": "Casket and cremation burials. 561-649-6489.",
+          "source": "https://www.cem.va.gov/cems/nchp/SouthFlorida.asp"
+        }
+      ],
+      "program": {
+        "name": "Miami-Dade Medical Examiner Indigent Cremation Services",
+        "points": [
+          "The death must happen in Miami-Dade County, and the person applying must be the legally authorized person.",
+          "Household income should not be above the federal poverty guidelines.",
+          "Basic cremation only: no embalming, viewing or memorial, and no help once the body has gone to a funeral home.",
+          "County fees from October 1, 2025: $475, or $150 with proof of SNAP, Medicaid, SSI or TANF.",
+          "It can take eight weeks or more."
+        ],
+        "source": "https://www.miamidade.gov/global/service.page?Mduid_service=ser1482335259763934",
+        "extraSource": "https://documents.miamidade.gov/ao-io/IO/IO-04-88.pdf"
+      },
+      "extra": {
+        "text": "The medical examiner also publishes a list of low-cost funeral homes and crematories. It does not endorse them.",
+        "source": "https://www.miamidade.gov/resources/medical-examiner/documents/indigent-cremation-services-low-cost-alternatives.pdf"
+      }
+    }
+  ],
+  "prices": [
+    {
+      "metro": "orlando",
+      "provider": "Compassionate Cremations and Funerals",
+      "city": "Oviedo",
+      "service": "direct cremation",
+      "price": 895,
+      "includes": "Transport, filing death certificate and permits, obtaining certified copies, crematory fee, minimum urn, refrigeration",
+      "excludes": "Medical examiner fee ($60); certified death certificates ($10 per copy)",
+      "source": "https://www.compassionatecremationsinc.com/services-we-offer/services",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "orlando",
+      "provider": "Compassionate Cremations and Funerals",
+      "city": "Oviedo",
+      "service": "traditional funeral with cremation",
+      "price": 4495,
+      "includes": "Silver Traditional Funeral with Cremation package (Gold version $4,995); detailed inclusions not stated",
+      "excludes": "not stated",
+      "source": "https://www.compassionatecremationsinc.com/services-we-offer/services",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "orlando",
+      "provider": "Compassionate Cremations and Funerals",
+      "city": "Oviedo",
+      "service": "traditional funeral with burial",
+      "price": 4595,
+      "includes": "Silver Traditional Burial: basic services, removal/transfer within 25 miles, embalming, facility and staff for funeral, web obituary, church truck/bier, flower car, lead car, hearse, steel sealed casket (package requires casket purchased from the home; Gold version $5,595)",
+      "excludes": "Limousine; cash-advance items",
+      "source": "https://www.compassionatecremationsinc.com/services-we-offer/services",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "orlando",
+      "provider": "Newcomer Funeral Home (Newcomer Orlando)",
+      "city": "Orlando",
+      "service": "direct cremation",
+      "price": 1445,
+      "includes": "Basic services fee included; container provided by purchaser ($1,620 with cardboard alternative container)",
+      "excludes": "Cemetery charges and other separately listed items",
+      "source": "https://www.newcomerorlando.com/compare-prices ; https://cdn.newcomer.com/prod/price-lists/Orlando%20GPL.pdf",
+      "sourceDate": "2025-08-25"
+    },
+    {
+      "metro": "orlando",
+      "provider": "Loomis Family Cremations",
+      "city": "Minneola (markets to Orlando)",
+      "service": "direct cremation",
+      "price": 795,
+      "includes": "Simple Cremation package: funeral director services, transport to crematory, fingerprint, minimum cremation container, cremation for decedent under 300 lb (site's Orlando comparison page advertises $695)",
+      "excludes": "Page lists separate $50 and $10-per-item add-ons (not identified); guarantee excludes cash-advance items and cemetery expenses",
+      "source": "https://www.loomisfamilycremations.com/services/services ; https://www.loomisfamilycremations.com/services/direct-cremation-price-comparison-in-orlando--fl",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "orlando",
+      "provider": "Central Florida Cremation (affiliated with Beyers Funeral Home)",
+      "city": "Tavares",
+      "service": "direct cremation",
+      "price": 1195,
+      "includes": "Family-supplied container ($1,295 with cardboard/composition container); basic services, transport to crematory, authorizations, medical examiner fee, four death certificates",
+      "excludes": "Viewing or memorial (Cremation Services page shows an older-looking $895-$995)",
+      "source": "https://www.centralflcremation.com/",
+      "sourceDate": "undated (homepage indexed ~10 months before 2026-11-07)"
+    },
+    {
+      "metro": "orlando",
+      "provider": "Cremations America Central Florida",
+      "city": "Kissimmee",
+      "service": "direct cremation",
+      "price": 795,
+      "includes": "Basic package: transfer within 20 miles, refrigeration, cremation, alternative container, temporary container (tiers up to $1,395)",
+      "excludes": "Medical examiner fee; death certificates; price varies by weight, location and county",
+      "source": "https://www.cremationsamericacfl.com/services",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "orlando",
+      "provider": "A Community Funeral Home & Sunset Cremations",
+      "city": "Orlando",
+      "service": "direct cremation",
+      "price": 1335,
+      "includes": "Local removal, refrigeration, basic director services for death certificate, online obituary, alternative container, cremation, temporary container",
+      "excludes": "County medical examiner approval fee (site table still lists Orange/Osceola at $35, which predates the $60 rate effective 2025-10-01); urns from $100",
+      "source": "https://www.acommunityfuneralhome.com/pricing/cremation-packages ; https://www.acommunityfuneralhome.com/pricing/extra-charges",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "orlando",
+      "provider": "A Community Funeral Home & Sunset Cremations",
+      "city": "Orlando",
+      "service": "cremation with memorial service",
+      "price": 3145,
+      "includes": "Memorial service/celebration of life then cremation: removal and transport, 2 hours facility time, guest book, prayer cards, thank-you cards, USB slideshow, death certificate help, online obituary",
+      "excludes": "not stated",
+      "source": "https://www.acommunityfuneralhome.com/pricing/cremation-packages",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "orlando",
+      "provider": "A Community Funeral Home & Sunset Cremations",
+      "city": "Orlando",
+      "service": "direct burial",
+      "price": 6040,
+      "includes": "Immediate burial total; family present at cemetery at time of burial; burial packages generally include casket, outer burial container, guest book, prayer cards, thank-you cards",
+      "excludes": "Cemetery plot and opening/closing not listed as included",
+      "source": "https://www.acommunityfuneralhome.com/pricing/burial-packages",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "orlando",
+      "provider": "A Community Funeral Home & Sunset Cremations",
+      "city": "Orlando",
+      "service": "traditional funeral with burial",
+      "price": 7290,
+      "includes": "Viewing, service, then burial: $4,500 package + $1,395 casket + $1,395 outer burial container (graveside-service-and-burial version totals $6,890)",
+      "excludes": "Cemetery charges not listed as included",
+      "source": "https://www.acommunityfuneralhome.com/pricing/burial-packages",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "orlando",
+      "provider": "Good Life Funeral Home & Cremation",
+      "city": "Orlando",
+      "service": "traditional funeral with burial",
+      "price": 11700,
+      "includes": "Complete burial package at Greenwood Cemetery: single adult grave space, full opening/closing with tent and chairs, embalming, viewing and service facilities/staff, hearse, flower van, 20-gauge non-gasketed metal casket, unlined concrete outer burial container, stationery, slideshow (Saturday +$200; -$425 City of Apopka residents; other cemeteries on page $9,575-$23,695)",
+      "excludes": "Escort vehicles, casket spray and certified death certificates are extra",
+      "source": "https://www.goodlifefuneralhome.com/services-and-pricing/complete-burial-packages",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "orlando",
+      "provider": "Baldwin Brothers Funeral & Cremation Society",
+      "city": "Orlando",
+      "service": "direct cremation",
+      "price": 1295,
+      "includes": "Affordable Direct Cremation: local pickup, cremation, return of ashes",
+      "excludes": "Additional fees apply (not itemized)",
+      "source": "https://baldwincremation.com/orlando/ ; https://baldwincremation.com/online-planning-a-death-has-occurred/",
+      "sourceDate": "undated (Orlando page indexed ~4 months before 2026-11-07)"
+    },
+    {
+      "metro": "orlando",
+      "provider": "Baldwin Brothers Funeral & Cremation Society",
+      "city": "Orlando",
+      "service": "traditional funeral with cremation",
+      "price": 4695,
+      "includes": "Cremation with viewing and celebration-of-life service; inclusions not itemized",
+      "excludes": "not stated",
+      "source": "https://baldwincremation.com/online-planning-a-death-has-occurred/",
+      "sourceDate": "undated (page indexed ~2+ years before 2026-11-07; verify)"
+    },
+    {
+      "metro": "tampa",
+      "provider": "Cremations of Greater Tampa Bay",
+      "city": "Tampa",
+      "service": "direct cremation",
+      "price": 975,
+      "includes": "All-inclusive: basic services, removal, transport, refrigeration, alternative container, on-site cremation, authorizations/permits, Social Security notification, medical examiner fee (conflict: a price list on same site shows a $75 ME approval fee required for all decedents)",
+      "excludes": "Certified death certificates ($15 per copy); decorative urn",
+      "source": "https://cremationstampabay.com/direct-cremation/ ; https://cremationstampabay.com/cremation-costs-breakdown-in-tampa-bay/",
+      "sourceDate": "undated (pages indexed ~2-4 months before 2026-11-07)"
+    },
+    {
+      "metro": "tampa",
+      "provider": "Cremations of Greater Tampa Bay",
+      "city": "Tampa",
+      "service": "cremation with memorial service",
+      "price": 1975,
+      "includes": "Direct cremation plus 2 hours in chapel, registry book, 50-photo memorial video, cherrywood urn (extra chapel time $200/hour)",
+      "excludes": "not stated",
+      "source": "https://cremationstampabay.com/cremation-services/",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "tampa",
+      "provider": "Cremations of Greater Tampa Bay",
+      "city": "Tampa",
+      "service": "traditional funeral with cremation",
+      "price": 2975,
+      "includes": "Viewing with cremation package; detailed inclusions not stated",
+      "excludes": "not stated",
+      "source": "https://cremationstampabay.com/cremation-services/",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "tampa",
+      "provider": "Cremations of Greater Tampa Bay",
+      "city": "Tampa",
+      "service": "traditional funeral with burial",
+      "price": 3975,
+      "includes": "Viewing with burial package",
+      "excludes": "Casket; all cemetery charges",
+      "source": "https://cremationstampabay.com/cremation-services/",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "tampa",
+      "provider": "Cremations of Central Florida (Tampa Affordable Cremation)",
+      "city": "Tampa",
+      "service": "direct cremation",
+      "price": 795,
+      "includes": "Direct-disposer services, transfer within 40 miles, refrigeration up to 10 days, alternative container, crematory fee (up to 399 lb), temporary container, cremation permit fee",
+      "excludes": "Certified death certificates (some older site pages show $740)",
+      "source": "https://tampaaffordablecremation.com/simple-cremation-in-tampa/ ; https://tampaaffordablecremation.com/cremation-prices/",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "tampa",
+      "provider": "Going Home Cremations",
+      "city": "Tampa (service area also Pasco/Pinellas)",
+      "service": "direct cremation",
+      "price": 795,
+      "includes": "Pickup/transport, cremation container, simple urn, online obituary",
+      "excludes": "Permits and death certificates (site FAQ cites $395 to obtain death certificate and medical examiner permit paperwork); upgraded urns",
+      "source": "https://goinghomecremations.com/tampa-cremation-services/",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "tampa",
+      "provider": "Aikens Funeral Home",
+      "city": "Tampa",
+      "service": "direct cremation",
+      "price": 1595,
+      "includes": "not stated (an older Aikens cremation page shows $1,795)",
+      "excludes": "Cash-advance items (per no-hidden-cost guarantee)",
+      "source": "https://www.aikensfuneralhome.com/our-services",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "tampa",
+      "provider": "Aikens Funeral Home",
+      "city": "Tampa",
+      "service": "traditional funeral with burial",
+      "price": 4895,
+      "includes": "Basic Burial Package: 20-gauge metal casket, embalming, facilities for viewing, casket spray (services page says burial 'starting at $4,495')",
+      "excludes": "All cemetery charges; cash-advance items",
+      "source": "https://www.aikensfuneralhome.com/side-by-side-comparison ; https://www.aikensfuneralhome.com/our-services",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "tampa",
+      "provider": "Aikens Funeral Home",
+      "city": "Tampa",
+      "service": "traditional funeral with cremation",
+      "price": 4895,
+      "includes": "Basic Cremation Package: crematory fee, urn, ceremonial casket, casket spray",
+      "excludes": "Cash-advance items",
+      "source": "https://www.aikensfuneralhome.com/side-by-side-comparison",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "tampa",
+      "provider": "Southern Funeral Care",
+      "city": "Riverview",
+      "service": "direct cremation",
+      "price": 875,
+      "includes": "'Starts at' price; inclusions not stated",
+      "excludes": "not stated",
+      "source": "https://www.southernfuneralcare.com/services/cremation",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "tampa",
+      "provider": "Southern Funeral Care",
+      "city": "Riverview",
+      "service": "traditional funeral with cremation",
+      "price": 4395,
+      "includes": "Traditional cremation chapel service; inclusions not stated",
+      "excludes": "not stated",
+      "source": "https://www.southernfuneralcare.com/services/cremation",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "tampa",
+      "provider": "Southern Funeral Care",
+      "city": "Riverview",
+      "service": "direct burial",
+      "price": 2695,
+      "includes": "Immediate burial",
+      "excludes": "Ceremonies; casket; outer burial container; cemetery charges",
+      "source": "https://www.southernfuneralcare.com/services/traditional",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "tampa",
+      "provider": "Tulip Cremation (Tampa facility, 4615 N Nebraska Ave)",
+      "city": "Tampa",
+      "service": "direct cremation",
+      "price": 1190,
+      "includes": "Purchaser-provided container ($1,195 with fiberboard container); basic services ($650) and crematory fee included",
+      "excludes": "Certified death certificates ($10 per copy); shipping of cremated remains; additional urns",
+      "source": "https://www.tulipcremation.com/on/demandware.static/-/Library-Sites-Tulip-content/default/dw0d7fc91c/Tulip%20-%20FL%20GPL%20%5B2025.06.01%5D.pdf ; https://tulipcremation.com/cremation/tampa-fl",
+      "sourceDate": "2025-06-01"
+    },
+    {
+      "metro": "jacksonville",
+      "provider": "All About Cremations Inc.",
+      "city": "Jacksonville",
+      "service": "direct cremation",
+      "price": 995,
+      "includes": "Professional services $250, transfer $300 (within 35 miles; $4/mile beyond), refrigeration $95, cremation $350, alternative container (decedents under ~250 lb); 'Basic' package at $1,175 adds ME fee and a classic urn",
+      "excludes": "Medical examiner fee ($50, Duval/Clay/St. Johns); certified death certificates ($10 each); oversize/weight surcharges",
+      "source": "https://www.allaboutcremationinc.com/ ; https://www.allaboutcremationinc.com/fh_live/18600/18668/gpl/All%20About%20Cremations%20GPL%2011.pdf",
+      "sourceDate": "2025-04-01"
+    },
+    {
+      "metro": "jacksonville",
+      "provider": "First Coast Cremation",
+      "city": "Jacksonville",
+      "service": "direct cremation",
+      "price": 795,
+      "includes": "Transfer within 50 miles, document review, care/refrigeration, cardboard alternative container, crematory fee, death certificate filing, Social Security notification, temporary container (page banner says 'starting at $895')",
+      "excludes": "not stated",
+      "source": "https://www.firstcoastcremation.com/jacksonville-area-cremation-services",
+      "sourceDate": "undated (one page indexed ~15 months before 2026-11-07)"
+    },
+    {
+      "metro": "jacksonville",
+      "provider": "Affordable Cremation Solutions",
+      "city": "Jacksonville",
+      "service": "direct cremation",
+      "price": 975,
+      "includes": "Direct cremation with family-supplied container (alternative container may be used); urns from $95 (a newer ACS list effective 2026-09-14 exists; its direct cremation line was not visible)",
+      "excludes": "Separately billed items on the price list (not itemized in search result)",
+      "source": "https://irp.cdn-website.com/a75eb99f/files/uploaded/ACS+GPL+AUGUST+2026+-+Scott+Myers.pdf",
+      "sourceDate": "2026-08"
+    },
+    {
+      "metro": "jacksonville",
+      "provider": "Naugle Funeral Home & Cremation Services",
+      "city": "Jacksonville",
+      "service": "direct cremation",
+      "price": 895,
+      "includes": "Simple Cremation Package: pickup, paperwork, cremation, return of remains in temporary container (Naugle online-cremation homepage shows $795)",
+      "excludes": "not stated",
+      "source": "https://www.nauglefuneral.com/cremation-packages/ ; https://simplecremations.nauglefuneral.com/simple-cremation-pricing/",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "jacksonville",
+      "provider": "Funerals by T.S. Warden",
+      "city": "Jacksonville",
+      "service": "direct cremation",
+      "price": 1995,
+      "includes": "Removal, permits, director services, transport to crematory within 25 miles, cremation fee (299 lb or less), 15-minute cot view; offered Tue-Fri 10am-1pm",
+      "excludes": "not stated",
+      "source": "https://www.tswarden.com/funeral-packages ; https://www.tswarden.com/cremation/options",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "jacksonville",
+      "provider": "Funerals by T.S. Warden",
+      "city": "Jacksonville",
+      "service": "traditional funeral with cremation",
+      "price": 3995,
+      "includes": "Economy Cremation Service: rental or cremation casket and chapel or church ceremony",
+      "excludes": "not stated",
+      "source": "https://www.tswarden.com/funeral-packages",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "jacksonville",
+      "provider": "Funerals by T.S. Warden",
+      "city": "Jacksonville",
+      "service": "traditional funeral with burial",
+      "price": 4995,
+      "includes": "Economy Basic Package including choice of one of three caskets",
+      "excludes": "Cemetery charges not stated",
+      "source": "https://www.tswarden.com/funeral-packages",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "jacksonville",
+      "provider": "Funerals by T.S. Warden",
+      "city": "Jacksonville",
+      "service": "traditional funeral with burial",
+      "price": 6095,
+      "includes": "Traditional Package: one-hour viewing with casket, then chapel or graveside ceremony; weekdays and Saturday mornings only (homepage shows a conflicting 'Economy Chapel Package $3,995')",
+      "excludes": "Cemetery charges not stated",
+      "source": "https://www.tswarden.com/funeral-packages",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "miami",
+      "provider": "Hadley Davis Funeral Home",
+      "city": "Opa-locka / Miami",
+      "service": "direct cremation",
+      "price": 900,
+      "includes": "Transfer of remains, cremation, state approval, document preparation",
+      "excludes": "not stated",
+      "source": "https://www.hadleydavisfh.com/our-services",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "miami",
+      "provider": "Hadley Davis Funeral Home",
+      "city": "Opa-locka / Miami",
+      "service": "traditional funeral with cremation",
+      "price": 2850,
+      "includes": "Cremation Service Package: basic services, embalming, chapel service, viewing/visitation, rental casket (no deletions from package allowed)",
+      "excludes": "not stated",
+      "source": "https://www.hadleydavisfh.com/our-services",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "miami",
+      "provider": "Hadley Davis Funeral Home",
+      "city": "Opa-locka / Miami",
+      "service": "traditional funeral with burial",
+      "price": 3900,
+      "includes": "Burial Service Package: basic services, embalming, facilities and staff for ceremony, hearse, 20-gauge metal casket",
+      "excludes": "Cemetery charges not stated",
+      "source": "https://www.hadleydavisfh.com/our-services",
+      "sourceDate": "undated"
+    },
+    {
+      "metro": "miami",
+      "provider": "Caballero Rivero Woodlawn South (Dignity Memorial)",
+      "city": "Miami",
+      "service": "direct cremation",
+      "price": 1995,
+      "includes": "Low end of $1,995-$7,490 range with purchaser-supplied container; crematory fee, refrigeration, transfers; basic services and overhead ($2,575 on GPL) stated as already included in direct cremation charges",
+      "excludes": "Urns; cemetery fees; flowers; other merchandise",
+      "source": "https://www.dignitymemorial.com/fr-ca/funeral-homes/florida/miami/caballero-rivero-woodlawn-south/9547/funeral-price-list",
+      "sourceDate": "2026-07-07"
+    },
+    {
+      "metro": "miami",
+      "provider": "Caballero Rivero Woodlawn South (Dignity Memorial)",
+      "city": "Miami",
+      "service": "direct burial",
+      "price": 4130,
+      "includes": "Immediate burial, low end of $4,130-$25,225 range with purchaser-provided container",
+      "excludes": "Cemetery fees; casket/outer burial container if purchased from the home (priced separately)",
+      "source": "https://www.dignitymemorial.com/fr-ca/funeral-homes/florida/miami/caballero-rivero-woodlawn-south/9547/funeral-price-list",
+      "sourceDate": "2026-07-07"
+    },
+    {
+      "metro": "miami",
+      "provider": "Van Orsdel Family Funeral Chapels & Crematory",
+      "city": "Miami (multiple chapels)",
+      "service": "direct cremation",
+      "price": 1990,
+      "includes": "Simple Cremation, No Services: licensed funeral director, death certificate filing and permits, Social Security notification, online obituary/guestbook, veterans-benefit help, coverlet cremation container, fingerprint keepsake; described as all-inclusive (an older page with prices effective 2024-07-01 showed $2,795)",
+      "excludes": "not stated",
+      "source": "https://www.vanorsdel.com/services/cremation-prices ; https://www.vanorsdel.com/download/235172/Van_Orsdel_2026_Cremation_Pricing_Guide1.pdf",
+      "sourceDate": "2026-05-10"
+    },
+    {
+      "metro": "miami",
+      "provider": "Van Orsdel Family Funeral Chapels & Crematory",
+      "city": "Miami (multiple chapels)",
+      "service": "traditional funeral with cremation",
+      "price": 3995,
+      "includes": "Limited simple cremation with visitation: 1-hour visitation, Monday-Thursday 10am-3pm only",
+      "excludes": "No funeral ceremony stated",
+      "source": "https://www.vanorsdel.com/services/cremation-prices",
+      "sourceDate": "2026-05-10"
+    },
+    {
+      "metro": "miami",
+      "provider": "Atlantis Cremations",
+      "city": "Pompano Beach",
+      "service": "direct cremation",
+      "price": 995,
+      "includes": "Removal from place of death (Miami-Dade, Broward or Palm Beach), transport, refrigeration, cremation, county cremation permit fee if applicable, cardboard container, one certified death certificate, Social Security notification",
+      "excludes": "Surcharge over 300 lb; additional certified death certificates; optional merchandise",
+      "source": "https://www.atlantiscremations.com/",
+      "sourceDate": "undated"
+    }
+  ]
+}

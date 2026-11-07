@@ -57,6 +57,9 @@ for (const m of team.members) {
   if (!m.consent) problems.push(`src/data/team.json  ${who}: no written OK to appear on the site`);
   if (!m.verified) problems.push(`src/data/team.json  ${who}: license not checked on DFS/NIPR`);
 }
+// Funeral-cost survey: prices came from search results; every one must be re-checked on the provider's own page.
+const survey = JSON.parse(readFileSync(join(root, 'src/data/funeral-survey.json'), 'utf8'));
+if (!survey.verified) problems.push(`src/data/funeral-survey.json  ${survey.prices.length} published prices not yet re-checked on each provider's own page (verified: false)`);
 const wrangler = readFileSync(join(root, 'wrangler.toml'), 'utf8');
 if (wrangler.includes('00000000-0000-0000-0000-000000000000')) problems.push('wrangler.toml  D1 database_id is still a placeholder');
 if (!process.env.SITE_URL || process.env.SITE_URL.includes('invalid')) problems.push('SITE_URL env var not set to the real domain');
