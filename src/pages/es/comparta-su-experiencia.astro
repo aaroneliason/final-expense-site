@@ -1,0 +1,27 @@
+---
+/** Página privada para opiniones. No aparece en el menú ni en el sitemap; Aaron envía el enlace a sus clientes. */
+import Page from '../../layouts/Page.astro';
+import ReviewForm from '../../components/ReviewForm.astro';
+import { brand } from '../../config/site';
+---
+<Page
+  title="Comparta su experiencia"
+  h1="Comparta su experiencia"
+  description={`Cuénteles a otras familias cómo fue su experiencia con ${brand.name}.`}
+  path="/es/comparta-su-experiencia/"
+  crumb="Comparta su experiencia"
+  lang="es"
+  noindex
+  alternates={[{ lang: 'en-US', path: '/share-your-experience/' }, { lang: 'es-US', path: '/es/comparta-su-experiencia/' }]}
+>
+  <p class="lede">Gracias por ayudar a otra familia a decidir. Toma unos dos minutos.</p>
+  <p class="small"><a href="/share-your-experience/" hreflang="en" lang="en">In English</a></p>
+  <ReviewForm lang="es" />
+  <h2 class="h3">Cómo usamos las opiniones</h2>
+  <ul>
+    <li>Leemos cada opinión antes de publicarla en nuestro sitio, y nunca cambiamos sus palabras.</li>
+    <li>Solo mostramos su nombre, la primera letra de su apellido y su ciudad, si nos la da.</li>
+    <li>Nunca pagamos por opiniones ni damos nada a cambio.</li>
+    <li>¿Cambió de opinión? Llámenos o envíenos un mensaje de texto y la quitamos.</li>
+  </ul>
+</Page>

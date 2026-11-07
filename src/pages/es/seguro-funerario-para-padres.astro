@@ -1,0 +1,103 @@
+---
+/** Spanish version of /burial-insurance-for-parents/. Same facts; change both pages together. */
+import Guide from '../../layouts/Guide.astro';
+import Faq from '../../components/Faq.astro';
+import { pair, paths } from '../../i18n/ui';
+
+const faqs = [
+  {
+    q: '¿Puedo comprarle un seguro funerario a mi papá o mi mamá sin que lo sepa?',
+    a: '<p>No. Su papá o su mamá tiene que saber de la póliza, estar de acuerdo, contestar las preguntas de salud y firmar la solicitud. No se puede comprar una póliza sobre otra persona sin su consentimiento.</p>',
+  },
+  {
+    q: '¿Puedo ser el dueño de la póliza y pagar las primas?',
+    a: '<p>Muchas veces, sí. Muchas aseguradoras permiten que un hijo adulto sea el dueño y pague, con el padre o la madre como asegurado. Algunas aseguradoras exigen que el padre o la madre sea el dueño. De cualquier forma, por lo general usted puede ser quien paga y el beneficiario.</p>',
+  },
+  {
+    q: '¿Y si mi papá o mi mamá tiene demencia o no puede tomar decisiones?',
+    a: '<p>Si su papá o su mamá no puede entender la solicitud y aceptarla, muchas aseguradoras no la aceptan, aunque usted tenga un poder notarial. Pregúntenos antes de solicitar y le diremos con honestidad qué es posible.</p>',
+  },
+  {
+    q: '¿Hay que pagar impuestos por el dinero?',
+    a: '<p>El dinero de un seguro de vida que se paga por un fallecimiento por lo general no cuenta como ingreso sujeto a impuestos para el beneficiario. Consulte a un profesional de impuestos sobre su caso.</p>',
+  },
+  {
+    q: '¿Mis hermanos pueden compartir el costo?',
+    a: '<p>Sí. Una póliza tiene un solo dueño, pero cualquiera puede ayudar con la prima. Pónganse de acuerdo desde el principio sobre quién paga, quién es el beneficiario y cómo se va a usar el dinero.</p>',
+  },
+];
+---
+<Guide
+  title="Seguro funerario para sus padres: cómo funciona"
+  h1="Seguro funerario para su papá o su mamá"
+  description="Cómo ayudar a su papá o su mamá a obtener un seguro funerario: quién firma, quién paga, quién recibe el dinero y qué pasa si tiene problemas de salud."
+  path={paths.es.parents}
+  crumb="Seguro funerario para sus padres"
+  eyebrow="Familia"
+  lede="Muchos hijos adultos ayudan a su papá o su mamá a prepararse para los gastos del funeral. Así funciona, esto es lo que ellos tienen que hacer y esto es lo que usted puede hacer por ellos."
+  published="2026-11-07"
+  reviewed="2026-11-07"
+  lang="es"
+  alternates={pair('parents')}
+  summary={[
+    'Su papá o su mamá tiene que saber de la póliza, estar de acuerdo, contestar las preguntas de salud y firmar.',
+    'Muchas veces usted puede ser el dueño, quien paga y el beneficiario. Las reglas cambian según la aseguradora.',
+    'El dinero se le paga al beneficiario en efectivo, para el funeral y las últimas cuentas.',
+    'Sin examen médico. La aprobación depende de las respuestas de su papá o su mamá a unas preguntas de salud.',
+  ]}
+>
+  <h2>Quién hace qué en la póliza</h2>
+  <div class="table-wrap">
+    <table class="stack">
+      <caption>Las cuatro funciones en una póliza de seguro de vida</caption>
+      <thead>
+        <tr><th scope="col">Función</th><th scope="col">Por lo general</th><th scope="col">Qué significa</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Asegurado</th><td data-label="Por lo general">Su papá o su mamá</td><td data-label="Qué significa">La persona cuya vida está cubierta. Contesta las preguntas de salud y firma.</td></tr>
+        <tr><th scope="row">Dueño</th><td data-label="Por lo general">Su papá o su mamá, o usted si la aseguradora lo permite</td><td data-label="Qué significa">Controla la póliza y puede cambiar al beneficiario.</td></tr>
+        <tr><th scope="row">Quien paga</th><td data-label="Por lo general">Usted, su papá o su mamá, o varios hermanos juntos</td><td data-label="Qué significa">Paga la prima mensual, muchas veces desde su propia cuenta de banco.</td></tr>
+        <tr><th scope="row">Beneficiario</th><td data-label="Por lo general">Usted, o quien se vaya a encargar del funeral</td><td data-label="Qué significa">Recibe el dinero cuando su papá o su mamá fallece.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Cómo empezar</h2>
+  <ol>
+    <li><strong>Hable primero con su papá o su mamá.</strong> Explíquele lo que quiere hacer y por qué. Muchos padres sienten alivio al tenerlo resuelto.</li>
+    <li><strong>Reúna lo básico.</strong> La fecha de nacimiento de su papá o su mamá, la lista de sus medicinas y doctores, y los datos bancarios de quien vaya a pagar.</li>
+    <li><strong>Llamen juntos.</strong> Usted puede estar en la llamada para ayudar. Su papá o su mamá contesta las preguntas de salud y da su consentimiento personalmente.</li>
+    <li>
+      <strong>Elija una cantidad.</strong> Lo suficiente para el funeral o la cremación que su papá o su mamá quiere, más las últimas cuentas.
+      <a href={paths.es.cost}>Vea qué cambia el precio</a>.
+    </li>
+  </ol>
+
+  <h2>Cuando su papá o su mamá tiene problemas de salud</h2>
+  <p>
+    No hace falta examen médico. La aprobación depende de las respuestas de su papá o su mamá a unas preguntas de salud, y muchas condiciones
+    comunes que están bajo control califican para cobertura completa desde el primer día. Si no, puede haber un plan graduado o de emisión
+    garantizada. Esos planes tienen un período de espera: si la muerte por causas naturales ocurre más o menos en los dos primeros años, no se
+    paga el monto completo y la aseguradora por lo general devuelve las primas pagadas más intereses.
+    <a href={paths.es.plans}>Cómo funcionan los tipos de plan</a>.
+  </p>
+  <p>
+    Las respuestas honestas importan. Durante los dos primeros años, la aseguradora puede revisar la solicitud si hay un reclamo, y una
+    respuesta equivocada le puede causar problemas a su familia más adelante.
+  </p>
+
+  <h2>Cuando llegue el momento</h2>
+  <p>
+    El beneficiario le envía a la aseguradora un formulario de reclamo y una copia certificada del certificado de defunción. La aseguradora le
+    paga directamente al beneficiario, y el beneficiario puede pagar la funeraria, el crematorio u otras cuentas. Guarde una copia de la póliza
+    y el teléfono de la aseguradora donde su familia los pueda encontrar.
+  </p>
+
+  <div class="callout">
+    <h3>¿Su papá o su mamá vive en otro estado?</h3>
+    <p>Lo que cuenta es el estado donde vive su papá o su mamá. Solo podemos ayudar donde tenemos licencia; <a href="/licenses/" hreflang="en">vea nuestras licencias</a> (en inglés).</p>
+  </div>
+
+  <h2>Preguntas que hacen las familias</h2>
+  <Faq items={faqs} />
+</Guide>

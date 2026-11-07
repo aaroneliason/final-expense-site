@@ -1,5 +1,5 @@
 ---
-/** Article layout for explainer guides: breadcrumbs, dated byline, prose, author box, call-to-action, form. */
+/** Article layout for explainer guides, in English or Spanish: breadcrumbs, dated byline, prose, author box, call-to-action, form. */
 import Base from './Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import AuthorBox from '../components/AuthorBox.astro';
@@ -7,6 +7,7 @@ import CtaBand from '../components/CtaBand.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 import { brand, lastReviewed } from '../config/site';
 import { agencyLd, articleLd, breadcrumbLd, websiteLd } from '../lib/schema';
+import { longDate, paths, type Lang } from '../i18n/ui';
 
 interface Props {
   title: string; // <title>
@@ -19,36 +20,48 @@ interface Props {
   published?: string;
   reviewed?: string;
   summary?: string[]; // "At a glance" bullets; facts must match the page body
+  lang?: Lang;
+  /** hreflang alternates including this page, e.g. [{ lang: 'en-US', path }, { lang: 'es-US', path: '/es/…/' }, { lang: 'x-default', path }] */
+  alternates?: { lang: string; path: string }[];
 }
-const { title, h1, description, path, crumb, eyebrow = 'Guide', lede, published = '2026-11-06', reviewed = lastReviewed, summary = [] } = Astro.props;
+const { title, h1, description, path, crumb, lede, published = '2026-11-06', reviewed = lastReviewed, summary = [], lang = 'en', alternates = [] } = Astro.props;
+const es = lang === 'es';
+const eyebrow = Astro.props.eyebrow ?? (es ? 'Guía' : 'Guide');
 const site = Astro.site!;
 const crumbs = [
-  { name: 'Home', path: '/' },
+  { name: es ? 'Inicio' : 'Home', path: es ? paths.es.florida : '/' },
   { name: crumb, path },
 ];
 const jsonLd = [
   websiteLd(site),
   agencyLd(site),
   breadcrumbLd(site, crumbs),
-  articleLd(site, { path, headline: h1, description, datePublished: published, dateModified: reviewed }),
+  articleLd(site, { path, headline: h1, description, datePublished: published, dateModified: reviewed, inLanguage: es ? 'es-US' : 'en-US' }),
 ];
-const reviewedText = new Date(reviewed + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+const reviewedText = longDate(reviewed, lang);
+const other = alternates.find((a) => a.lang.startsWith(es ? 'en' : 'es'));
 ---
-<Base {title} {description} {path} {jsonLd} ogType="article" modified={reviewed}>
+<Base {title} {description} {path} {jsonLd} {lang} {alternates} ogType="article" modified={reviewed}>
   <article>
     <header class="hero" style="padding-bottom:2.5rem">
       <div class="wrap">
-        <Breadcrumbs items={crumbs} />
+        <Breadcrumbs items={crumbs} lang={lang} />
+        {other && (
+          <p class="lang-note"><a href={other.path} hreflang={other.lang} lang={es ? 'en' : 'es'}>{es ? 'Read this guide in English' : 'Lea esta guía en español'}</a></p>
+        )}
         <div class="guide-hero">
           <div class="prose">
             <span class="eyebrow">{eyebrow}</span>
             <h1>{h1}</h1>
             {lede && <p class="lede">{lede}</p>}
-            <p class="reviewed">By <a href="/about/">{brand.name}</a> · Reviewed by a licensed agent on {reviewedText}</p>
+            <p class="reviewed">
+              {es ? 'Por' : 'By'} <a href="/about/" hreflang={es ? 'en' : undefined}>{brand.name}</a> ·
+              {es ? ` Revisado por un agente con licencia el ${reviewedText}` : ` Reviewed by a licensed agent on ${reviewedText}`}
+            </p>
           </div>
           {summary.length > 0 && (
             <aside class="summary-box" aria-labelledby="at-a-glance">
-              <h2 id="at-a-glance">At a glance</h2>
+              <h2 id="at-a-glance">{es ? 'En resumen' : 'At a glance'}</h2>
               <ul>{summary.map((s) => <li>{s}</li>)}</ul>
             </aside>
           )}
@@ -59,15 +72,15 @@ const reviewedText = new Date(reviewed + 'T12:00:00').toLocaleDateString('en-US'
       <div class="wrap grid-2">
         <div class="prose">
           <slot />
-          <AuthorBox {reviewed} />
+          <AuthorBox {reviewed} lang={lang} />
         </div>
         <div style="position:sticky;top:6rem">
-          <QuoteForm id="quote" heading="Get your own price" />
+          <QuoteForm id="quote" heading={es ? 'Reciba su propio precio' : 'Get your own price'} lang={lang} />
         </div>
       </div>
     </div>
   </article>
   <section class="section section--sand">
-    <div class="wrap"><CtaBand /></div>
+    <div class="wrap"><CtaBand lang={lang} /></div>
   </section>
 </Base>

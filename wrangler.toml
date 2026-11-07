@@ -20,3 +20,7 @@ ALLOWED_STATES = "FL,LA,MD,MN,MO,MS,SC,VA,WA,WI"
 #   RESEND_API_KEY         optional: email alert via Resend
 #   NOTIFY_EMAIL_TO        e.g. the insurance inbox
 #   NOTIFY_EMAIL_FROM      e.g. leads@<domain> (verified in Resend)
+#   TELEGRAM_BOT_TOKEN     instant lead/review alerts to Aaron's phone (Telegram bot)
+#   TELEGRAM_CHAT_ID       Aaron's Telegram chat id
+#   OPENPHONE_API_KEY      confirmation text to each new lead (OpenPhone API key)
+#   OPENPHONE_FROM         the site's OpenPhone number (+1XXXXXXXXXX) or its id (PN…)

@@ -10,6 +10,8 @@
 import { brand } from '../../src/config/site';
 import { CONSENT_VERSIONS, consentText } from '../../src/lib/consent';
 import { LEAD_ENUMS, refCode, telegram } from '../../src/lib/alerts';
+import { sendConfirmation } from '../../src/lib/sms';
+import { verifyTurnstile } from '../../src/lib/turnstile';
 
 interface Env {
   LEADS_DB: D1Database;
@@ -22,6 +24,8 @@ interface Env {
   NOTIFY_EMAIL_FROM?: string;
   TELEGRAM_BOT_TOKEN?: string; // instant lead alert to Aaron's phone (Telegram bot)
   TELEGRAM_CHAT_ID?: string;
+  OPENPHONE_API_KEY?: string; // confirmation text to the lead from the site number (src/lib/sms.ts)
+  OPENPHONE_FROM?: string;
 }
 
 type Lead = Record<string, string>;
@@ -57,24 +61,6 @@ const THANKS: Record<Lang, string> = { en: '/thank-you/', es: '/es/gracias/' };
 async function sha256(text: string) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
-}
-
-async function verifyTurnstile(secret: string | undefined, token: string, ip: string, host: string) {
-  // Local testing only: `TURNSTILE_SECRET=local-test` in .dev.vars, and only on localhost.
-  if (secret === 'local-test' && (host === 'localhost' || host === '127.0.0.1')) return { ok: true, reason: 'local-test' };
-  if (!secret) return { ok: false, reason: 'turnstile-not-configured' };
-  if (!token) return { ok: false, reason: 'missing-token' };
-  const body = new FormData();
-  body.append('secret', secret);
-  body.append('response', token);
-  if (ip) body.append('remoteip', ip);
-  try {
-    const r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body });
-    const out = (await r.json().catch(() => ({}))) as { success?: boolean; 'error-codes'?: string[] };
-    return { ok: !!out.success, reason: (out['error-codes'] || []).join(',') };
-  } catch {
-    return { ok: false, reason: 'verify-unreachable' };
-  }
 }
 
 function reply(isJson: boolean, status: number, data: Record<string, unknown>, origin: string, lang: Lang = 'en') {
@@ -211,8 +197,14 @@ async function notify(env: Env, lead: Record<string, string>) {
       }),
     );
   }
-  const results = await Promise.allSettled(jobs);
-  if (results.some((r) => r.status === 'fulfilled')) {
-    await env.LEADS_DB.prepare('UPDATE leads SET notified = 1 WHERE id = ?1').bind(lead.id).run();
+  // Confirmation text to the lead (9 AM–8 PM Eastern only; dormant until the OpenPhone secrets are set).
+  const sms = await sendConfirmation(env, lead.phone, lead.first_name, lead.language === 'es' ? 'es' : 'en');
+  if (sms.startsWith('failed')) {
+    const warn = telegram(env, `⚠️ The confirmation text to ${lead.first_name} (ref ${refCode(lead.id)}) didn't send (${sms}). Call them as usual.`);
+    if (warn) jobs.push(warn);
   }
+  const results = await Promise.allSettled(jobs);
+  await env.LEADS_DB.prepare('UPDATE leads SET notified = ?1, sms_status = ?2 WHERE id = ?3')
+    .bind(results.some((r) => r.status === 'fulfilled') ? 1 : 0, sms, lead.id)
+    .run();
 }

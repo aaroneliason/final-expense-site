@@ -1,5 +1,6 @@
 ---
 import Guide from '../layouts/Guide.astro';
+import { pair } from '../i18n/ui';
 import Faq from '../components/Faq.astro';
 
 const faqs = [
@@ -30,6 +31,7 @@ const faqs = [
   h1="Burial insurance for a parent"
   description="How adult children can help a parent get burial or final expense insurance: who signs, who pays, who gets the money, and what happens with health problems."
   path="/burial-insurance-for-parents/"
+  alternates={pair('parents')}
   crumb="Burial insurance for a parent"
   eyebrow="Family"
   lede="Adult children often help a parent plan for funeral costs. Here's how it works, what your parent needs to do, and what you can handle for them."

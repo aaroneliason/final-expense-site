@@ -75,7 +75,7 @@ const faqs = [
   },
   {
     q: '¿Puedo comprar una póliza para mi papá o mi mamá?',
-    a: `<p>Sí, con su participación. La persona asegurada tiene que participar en la solicitud, contestar las preguntas de salud y firmarla. Usted puede ser quien pague la prima y también el beneficiario, si su papá o su mamá así lo deciden. Muchas familias hacen la llamada juntas.</p>`,
+    a: `<p>Sí, con su participación. La persona asegurada tiene que participar en la solicitud, contestar las preguntas de salud y firmarla. Usted puede ser quien pague la prima y también el beneficiario, si su papá o su mamá así lo deciden. Muchas familias hacen la llamada juntas. <a href="${paths.es.parents}">Cómo funciona</a>.</p>`,
   },
   {
     q: '¿Toda la llamada puede ser en español?',
@@ -185,6 +185,7 @@ const faqs = [
         </p>
       </div>
       <RateTable lang="es" />
+      <p style="margin-top:1.25rem"><a href={paths.es.cost}>Cómo cambian los precios según la edad, la salud y la cobertura →</a></p>
     </div>
   </section>
 
@@ -209,6 +210,7 @@ const faqs = [
           <p>Se acepta a cualquier persona dentro del rango de edad, pero siempre hay un período de espera, por lo general de dos años, y el precio es más alto. Es una buena alternativa cuando no hay otra opción.</p>
         </div>
       </div>
+      <p style="margin-top:1.25rem"><a href={paths.es.plans}>Compare los tipos de plan en detalle →</a></p>
     </div>
   </section>
 
@@ -251,7 +253,7 @@ const faqs = [
     </div>
   </section>
 
-  <section class="section section--sand">
+  <section class="section section--sand" id="calculadora">
     <div class="wrap" style="max-width:48rem">
       <CoverageCalculator id="calc" lang="es" />
     </div>

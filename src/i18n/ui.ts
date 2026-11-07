@@ -9,9 +9,30 @@
 export type Lang = 'en' | 'es';
 
 export const paths = {
-  en: { florida: '/final-expense-insurance-florida/', thanks: '/thank-you/', privacy: '/privacy/' },
-  es: { florida: '/es/seguro-de-gastos-finales-florida/', thanks: '/es/gracias/', privacy: '/es/privacidad/' },
+  en: {
+    florida: '/final-expense-insurance-florida/',
+    thanks: '/thank-you/',
+    privacy: '/privacy/',
+    cost: '/final-expense-insurance-cost/',
+    plans: '/guaranteed-issue-vs-simplified-issue/',
+    parents: '/burial-insurance-for-parents/',
+  },
+  es: {
+    florida: '/es/seguro-de-gastos-finales-florida/',
+    thanks: '/es/gracias/',
+    privacy: '/es/privacidad/',
+    cost: '/es/costo-del-seguro-de-gastos-finales/',
+    plans: '/es/emision-garantizada-o-simplificada/',
+    parents: '/es/seguro-funerario-para-padres/',
+  },
 } as const;
+
+/** hreflang set for a page that exists in both languages (English is x-default). */
+export const pair = (key: 'florida' | 'privacy' | 'cost' | 'plans' | 'parents') => [
+  { lang: 'en-US', path: paths.en[key] },
+  { lang: 'es-US', path: paths.es[key] },
+  { lang: 'x-default', path: paths.en[key] },
+];
 
 const statesEs: Record<string, string> = { LA: 'Luisiana', MO: 'Misuri', MS: 'Misisipi', SC: 'Carolina del Sur' };
 export const stateName = (code: string, name: string, lang: Lang) => (lang === 'es' && statesEs[code]) || name;

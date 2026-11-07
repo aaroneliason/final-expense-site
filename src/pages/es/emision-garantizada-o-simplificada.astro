@@ -1,0 +1,73 @@
+---
+/** Spanish version of /guaranteed-issue-vs-simplified-issue/. Same facts; change both pages together. */
+import Guide from '../../layouts/Guide.astro';
+import Faq from '../../components/Faq.astro';
+import { pair, paths } from '../../i18n/ui';
+
+const faqs = [
+  {
+    q: '¿Qué significa «beneficio graduado»?',
+    a: '<p>Durante la primera parte de la póliza, por lo general dos años, no se paga el monto completo si la muerte es por causas naturales. En su lugar, la aseguradora por lo general devuelve las primas pagadas más intereses. Después de ese período se aplica el beneficio completo. La muerte accidental casi siempre está cubierta por completo desde el inicio. Cada póliza indica sus propios términos.</p>',
+  },
+  {
+    q: 'Si tengo una condición de salud, ¿solo me queda la emisión garantizada?',
+    a: '<p>No necesariamente. Muchas aseguradoras aceptan condiciones como la diabetes o la presión alta bajo control con tarifas normales. Las preguntas cambian de una aseguradora a otra, así que una le puede ofrecer cobertura completa donde otra no.</p>',
+  },
+  {
+    q: '¿Por qué no comprar emisión garantizada para ir a lo seguro?',
+    a: '<p>Porque si usted califica para un plan de emisión simplificada, la emisión garantizada cuesta más y tiene un período de espera que usted no necesita. Es la opción correcta solo cuando las preguntas de salud descartan los otros planes.</p>',
+  },
+];
+---
+<Guide
+  title="Emisión garantizada o simplificada"
+  h1="Emisión garantizada o emisión simplificada: ¿qué plan le conviene?"
+  description="Los tres tipos de planes de gastos finales explicados con claridad: emisión simplificada, beneficio graduado y emisión garantizada, y cuál puede obtener."
+  path={paths.es.plans}
+  crumb="Emisión garantizada o simplificada"
+  eyebrow="Tipos de plan"
+  lede="Sus respuestas a unas preguntas de salud deciden qué plan puede obtener. Esto es lo que significa cada uno para su familia."
+  published="2026-11-07"
+  reviewed="2026-11-07"
+  lang="es"
+  alternates={pair('plans')}
+  summary={[
+    'Emisión simplificada: unas pocas preguntas de salud, sin examen médico, y cobertura completa desde el primer día si califica.',
+    'Graduado o modificado: para algunos historiales de salud. Si la muerte por causas naturales ocurre más o menos en los dos primeros años, no se paga el monto completo.',
+    'Emisión garantizada: sin preguntas de salud, así que siempre hay un período de espera, y cuesta más.',
+    'Revise primero la emisión simplificada. Suele ser la mejor opción.',
+  ]}
+>
+  <h2>Emisión simplificada: cobertura completa desde el primer día</h2>
+  <p>
+    Usted contesta una lista corta de preguntas de salud de sí o no. No hay examen médico, pero la aprobación depende de sus respuestas. Si
+    califica, la mayoría de los planes de emisión simplificada pagan el beneficio completo desde el primer día. Suele ser la mejor opción, así
+    que conviene revisarla primero.
+  </p>
+
+  <h2>Beneficio graduado o modificado: con período de espera</h2>
+  <p>
+    Algunos historiales de salud califican para un plan con período de espera. Si la muerte por causas naturales ocurre más o menos durante los
+    dos primeros años, la aseguradora por lo general devuelve lo que usted pagó más intereses en lugar del monto completo. La muerte accidental
+    casi siempre está cubierta por completo desde el inicio.
+  </p>
+
+  <h2>Emisión garantizada: sin preguntas de salud</h2>
+  <p>
+    Se acepta a cualquier persona dentro del rango de edad, por lo general de unos 50 a 80 u 85 años. Como no hay preguntas de salud, siempre
+    hay un período de espera y el precio es más alto. Es una alternativa honesta cuando no hay otra opción.
+  </p>
+
+  <div class="callout">
+    <h3>Cómo decidimos qué recomendarle</h3>
+    <p>
+      Empezamos por los planes que pagan completo desde el primer día y pasamos a un plan con período de espera solo si las preguntas de salud
+      lo exigen. Si eso pasa, le explicamos con claridad qué significa el período de espera para su familia.
+    </p>
+  </div>
+
+  <p>¿Cuánto cuesta cada uno? <a href={paths.es.cost}>Vea lo que cambia el precio</a>.</p>
+
+  <h2>Preguntas</h2>
+  <Faq items={faqs} />
+</Guide>

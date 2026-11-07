@@ -1,0 +1,103 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Faq from '../components/Faq.astro';
+
+const faqs = [
+  {
+    q: 'Can you get burial insurance with COPD?',
+    a: '<p>Yes. Depending on your situation, that may be a plan with full coverage from day one, a graded plan, or a guaranteed issue plan, which asks no health questions. The last two have a waiting period.</p>',
+  },
+  {
+    q: 'Does using oxygen disqualify me?',
+    a: '<p>Not from every plan. Home oxygen usually rules out full coverage from day one, but guaranteed issue plans don’t ask about it. They have a waiting period and cost more.</p>',
+  },
+  {
+    q: 'Does a CPAP machine count as oxygen?',
+    a: '<p>Usually not. Most insurers treat a CPAP for sleep apnea differently from home oxygen for lung disease. Tell us what you use and we’ll check how each insurer counts it.</p>',
+  },
+  {
+    q: 'Do I need a breathing test?',
+    a: '<p>No. There are no exams or breathing tests for the final expense plans we offer. Approval depends on your answers to a few health questions and the insurer’s records check.</p>',
+  },
+];
+---
+<Guide
+  title="Burial Insurance With COPD: What to Expect"
+  h1="Burial insurance with COPD"
+  description="Final expense insurance with COPD or emphysema: how insurers look at inhalers, oxygen and smoking, which plan is typical, and what to have ready."
+  path="/burial-insurance-with-copd/"
+  crumb="Burial insurance with COPD"
+  eyebrow="Health conditions"
+  lede="COPD narrows the choices, but it rarely closes them. Whether you use oxygen at home is the biggest dividing line."
+  published="2026-11-07"
+  reviewed="2026-11-07"
+  summary={[
+    "Many insurers ask whether you've been diagnosed with or treated for COPD or emphysema, often within the last two years.",
+    'COPD without oxygen may still qualify for full coverage from day one with some insurers.',
+    'Home oxygen (not a CPAP for sleep apnea) usually means a guaranteed issue plan with a waiting period.',
+    'No medical exam. Approval depends on your answers to a few health questions.',
+  ]}
+>
+  <h2>How insurers look at COPD</h2>
+  <p>
+    COPD, emphysema and chronic bronchitis are among the most common reasons for a plan with a waiting period, but the details matter.
+    Insurers usually ask:
+  </p>
+  <ul>
+    <li>Whether you've been diagnosed with or treated for COPD, emphysema or chronic lung disease, and how recently.</li>
+    <li>Whether you use oxygen at home.</li>
+    <li>Whether you've been in the hospital for breathing problems recently.</li>
+    <li>Whether you've used tobacco or nicotine in the last 12 months. That decides which price you pay.</li>
+  </ul>
+  <p>Inhalers and other breathing medicines show up in the prescription check, so the insurer will know about them either way.</p>
+
+  <h2>What's typical, by situation</h2>
+  <div class="table-wrap">
+    <table class="stack">
+      <caption>Typical outcomes with COPD. Each insurer sets its own rules, so this is a starting point, not a promise.</caption>
+      <thead>
+        <tr><th scope="col">Your situation</th><th scope="col">What's typical</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Inhalers only, no oxygen, no recent hospital stays</th><td data-label="What's typical">Some insurers offer full coverage from day one; others offer a graded plan.</td></tr>
+        <tr><th scope="row">A hospital stay for breathing problems in the last year or two</th><td data-label="What's typical">Often a graded plan with a waiting period.</td></tr>
+        <tr><th scope="row">Home oxygen</th><td data-label="What's typical">Usually a guaranteed issue plan, with a waiting period.</td></tr>
+        <tr><th scope="row">Still using tobacco or nicotine</th><td data-label="What's typical">Tobacco prices apply, and some insurers are stricter with COPD if you still smoke.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What helps your application</h2>
+  <ul>
+    <li><strong>A list of your breathing medicines and inhalers,</strong> with doses.</li>
+    <li><strong>Whether you use oxygen,</strong> and since when.</li>
+    <li><strong>Dates of any hospital stays</strong> for breathing problems.</li>
+    <li><strong>When you last used tobacco or nicotine,</strong> including vaping and nicotine patches or gum. Many insurers count those too.</li>
+    <li>
+      <strong>Honest answers.</strong> During the first two years, an insurer can review the application if there's a claim, and a wrong
+      answer can lead to a denied claim.
+    </li>
+  </ul>
+
+  <h2>Quitting tobacco and your price</h2>
+  <p>
+    Most insurers charge non-tobacco prices once you've gone 12 months without tobacco or nicotine. If you're close to that mark, ask us
+    whether it makes sense to wait. Waiting has its own risk if your health changes, so we'll weigh it with you.
+  </p>
+
+  <h2>If a plan with a waiting period is the best fit</h2>
+  <p>
+    On graded and guaranteed issue plans, if death from natural causes happens in the first two or three years, the insurer usually refunds
+    the premiums paid, plus interest, instead of paying the full amount. Accidental death is usually covered in full from the start. After
+    the waiting period, the full amount is paid. <a href="/guaranteed-issue-vs-simplified-issue/">How the plan types work</a>.
+  </p>
+  <p>Never cancel a policy you already have until the new one is approved and in force.</p>
+
+  <div class="callout">
+    <h3>Not sure how much coverage to get?</h3>
+    <p>Add up the funeral and final bills in a minute with our <a href="/how-much-burial-insurance-do-i-need/">coverage calculator</a>.</p>
+  </div>
+
+  <h2>Questions about COPD and burial insurance</h2>
+  <Faq items={faqs} />
+</Guide>

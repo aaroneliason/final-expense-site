@@ -1,0 +1,99 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Faq from '../components/Faq.astro';
+
+const faqs = [
+  {
+    q: 'Can a cancer survivor get burial insurance?',
+    a: '<p>Yes. Many survivors qualify for full coverage from day one once a few years have passed since treatment ended. Before then, a graded or guaranteed issue plan is the usual choice.</p>',
+  },
+  {
+    q: 'Does skin cancer count?',
+    a: '<p>Basal cell and squamous cell skin cancers usually don’t. Melanoma usually does. Each insurer words its questions differently, so ask us how a particular insurer treats your history.</p>',
+  },
+  {
+    q: 'What if my cancer is in remission?',
+    a: '<p>Insurers mostly care about when treatment ended. Tell us the date your last treatment finished, whether that was surgery, chemotherapy, radiation or a medicine you take every day.</p>',
+  },
+  {
+    q: 'Do you need my medical records?',
+    a: '<p>Usually not. Final expense insurers rely on the health questions and, with your permission, prescription and medical database checks. There’s no exam.</p>',
+  },
+];
+---
+<Guide
+  title="Burial Insurance After Cancer: What to Expect"
+  h1="Burial insurance after cancer"
+  description="Final expense insurance after cancer: how far back insurers look, what counts, which plan is typical during and after treatment, and what to have ready."
+  path="/burial-insurance-after-cancer/"
+  crumb="Burial insurance after cancer"
+  eyebrow="Health conditions"
+  lede="If you've had cancer, the key question is when your treatment ended. Many people who are a few years past treatment qualify for full coverage."
+  published="2026-11-07"
+  reviewed="2026-11-07"
+  summary={[
+    'During treatment, or soon after, the usual choice is a plan with a waiting period.',
+    'Many insurers look back two to five years after treatment ends; after that, full coverage is often possible.',
+    "Most insurers don't count basal cell or squamous cell skin cancer.",
+    'No medical exam. Approval depends on your answers to a few health questions.',
+  ]}
+>
+  <h2>How insurers look at cancer</h2>
+  <p>
+    The health questions usually ask whether you've been diagnosed with or treated for cancer within a set time, commonly two, three or five
+    years. Treatment usually includes surgery, chemotherapy, radiation and some medicines taken afterward. Some insurers also ask whether a
+    cancer has come back or spread.
+  </p>
+  <p>
+    Many insurers leave out basal cell and squamous cell skin cancers, the most common and least serious kinds. Some medicines taken for
+    years after treatment, such as hormone therapy after breast cancer, may count as ongoing treatment with some insurers, so mention them.
+  </p>
+
+  <h2>What's typical, by situation</h2>
+  <div class="table-wrap">
+    <table class="stack">
+      <caption>Typical outcomes after cancer. Each insurer sets its own rules, so this is a starting point, not a promise.</caption>
+      <thead>
+        <tr><th scope="col">Your situation</th><th scope="col">What's typical</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">In treatment now</th><td data-label="What's typical">Usually a guaranteed issue plan, with a waiting period.</td></tr>
+        <tr><th scope="row">Treatment ended in the last two years</th><td data-label="What's typical">Often a graded or guaranteed issue plan.</td></tr>
+        <tr><th scope="row">Treatment ended two to five years ago</th><td data-label="What's typical">Depends on the insurer; some offer full coverage from day one.</td></tr>
+        <tr><th scope="row">Cancer-free for five years or more</th><td data-label="What's typical">Often full coverage from day one, if the rest of your health allows it.</td></tr>
+        <tr><th scope="row">Cancer that came back or spread</th><td data-label="What's typical">Often a plan with a waiting period; it depends on timing.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What helps your application</h2>
+  <ul>
+    <li><strong>The type of cancer</strong> and the date it was diagnosed.</li>
+    <li><strong>The date your last treatment ended,</strong> including surgery, chemotherapy, radiation or daily medicines.</li>
+    <li><strong>A list of the medicines you take now,</strong> with doses.</li>
+    <li>
+      <strong>Honest answers.</strong> During the first two years, an insurer can review the application if there's a claim, and a wrong
+      answer can lead to a denied claim.
+    </li>
+  </ul>
+
+  <h2>If you're in treatment now</h2>
+  <p>
+    A guaranteed issue plan accepts you without health questions. If death from natural causes happens during the waiting period, usually the
+    first two or three years, the insurer refunds the premiums paid, plus interest, instead of paying the full amount. Accidental death is
+    usually covered in full from the start. <a href="/guaranteed-issue-vs-simplified-issue/">How the plan types work</a>.
+  </p>
+  <p>
+    If someone has been told their illness is terminal, a guaranteed issue plan may still accept them, but because of the waiting period it
+    may not pay the full amount. We'll tell you honestly whether it makes sense, or whether money set aside would serve your family better.
+  </p>
+  <p>Once treatment is behind you and time passes, ask us whether a full-coverage plan has opened up. Never cancel a policy until the new one is approved and in force.</p>
+
+  <div class="callout">
+    <h3>Helping a parent after a cancer diagnosis?</h3>
+    <p>Your parent answers the health questions and signs, and you can often pay. <a href="/burial-insurance-for-parents/">How buying for a parent works</a>.</p>
+  </div>
+
+  <h2>Questions about cancer and burial insurance</h2>
+  <Faq items={faqs} />
+</Guide>

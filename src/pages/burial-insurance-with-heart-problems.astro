@@ -1,0 +1,101 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Faq from '../components/Faq.astro';
+
+const faqs = [
+  {
+    q: 'Can I get burial insurance after a heart attack?',
+    a: '<p>Yes. If it was more than about two years ago and you’re doing well, many insurers offer full coverage from day one. If it was more recent, a graded plan with a waiting period is common. Each insurer sets its own timing rules.</p>',
+  },
+  {
+    q: 'Can I get coverage with congestive heart failure?',
+    a: '<p>Yes, usually through a graded or guaranteed issue plan, which have a waiting period. We check every insurer we work with to find the best fit.</p>',
+  },
+  {
+    q: 'Does having a pacemaker matter?',
+    a: '<p>On its own, often not much. Insurers care more about why you have it and how your heart is doing now. Tell us the reason and the date it was put in.</p>',
+  },
+  {
+    q: 'Do I need an EKG or an exam?',
+    a: '<p>No. There’s no exam on the final expense plans we offer. Approval depends on your answers to a few health questions and the insurer’s records check.</p>',
+  },
+];
+---
+<Guide
+  title="Burial Insurance With Heart Conditions"
+  h1="Burial insurance with heart conditions"
+  description="Final expense insurance after a heart attack, stent, bypass, heart failure or AFib: how timing affects approval, which plan is typical, what to have ready."
+  path="/burial-insurance-with-heart-problems/"
+  crumb="Burial insurance with heart conditions"
+  eyebrow="Health conditions"
+  lede="Heart conditions are common at the ages final expense covers, and insurers know it. What matters most is how long ago it happened and how you're doing now."
+  published="2026-11-07"
+  reviewed="2026-11-07"
+  summary={[
+    'Many insurers look at heart attacks, stents and bypass surgery within the last one or two years; after that, full coverage is often possible.',
+    'Congestive heart failure usually means a plan with a waiting period.',
+    "High blood pressure and high cholesterol that are under control usually don't hold you back.",
+    'No medical exam. Approval depends on your answers to a few health questions.',
+  ]}
+>
+  <h2>How insurers look at heart conditions</h2>
+  <p>The health questions usually ask about specific conditions within a set time, often the last one, two or three years:</p>
+  <ul>
+    <li>A heart attack, a stent, bypass surgery or other heart surgery.</li>
+    <li>Congestive heart failure (CHF) or an enlarged heart (cardiomyopathy).</li>
+    <li>A stroke or a mini-stroke (TIA).</li>
+    <li>An irregular heartbeat such as atrial fibrillation (AFib), and whether it's controlled.</li>
+    <li>Any heart test or surgery a doctor has recommended that hasn't happened yet.</li>
+  </ul>
+  <p>
+    Blood thinners and heart medicines show up in the prescription check, and insurers will ask what they're for. Knowing the reason and the
+    dates makes the call quicker.
+  </p>
+
+  <h2>What's typical, by situation</h2>
+  <div class="table-wrap">
+    <table class="stack">
+      <caption>Typical outcomes with heart conditions. Each insurer sets its own rules, so this is a starting point, not a promise.</caption>
+      <thead>
+        <tr><th scope="col">Your situation</th><th scope="col">What's typical</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Heart attack, stent or bypass more than two years ago, doing well</th><td data-label="What's typical">Often full coverage from day one.</td></tr>
+        <tr><th scope="row">Heart attack, stent or bypass in the last one to two years</th><td data-label="What's typical">Often a graded plan with a waiting period, depending on the insurer.</td></tr>
+        <tr><th scope="row">Congestive heart failure</th><td data-label="What's typical">Usually a graded or guaranteed issue plan.</td></tr>
+        <tr><th scope="row">AFib or high blood pressure controlled with medicine</th><td data-label="What's typical">Often full coverage from day one.</td></tr>
+        <tr><th scope="row">A heart test or surgery scheduled but not done yet</th><td data-label="What's typical">Most insurers ask you to apply after it's done. A guaranteed issue plan doesn't ask.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What helps your application</h2>
+  <ul>
+    <li><strong>A list of your heart medicines,</strong> including blood thinners, with doses.</li>
+    <li><strong>The dates</strong> of any heart attack, stent, surgery or stroke.</li>
+    <li><strong>Your cardiologist's name,</strong> in case the insurer asks.</li>
+    <li>
+      <strong>Honest answers.</strong> During the first two years, an insurer can review the application if there's a claim, and a wrong
+      answer can lead to a denied claim.
+    </li>
+  </ul>
+
+  <h2>If a plan with a waiting period is the best fit</h2>
+  <p>
+    On graded and guaranteed issue plans, if death from natural causes happens in the first two or three years, the insurer usually refunds
+    the premiums paid, plus interest, instead of paying the full amount. Accidental death is usually covered in full from the start. After
+    the waiting period, the full amount is paid. <a href="/guaranteed-issue-vs-simplified-issue/">How the plan types work</a>.
+  </p>
+  <p>
+    Once enough time has passed since a heart attack or surgery, you can ask us whether a full-coverage plan has opened up. Never cancel a
+    policy until the new one is approved and in force.
+  </p>
+
+  <div class="callout">
+    <h3>Buying for a parent with heart problems?</h3>
+    <p>Your parent answers the health questions and signs, and you can often pay. <a href="/burial-insurance-for-parents/">How buying for a parent works</a>.</p>
+  </div>
+
+  <h2>Questions about heart conditions and burial insurance</h2>
+  <Faq items={faqs} />
+</Guide>
