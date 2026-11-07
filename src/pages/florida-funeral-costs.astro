@@ -1,0 +1,115 @@
+---
+/** Statewide hub for the Florida funeral-cost survey: the four metros side by side, the state rules, and the method. */
+import Guide from '../layouts/Guide.astro';
+import Faq from '../components/Faq.astro';
+import { links } from '../config/site';
+import { longDate } from '../i18n/ui';
+import { checkedMonth, checkedOn, metros, money, nfda, providersFor, rowsFor, statewide, stats } from '../lib/survey';
+
+const rows = metros.map((m) => ({ m, dc: stats(rowsFor(m.slug, 'direct cremation').map((r) => r.price)), providers: providersFor(m.slug).length }));
+const all = stats(rows.flatMap(({ m }) => rowsFor(m.slug, 'direct cremation').map((r) => r.price)));
+const totalProviders = rows.reduce((s, r) => s + r.providers, 0);
+const officialFees = metros.filter((m) => m.me.fee).map((m) => m.me.fee as number);
+
+const faqs = [
+  {
+    q: 'What is the cheapest way to handle a funeral in Florida?',
+    a: '<p>Direct cremation, with no viewing or service first, is usually the least expensive choice. The published prices we found in four Florida metros started at about $800, before the medical examiner’s fee and death certificates. A memorial service can still be held later, at home or at a place of worship.</p>',
+  },
+  {
+    q: 'Do I have to buy a casket for a cremation?',
+    a: '<p>No. Under the FTC Funeral Rule, a funeral home that offers direct cremation must let you use a simple container, such as unfinished wood or heavy cardboard, or a container you provide.</p>',
+  },
+  {
+    q: 'Does Florida require embalming?',
+    a: '<p>No, as long as the body is refrigerated. Florida requires refrigeration or embalming once 24 hours have passed after death.</p>',
+  },
+];
+---
+<Guide
+  title="Florida Funeral & Cremation Costs by City"
+  h1="What funerals and cremation cost in Florida"
+  description={`Published funeral and cremation prices from ${totalProviders} providers in Orlando, Tampa, Jacksonville and Miami, checked ${checkedMonth}, plus Florida's rules and fees.`}
+  path="/florida-funeral-costs/"
+  crumb="Florida funeral costs"
+  eyebrow="Funeral costs"
+  lede={`What funeral homes and cremation providers in four Florida metros publish online, checked ${checkedMonth}, plus the state rules and county fees that apply.`}
+  published="2026-11-07"
+  reviewed="2026-11-07"
+  summary={[
+    `Published direct cremation prices ran from ${money(all.low)} to ${money(all.high)} across the four metros we checked.`,
+    `Every Florida cremation needs the medical examiner's approval. The official fees we found were ${money(Math.min(...officialFees))} to ${money(Math.max(...officialFees))}.`,
+    'Florida law bars cremation until 48 hours after death.',
+    `NFDA's ${nfda.year} median for our region: ${money(nfda.southAtlanticBurial)} for a funeral with a viewing and burial, ${money(nfda.southAtlanticCremation)} with cremation, before cemetery costs.`,
+  ]}
+>
+  <h2>Four Florida metros side by side</h2>
+  <div class="table-wrap">
+    <table class="stack">
+      <caption>Published direct cremation prices and local fees, {checkedMonth}</caption>
+      <thead>
+        <tr>
+          <th scope="col">Metro</th>
+          <th scope="col">Direct cremation</th>
+          <th scope="col">Middle price</th>
+          <th scope="col">Medical examiner fee</th>
+          <th scope="col">Death certificate</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map(({ m, dc }) => (
+          <tr>
+            <th scope="row"><a href={`/funeral-costs-${m.slug}/`}>{m.city}</a></th>
+            <td data-label="Direct cremation">{money(dc.low)} to {money(dc.high)} ({dc.n} providers)</td>
+            <td data-label="Middle price">{dc.median ? money(dc.median) : 'Too few prices'}</td>
+            <td data-label="Medical examiner fee">{m.me.fee ? money(m.me.fee) : '$50 or $75 (not official)'}</td>
+            <td data-label="Death certificate">{money(m.deathCert.first)} first copy</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p>Each city page has the full local picture: funeral packages, county help for families who can't pay, and the nearest national cemeteries.</p>
+  <ul>
+    {metros.map((m) => <li><a href={`/funeral-costs-${m.slug}/`}>Funeral and cremation costs in {m.city}</a></li>)}
+  </ul>
+
+  <h2>Florida rules every family runs into</h2>
+  <ul>
+    <li><strong>Medical examiner approval.</strong> The district medical examiner must approve every cremation, and charges a fee for it (<a href={statewide.meApproval.source} rel="noopener">{statewide.meApproval.cite}</a>).</li>
+    <li><strong>A 48-hour wait.</strong> No cremation until 48 hours after death (<a href={statewide.wait48.source} rel="noopener">{statewide.wait48.cite}</a>).</li>
+    <li>
+      <strong>Who signs.</strong> A "legally authorized person" authorizes the cremation in writing. The person's own written wishes come first
+      (or someone they named on a military form), then, in order, a surviving spouse, an adult child, a parent and an adult sibling
+      (<a href={statewide.authorization.source} rel="noopener">{statewide.authorization.cite}</a>).
+    </li>
+    <li><strong>Refrigeration or embalming</strong> is required after 24 hours, so embalming isn't required if the body is refrigerated (<a href={statewide.refrigeration.source} rel="noopener">{statewide.refrigeration.cite}</a>).</li>
+    <li><strong>Prices by phone.</strong> Under the <a href={statewide.ftc} rel="noopener">FTC Funeral Rule</a>, funeral homes must give prices over the phone, and an itemized price list to anyone who asks in person.</li>
+    <li><strong>Complaints.</strong> Florida's Department of Financial Services oversees funeral homes and cemeteries: {statewide.dfs.tollFree} (in Florida) or {statewide.dfs.phone}.</li>
+  </ul>
+
+  <h2>Help with the cost</h2>
+  <ul>
+    <li><strong>Veterans and their spouses</strong> can be buried in a national cemetery. The VA covers the grave, opening and closing, liner, headstone and perpetual care, but not funeral home charges, a casket or urn, or cremation. <a href={statewide.vaCovers} rel="noopener">VA burial benefits</a>.</li>
+    <li><strong>Social Security</strong> pays a one-time $255 to an eligible surviving spouse or child. <a href={links.ssaDeath} rel="noopener">Details at ssa.gov</a>.</li>
+    <li><strong>County programs</strong> exist in some counties for families who can't pay, usually for a basic cremation. Each city page lists what we found.</li>
+    <li><strong>Final expense insurance</strong> is a small whole life policy that pays your family in cash for these costs. <a href="/final-expense-insurance-florida/">How it works in Florida</a>.</li>
+  </ul>
+
+  <h2>About this survey</h2>
+  <p>
+    We gathered the prices {totalProviders} funeral homes and cremation providers publish on their websites and price lists, as shown in search
+    results on {longDate(checkedOn, 'en')}. These aren't quotes, and this isn't a phone survey. Many price lists are undated, a few providers
+    show different prices on different pages, and "starting at" prices often leave out the medical examiner's fee, death certificates and an
+    urn. Ranges count each provider's listed price once per service. We show a middle price only where we found five or more. We have no
+    business relationship with any provider, and a listing isn't a recommendation. The sources are on each city page.
+  </p>
+  <p>
+    The NFDA medians come from the <a href={nfda.source} rel="noopener">National Funeral Directors Association's {nfda.year} price study</a>
+    (national: {money(nfda.nationalBurial)} with burial, {money(nfda.nationalCremation)} with cremation). They leave out cemetery, marker and
+    cash-advance charges.
+  </p>
+
+  <h2>Questions about funeral costs in Florida</h2>
+  <Faq items={faqs} />
+</Guide>

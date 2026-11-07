@@ -1463,3 +1463,31 @@ table.rates th.num {
   max-width: 6rem;
   text-transform: uppercase;
 }
+
+/* funeral-cost survey (2026-11-07) */
+table.kv th[scope='row'] {
+  text-align: left;
+  font-weight: 700;
+}
+table.kv td {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+details.sources {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+details.sources summary {
+  cursor: pointer;
+  font-weight: 700;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+details.sources ul {
+  font-size: 0.92rem;
+}

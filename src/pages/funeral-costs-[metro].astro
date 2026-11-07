@@ -1,0 +1,203 @@
+---
+/**
+ * City pages from the Florida funeral-cost survey (src/data/funeral-survey.json): /funeral-costs-orlando/, -tampa/,
+ * -jacksonville/, -miami/. Each page is built from that city's own data (published prices, its medical examiner fee,
+ * death certificate fees, county help, national cemeteries), not a template with the city name swapped in.
+ * Ranges and counts only: no provider is paired with a price on the page until the survey is verified.
+ */
+import Guide from '../layouts/Guide.astro';
+import Faq from '../components/Faq.astro';
+import { links } from '../config/site';
+import { longDate, paths } from '../i18n/ui';
+import { checkedMonth, checkedOn, metroBySlug, metros, money, nfda, providersFor, rowsFor, statewide, stats } from '../lib/survey';
+
+export function getStaticPaths() {
+  return metros.map((m) => ({ params: { metro: m.slug } }));
+}
+
+const m = metroBySlug(Astro.params.metro!);
+const path = `/funeral-costs-${m.slug}/`;
+const providers = providersFor(m.slug);
+const dc = stats(rowsFor(m.slug, 'direct cremation').map((r) => r.price));
+const burialRows = rowsFor(m.slug, 'traditional funeral with burial');
+const withCemetery = burialRows.filter((r) => /grave space|cemetery plot/i.test(r.includes));
+const burial = burialRows.filter((r) => !withCemetery.includes(r)).map((r) => r.price).sort((a, b) => a - b);
+const viewCremation = rowsFor(m.slug, 'traditional funeral with cremation').map((r) => r.price).sort((a, b) => a - b);
+const memorial = rowsFor(m.slug, 'cremation with memorial service').map((r) => r.price);
+const directBurial = rowsFor(m.slug, 'direct burial').map((r) => r.price);
+const range = (v: number[]) => (v.length === 1 ? money(v[0]) : `${money(v[0])} to ${money(v[v.length - 1])}`);
+const count = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+
+// Worked example: middle (or lowest) direct cremation + the ME fee + three certified death certificates.
+const base = dc.median ?? dc.low;
+const baseLabel = dc.median ? 'the middle published price' : 'the lowest published price';
+const extraCopy = m.deathCert.first === 20 ? 16 : m.deathCert.first === 15 ? 10 : m.deathCert.first;
+const certs = m.deathCert.first + 2 * extraCopy;
+const meLow = m.me.fee ?? 50;
+const meHigh = m.me.fee ?? 75;
+const totalText = meLow === meHigh ? `about ${money(base + meLow + certs)}` : `about ${money(base + meLow + certs)} to ${money(base + meHigh + certs)}`;
+const meFeeShort = m.me.fee ? money(m.me.fee) : '$50 to $75 (per local price lists)';
+
+const title = `Funeral & Cremation Costs in ${m.city}, FL`;
+const description = `Published funeral and cremation prices from ${providers.length} ${m.city}-area providers, checked ${checkedMonth}, plus local fees, county help and national cemeteries.`;
+const faqs = [
+  {
+    q: `How much is a cremation in ${m.city}?`,
+    a: `<p>The published direct cremation prices we found in the ${m.area} area ran from ${money(dc.low)} to ${money(dc.high)}. Add the medical examiner's approval fee (${meFeeShort}) and certified death certificates (${m.deathCert.text}). Ask each provider for the total.</p>`,
+  },
+  {
+    q: `Can I get help paying for a funeral in ${m.county}?`,
+    a: m.program
+      ? `<p>Families who can't pay may qualify for the ${m.program.name}. Veterans and their spouses can be buried in a national cemetery at no cost for the grave, and Social Security pays a one-time $255 to an eligible surviving spouse or child.</p>`
+      : `<p>We didn't find a county program that pays for burial or cremation for low-income families in ${m.county}. Veterans and their spouses can be buried in a national cemetery at no cost for the grave, and Social Security pays a one-time $255 to an eligible surviving spouse or child.</p>`,
+  },
+  {
+    q: 'How soon can a cremation happen in Florida?',
+    a: '<p>Not right away. Florida law bars cremation until 48 hours after death, and the district medical examiner must approve it first. A legally authorized person, usually the spouse or an adult child, signs the authorization.</p>',
+  },
+];
+---
+<Guide
+  {title}
+  h1={`What a funeral or cremation costs in ${m.city}`}
+  {description}
+  {path}
+  crumb={`Funeral costs in ${m.city}`}
+  eyebrow={`Funeral costs · ${m.city}`}
+  lede={`What ${m.city}-area funeral homes and cremation providers publish online, checked ${checkedMonth}, plus the local fees most price lists leave out.`}
+  published="2026-11-07"
+  reviewed="2026-11-07"
+  summary={[
+    `Direct cremation: ${money(dc.low)} to ${money(dc.high)} at the ${dc.n} providers we found${dc.median ? `; the middle price was ${money(dc.median)}` : ''}.`,
+    m.me.fee ? `Add the medical examiner's cremation approval fee: ${money(m.me.fee)} in ${m.county}.` : `Add the medical examiner's cremation approval fee. Local price lists show $50 or $75 in ${m.county}.`,
+    `Certified death certificates: ${m.deathCert.text}.`,
+    `Veterans: ${m.cemeteries[0].name}, ${m.cemeteries[0].place}.`,
+  ]}
+>
+  <p>{m.intro}</p>
+
+  <h2>Direct cremation in {m.city}</h2>
+  <p>Direct cremation means cremation without a viewing or service first. It's the simplest and least expensive choice, and the easiest to compare.</p>
+  <div class="table-wrap">
+    <table class="kv">
+      <caption>Published direct cremation prices, {m.area}, {checkedMonth}</caption>
+      <tbody>
+        <tr><th scope="row">Lowest</th><td>{money(dc.low)}</td></tr>
+        {dc.median && <tr><th scope="row">Middle</th><td>{money(dc.median)}</td></tr>}
+        <tr><th scope="row">Highest</th><td>{money(dc.high)}</td></tr>
+        <tr><th scope="row">Providers found</th><td>{dc.n}</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    "Starting at" prices often leave out the medical examiner's approval fee, certified death certificates and an urn, so ask for the total.
+    Life insurers usually need a certified death certificate to pay a claim, so most families order several.
+  </p>
+  <div class="callout">
+    <h3>Example total</h3>
+    <p>
+      {money(base)} ({baseLabel}) + {meFeeShort} for the medical examiner + three certified death certificates ({money(certs)}) comes to
+      {` ${totalText}`}.
+    </p>
+  </div>
+
+  <h2>Funerals with a viewing or service</h2>
+  {burial.length > 0 && (
+    <p>
+      {burial.length === 1
+        ? `One published package with a viewing or service and then burial was ${money(burial[0])}.`
+        : `Published packages with a viewing or service and then burial ran from ${range(burial)} (${count(burial.length, 'package', 'packages')}).`}{' '}
+      {burial.length === 1 ? 'Packages like this' : 'They'} usually leave out cemetery costs: the plot, opening and closing the grave, and the headstone.
+      {withCemetery.length > 0 && ` One package that included a grave space and opening and closing at a local cemetery was ${money(withCemetery[0].price)}.`}
+    </p>
+  )}
+  {viewCremation.length > 0 && (
+    <p>
+      {viewCremation.length === 1
+        ? `One published package with a viewing and then cremation was ${money(viewCremation[0])}.`
+        : `Packages with a viewing and then cremation ran from ${range(viewCremation)} (${count(viewCremation.length, 'package', 'packages')}).`}
+    </p>
+  )}
+  {memorial.length > 0 && <p>Cremation followed by a memorial service: {range(memorial)}.</p>}
+  {directBurial.length > 0 && <p>Direct burial, with no viewing or service: {range(directBurial)}, before cemetery costs.</p>}
+  <p>
+    For comparison, the National Funeral Directors Association's {nfda.year} study put the median for our region (the South Atlantic states) at
+    {` ${money(nfda.southAtlanticBurial)}`} for a funeral with a viewing and burial, and {money(nfda.southAtlanticCremation)} with cremation, before
+    cemetery costs.
+  </p>
+
+  <h2>Fees and rules in {m.county}</h2>
+  <ul>
+    <li>
+      <strong>Medical examiner approval.</strong> Florida requires the district medical examiner to approve every cremation
+      (<a href={statewide.meApproval.source} rel="noopener">{statewide.meApproval.cite}</a>). {m.me.name}:
+      {` ${m.me.feeText}.`} {m.me.note} <a href={m.me.source} rel="noopener">Source</a>.
+    </li>
+    <li><strong>A 48-hour wait.</strong> Florida law bars cremation until 48 hours after death (<a href={statewide.wait48.source} rel="noopener">{statewide.wait48.cite}</a>).</li>
+    <li>
+      <strong>Who signs.</strong> A "legally authorized person" must authorize the cremation in writing. The person's own written wishes come
+      first (or someone they named on a military form), then, in order, a surviving spouse, an adult child, a parent and an adult sibling
+      (<a href={statewide.authorization.source} rel="noopener">{statewide.authorization.cite}</a>).
+    </li>
+    <li>
+      <strong>Embalming isn't required</strong> if the body is refrigerated. Florida requires refrigeration or embalming after 24 hours
+      (<a href={statewide.refrigeration.source} rel="noopener">{statewide.refrigeration.cite}</a>).
+    </li>
+    <li><strong>Certified death certificates:</strong> {m.deathCert.text} at the <a href={m.deathCert.source} rel="noopener">{m.deathCert.office}</a>.</li>
+  </ul>
+
+  <h2>Help with the cost</h2>
+  <h3>Veterans and their spouses</h3>
+  <p>
+    Eligible veterans and spouses can be buried in a national cemetery. The VA provides the grave, opening and closing, a grave liner, a
+    headstone or marker and perpetual care at no cost. It doesn't pay for funeral home services, a casket or urn, cremation or
+    transportation. <a href={statewide.vaCovers} rel="noopener">VA burial benefits</a>.
+  </p>
+  <ul>
+    {m.cemeteries.map((c) => (
+      <li><a href={c.source} rel="noopener">{c.name}</a>, {c.place}. {c.note}</li>
+    ))}
+  </ul>
+  <h3>{m.county} help for families who can't pay</h3>
+  {m.program ? (
+    <>
+      <p><strong>{m.program.name}.</strong></p>
+      <ul>{m.program.points.map((p) => <li>{p}</li>)}</ul>
+      <p class="small"><a href={m.program.source} rel="noopener">Program page</a>{m.program.extraSource && <> · <a href={m.program.extraSource} rel="noopener">fee order</a></>}</p>
+    </>
+  ) : (
+    <p>{m.programNote} <a href={m.programSource} rel="noopener">County policy</a>.</p>
+  )}
+  {m.extra && <p>{m.extra.text} <a href={m.extra.source} rel="noopener">The list (PDF)</a>.</p>}
+  <h3>Social Security</h3>
+  <p>Social Security pays a one-time $255 death payment to an eligible surviving spouse or child. <a href={links.ssaDeath} rel="noopener">Details at ssa.gov</a>.</p>
+
+  <h2>How much coverage to consider</h2>
+  <p>
+    A direct cremation in {m.city}, with the fees above, fits well within $5,000 of final expense coverage, with room left for final bills. A
+    funeral with a viewing and burial costs more once the cemetery is added, so many families look at $10,000 to $15,000.
+    <a href="/how-much-burial-insurance-do-i-need/">Estimate your own amount</a>.
+  </p>
+  <p><a href={paths.es.florida} hreflang="es" lang="es">Hablamos español</a>: le explicamos todo en español.</p>
+
+  <h2>About these prices</h2>
+  <p>
+    These are prices that providers publish on their websites and price lists, as shown in search results on {longDate(checkedOn, 'en')}.
+    They're not quotes. Many price lists are undated, a few providers show different prices on different pages, and "starting at" prices
+    often leave things out. Call before you decide: under the <a href={statewide.ftc} rel="noopener">FTC Funeral Rule</a>, funeral homes must
+    give you prices over the phone. We have no business relationship with any provider listed, and a listing isn't a recommendation.
+    Questions or complaints about a Florida funeral provider go to the Department of Financial Services at {statewide.dfs.tollFree}.
+  </p>
+  <details class="sources">
+    <summary>Sources: {providers.length} providers</summary>
+    <ul>
+      {providers.map((p) => (
+        <li>{p.provider} ({p.city}): {p.sources.map((s, i) => <>{i > 0 && ', '}<a href={s} rel="noopener nofollow">page {i + 1}</a></>)}</li>
+      ))}
+    </ul>
+  </details>
+  <p><a href="/florida-funeral-costs/">Compare Orlando, Tampa, Jacksonville and Miami →</a></p>
+
+  <h2>Questions about funeral costs in {m.city}</h2>
+  <Faq items={faqs} />
+</Guide>
